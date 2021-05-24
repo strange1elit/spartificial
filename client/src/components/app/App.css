@@ -1,0 +1,8 @@
+.app{
+  /* background-image: url("../../assets/images/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: contain;  */
+  background-color: black;
+  background-position: center;
+  height: 200vh;
+}
