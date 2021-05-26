@@ -1,5 +1,6 @@
 /*********************navbar***********************/
 .topnav{
+  display: block;
   background-color: #0a0e2a;
   position: fixed;
   overflow: hidden;

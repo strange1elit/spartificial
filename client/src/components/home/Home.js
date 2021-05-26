@@ -8,7 +8,16 @@ const Home=()=>{
       <div className="hero-image">
         <h1>Spartificial</h1>
       </div>
-      <div className="body">
+      <div className="body" id="home-div">
+        <div className="content">
+          <h1>Space</h1>
+        </div>
+        <div className="content">
+          <h1>AI</h1>
+        </div>
+        <div className="content">
+          <h1>Research</h1>
+        </div>
       </div>
     </div>
   )
