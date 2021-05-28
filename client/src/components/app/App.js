@@ -9,6 +9,7 @@ import Blogs from '../blogs/Blogs'
 import Contact from '../contact/Contact'
 import Footer from '../footer/Footer'
 import './App.css';
+import Signup from '../login/Signup';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Switch>
         <Route exact path="/home" component={Home}/>
         <Route exact path="/user/login" component={Login}/>
+        <Route exact path="/user/signup" component={Signup}/>
         <Route exact path="/about" component={About}/>
         <Route exact path="/research" component={Research}/>
         <Route exact path="/projects" component={Projects}/>
