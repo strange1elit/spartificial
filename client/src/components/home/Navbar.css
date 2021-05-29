@@ -34,12 +34,10 @@
 }
 
 .topnav a.active{
-  background-color: #04AA6D;
-  color: white;
+  color: tomato;
 }
 .topnav a:hover{
-  background-color: aliceblue;
-  color: black;
+  color: tomato;
 }
 .topnav .icon{
   display: none;

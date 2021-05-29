@@ -48,19 +48,16 @@
 }
 @keyframes headerAnimation {
   0%{
-    letter-spacing: 2px;
     opacity: 1;
-    transform: translateY(2%);
+    color: aliceblue;
   }
   50%{
-    letter-spacing: 0px;
     opacity: 0.3;
-    transform: translateY(-2%);
+    color: rgb(107, 185, 248);
   }
   100%{
-    letter-spacing: 2px;
     opacity: 1;
-    transform: translateY(2%);
+    color: aliceblue;
   }
 }
 #about .about-content{
