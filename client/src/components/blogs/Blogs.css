@@ -18,6 +18,15 @@
   letter-spacing: 0.5px;
   width: fit-content;
 }
+.blog-tab #blog-btn{
+  background-color: #0a0e2a;
+  color: white;
+  transition: background-color 600ms;
+}
+.blog-tab #blog-btn:hover{
+  background-color: aliceblue;
+  color: #0a0e2a;
+}
 .tabcontent{
   color: black;
   display: none;
@@ -31,6 +40,7 @@
 }
 .tabcontent img{
   height: 231px;
+  width: fit-content;
 }
 #All{
   display: block;
@@ -60,4 +70,54 @@
   background-color: #212529;
   color: aliceblue;
   border: 1px groove #212529;
+}
+#blog{
+  background: #fff;
+}
+#blog img{
+  background: white;
+  width: auto;
+  height: auto;
+  border: 5px groove black;
+  padding: 1px;
+  box-shadow: 0px 0px 10px black;
+}
+#blog h1{
+  color: #212529;
+  padding: 5%;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 38px;
+  text-decoration: underline;
+  word-wrap: break-word;
+}
+#blog p{
+  color: #212529;
+  text-align: justify;
+  padding: 5%;
+  font-size: 18.5px;
+  letter-spacing: .3px;
+}
+#blog #author{
+  color: #212529;
+}
+#blog #author h5{
+  font-weight: 600;
+  font-size: 25px;
+}
+#blog #author img{
+  border-radius: 50%;
+  border: none;
+  padding: 0px;
+  margin: 6% 5% 5% 5%;
+  width: 60%;
+}
+@media screen and  (max-width:650px) {
+  #blog #author h5{
+    text-align: center;
+  }
+  #blogpage .blog-tab .tablink{
+    display: block;
+  }
 }
