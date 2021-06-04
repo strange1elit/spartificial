@@ -10,6 +10,8 @@ import Contact from '../contact/Contact'
 import Footer from '../footer/Footer'
 import './App.css';
 import Signup from '../login/Signup';
+import Blog from '../blogs/Blog'
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
         <Route exact path="/research" component={Research}/>
         <Route exact path="/projects" component={Projects}/>
         <Route exact path="/blogs" component={Blogs}/>
+        <Route exact path="/blogs/:blog_id" component={Blog}/>
         <Route exact path="/contact" component={Contact}/>
         <Redirect to="/home"/>
       </Switch>
