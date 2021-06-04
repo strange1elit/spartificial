@@ -1,5 +1,5 @@
 .hero-image{
-  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url("../../assets/images/hero.jpg");
+  background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.1)), url("../../assets/images/hero.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -31,5 +31,30 @@
 } 
 
 #home-div{
-  padding-top: 0;
+  padding-top: 3%;
+}
+#home-div .card{
+  border: none;
+  background-color: rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 5px black;
+}
+#home-div .card:hover{
+  background-color: rgba(0,0,0,0.7);
+}
+#home-div .card img{
+  padding: 0.5%;
+  border-radius: 7px;
+}
+#home-div .card h3{
+  color: rgb(154, 194, 247);
+  text-decoration: underline;
+  letter-spacing: .5px;
+  font-size: 30px;
+}
+#home-div .card p{
+  color: aliceblue;
+  font-size: 20px;
+  letter-spacing: .5px;
+  text-align: justify;
+  
 }
