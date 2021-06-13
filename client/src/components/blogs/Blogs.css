@@ -1,0 +1,123 @@
+#blogpage{
+  background: #fff;
+}
+.blog-tab{
+  margin: 2% 11%;
+  border-bottom: 1px groove #0a0e2a;
+}
+.tablink{
+  background-color: #fff;
+  color: #0a0e2a;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  transition: color 600ms;
+  min-width: 16.66666666%;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+.blog-tab #blog-btn{
+  background-color: #0a0e2a;
+  color: white;
+  transition: background-color 600ms;
+}
+.blog-tab #blog-btn:hover{
+  background-color: aliceblue;
+  color: #0a0e2a;
+}
+.tabcontent{
+  color: black;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+.tabcontent p{
+  line-height: 24px;
+  overflow: hidden;
+  max-height: 72px;
+}
+.tabcontent img{
+  height: 231px;
+  width: fit-content;
+}
+#All{
+  display: block;
+}#All-btn{
+  color: black;
+  font-weight: 600;
+}
+.card{
+  transition: 500ms;
+}
+.read-btn{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid #24a0ed;
+  color: #24a0ed;
+  border-radius: 3px;
+  padding: 6px;
+  transition: 300ms;
+}
+.read-btn:hover{
+  background-color: #24a0ed;
+  border: 1px solid #24a0ed;
+  color: aliceblue;
+}
+.tabcontent .card:hover{
+  background-color: #212529;
+  color: aliceblue;
+  border: 1px groove #212529;
+}
+#blog{
+  background: #fff;
+}
+#blog img{
+  background: white;
+  width: auto;
+  height: auto;
+  border: 5px groove black;
+  padding: 1px;
+  box-shadow: 0px 0px 10px black;
+}
+#blog h1{
+  color: #212529;
+  padding: 5%;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 38px;
+  text-decoration: underline;
+  word-wrap: break-word;
+}
+#blog p{
+  color: #212529;
+  text-align: justify;
+  padding: 5%;
+  font-size: 18.5px;
+  letter-spacing: .3px;
+}
+#blog #author{
+  color: #212529;
+}
+#blog #author h5{
+  font-weight: 600;
+  font-size: 25px;
+}
+#blog #author img{
+  border-radius: 50%;
+  border: none;
+  padding: 0px;
+  margin: 6% 5% 5% 5%;
+  width: 60%;
+}
+@media screen and  (max-width:650px) {
+  #blog #author h5{
+    text-align: center;
+  }
+  #blogpage .blog-tab .tablink{
+    display: block;
+  }
+}
