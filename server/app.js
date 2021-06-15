@@ -15,7 +15,7 @@ var paymentRouter= require('./routes/payments')
 
 var app = express();
 
-mongoose.connect('mongodb+srv://yoganta-team:Yoganta_16@yoganta-web.8egvh.mongodb.net/users?retryWrites=true&w=majority', {
+mongoose.connect('url', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
