@@ -2,6 +2,7 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 import logo from '../../assets/images/hero.jpeg'
+import Payment from '../payments/Payment'
 const NavbarComp=()=>{
 
 	var preScrollPos=window.pageYOffset;
@@ -37,6 +38,7 @@ const NavbarComp=()=>{
 		<header>
 			<div className="user">
 				<NavLink to="/user/login">LogIn</NavLink>
+				<Payment/>
 			</div>
 			<div className="topnav" id="navbar">
 					<span id="title"><img src={logo} alt="logo"/>partificial</span>

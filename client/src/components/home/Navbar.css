@@ -111,3 +111,10 @@
   background-color: #04AA6D;
   color: white;
 }
+.user button{
+  border-radius: 0;
+  outline: none;
+  border: none;
+  padding: 8px 18px;
+
+}
