@@ -11,7 +11,7 @@ import Footer from '../footer/Footer'
 import './App.css';
 import Signup from '../login/Signup';
 import Blog from '../blogs/Blog'
-
+import Dash from '../dash/Dash'
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
       <Header/>
       <Switch>
         <Route exact path="/home" component={Home}/>
+        <Route exact path="/dash" component={Dash}/>
         <Route exact path="/user/login" component={Login}/>
         <Route exact path="/user/signup" component={Signup}/>
         <Route exact path="/about" component={About}/>

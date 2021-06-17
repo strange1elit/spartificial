@@ -42,12 +42,13 @@ const NavbarComp=()=>{
 			</div>
 			<div className="topnav" id="navbar">
 					<span id="title"><img src={logo} alt="logo"/>partificial</span>
+					<NavLink to="/dash" onClick={closeNav}>Dashboard</NavLink>
 					<NavLink to="/home" onClick={closeNav}>Home</NavLink>
 					<NavLink to="/about" onClick={closeNav}>About</NavLink>
 					<NavLink to="/research" onClick={closeNav}>Research</NavLink>
 					<NavLink to="/projects" onClick={closeNav}>Projects</NavLink>
 					<NavLink to="/blogs" onClick={closeNav}>Blogs</NavLink>
-					<NavLink to="/contact" onClick={closeNav}>Contact</NavLink>
+					<NavLink to="/contact" onClick={closeNav}>Get Involved</NavLink>
 					<span className="icon" onClick={openNav}><i className="fa fa-bars"></i></span>
 			</div>
 		</header>
