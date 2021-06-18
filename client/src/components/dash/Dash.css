@@ -1,0 +1,56 @@
+#dash{
+  background: #fff;
+  padding: 125px 0 0 0;
+  min-height: 100vh;
+}
+#dash .heading h1{
+  font-weight: 600;
+}
+#dash .heading p{
+  padding: 8px;
+  width: 75%;
+  font-size: small;
+  color: #6e6a6a;
+}
+#dash #profile .profile-img{
+  padding: 30px;
+  text-align: center;
+}
+#dash #profile .profile-img img{
+  width: 225px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 20px #554343;
+}
+#dash #profile .profile-img h2{
+  margin: 4%;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+#dash #profile .basic-info h5{
+  border-bottom: 1px solid #c4c4c4;
+}
+#dash #profile .basic-info{
+  margin-bottom: 50px;
+}
+#dash #profile .basic-info p{
+  margin-bottom: 22px;
+}
+#dash #profile .basic-info p a,#dash #profile .basic-info p {
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  color: #726b6b;
+}#dash #profile .basic-info p a:hover{
+  color: blueviolet;
+}
+.card-img-overlay{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+#dash .card{
+  margin-bottom: 5%;
+}
+#dash .goal{
+  margin-top: 20px;
+  box-shadow: 0 0 20px #6e6a6a;
+  border-radius: 15px;
+  padding: 10px 15px;
+}
