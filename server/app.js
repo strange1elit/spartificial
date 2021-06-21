@@ -7,7 +7,7 @@ var cors=require('cors')
 var mongoose=require('mongoose')
 var passport=require('passport')
 var session=require('express-session')
-
+var config=require('./config')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -15,7 +15,7 @@ var paymentRouter= require('./routes/payments')
 
 var app = express();
 
-mongoose.connect('url', {
+mongoose.connect(config.mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -31,7 +31,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build')));
+//app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(session({
   resave:false,
@@ -42,12 +42,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/payments',paymentRouter)
 
-// catch 404 and forward to error handler
+//app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
+
 app.use(function(req, res, next) {
   next(createError(404));
 });

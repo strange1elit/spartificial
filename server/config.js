@@ -1,6 +1,6 @@
 module.exports={
     'secretKey': '12345-67890-09876-54321',
-    'mongoUrl':'',
+    'mongoUrl':'mongodb+srv://spartificial:spartificial@spartificial1.lthel.mongodb.net/Database?retryWrites=true&w=majority',
     'google':{
         clientID:'513055525234-i1m9r445kqmj0beueinu558hp3f6ik4b.apps.googleusercontent.com',
         clientSecret:'sySG9qpKEQtsLmFyz-qq20ql',

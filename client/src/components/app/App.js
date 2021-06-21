@@ -1,3 +1,4 @@
+import React,{useEffect} from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from '../home/Navbar'
 import Home from '../home/Home'
@@ -12,8 +13,14 @@ import './App.css';
 import Signup from '../login/Signup';
 import Blog from '../blogs/Blog'
 import Dash from '../dash/Dash'
-
+import {useDispatch} from 'react-redux'
+import {getUser} from '../../redux/actions/user'
 function App() {
+  const dispatch=useDispatch();
+
+  useEffect(()=>{
+    dispatch(getUser())
+  },[dispatch])
   return (
     <div className="app">
       <Header/>

@@ -42,7 +42,7 @@
 .topnav .icon{
   display: none;
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 1000px) {
   .topnav a:not(:last-child) {display: none;}
   .topnav span.icon {
     float: right;
@@ -50,7 +50,7 @@
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 1000px) {
   .topnav.responsive {display: block;transition: 500ms;}
   .topnav.responsive .icon {
     position: absolute;
