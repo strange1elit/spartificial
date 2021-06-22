@@ -114,12 +114,12 @@ input:focus{
   font-size: 13px;
   transition: 300ms;
 }
-.login-header sign{
+.login-header b{
   cursor: pointer;
   transition: 300ms;
   color: aqua;
 }
-.login-header sign:hover{
+.login-header b:hover{
   color: blueviolet;
   text-decoration: underline;  
 }

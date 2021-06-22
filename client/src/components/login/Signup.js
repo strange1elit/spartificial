@@ -1,13 +1,21 @@
 import React,{useState} from 'react'
 import './Login.css'
+
+import {useDispatch,useSelector} from 'react-redux'
+import {userRegister,setLoading} from '../../redux/actions/user'
+import Loader from '../loader/Loading'
 const Signup=()=>{
+  const dispatch=useDispatch();
+  const isLoading=useSelector(state=>state.users.isLoading)
 
   const [signUpData,setsignUpdata]=useState({email:'',firstname:'',lastname:'',password:''})
 
   const signUp=(e)=>{
     e.preventDefault();
     //console.log(loginData)
-    window.confirm("Do you want to signup?\n"+JSON.stringify(signUpData))
+    signUpData.username=signUpData.email.split('@')[0];
+    dispatch(setLoading())
+    dispatch(userRegister(signUpData))
     setsignUpdata({email:'',firstname:'',lastname:'',password:''})
   }
   const handleChangeSign=(e)=>{
@@ -41,12 +49,12 @@ const Signup=()=>{
               </div>
               <div className="row">
                 <div className="col-12">
-                  <button className="login-btn" type="submit">Sign Up</button>
+                  {!isLoading?(<button className="login-btn" type="submit">Sign Up</button>):(<Loader/>)}
                 </div>
               </div>
               <div className="row">
                 <div className="col-12">
-                  <h6>Already registered? <sign onClick={()=>{window.location.href="/user/login"}}>Log In </sign> here</h6>
+                  <h6>Already registered? <b onClick={()=>{window.location.href="/user/login"}}>Log In </b> here</h6>
                 </div>
               </div>
             </form>

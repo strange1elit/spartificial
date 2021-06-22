@@ -1,6 +1,13 @@
 import React,{useState} from 'react'
 import './Login.css'
+import {useDispatch,useSelector} from 'react-redux'
+import {userLogin,setLoading} from '../../redux/actions/user'
+import Loader from '../loader/Loading'
+
 const Login=()=>{
+  const dispatch=useDispatch();
+  const isLoading=useSelector(state=>state.users.isLoading)
+
   const [forget,setForget]=useState(false)
   const [loginData,setLoginData]=useState({email:'',password:''})
   const [forgetData,setForgetData]=useState({email:''})
@@ -8,7 +15,9 @@ const Login=()=>{
   const logIn=(e)=>{
     e.preventDefault();
     //console.log(loginData)
-    window.confirm("Do you want to login?\n"+JSON.stringify(loginData))
+    loginData.username=loginData.email.split('@')[0]
+    dispatch(setLoading())
+    dispatch(userLogin(loginData))
     setLoginData({email:'',password:''})
   }
   const forGet=(e)=>{
@@ -44,7 +53,7 @@ const Login=()=>{
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <button className="login-btn" type="submit">Login</button>
+                    {!isLoading?(<button className="login-btn" type="submit">Login</button>):(<Loader/>)}
                   </div>
                 </div>
                 <div className="row">
@@ -54,7 +63,7 @@ const Login=()=>{
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <h6>New to Saprtificial? <sign onClick={()=>{window.location.href="/user/signup"}}>Sign Up </sign> here</h6>
+                    <h6>New to Spartificial? <b onClick={()=>{window.location.href="/user/signup"}}>Sign Up </b> here</h6>
                   </div>
                 </div>
               </form>
@@ -75,7 +84,7 @@ const Login=()=>{
               <form onSubmit={forGet}>
                 <div className="row">
                   <div className="col-12">
-                    <input autoComplete="off" autoCapitalize="off" spellCheck="false" required type="email" name="email" placeholder="Email Address" value={forgetData.email} onChange={handleChangeForget}/>
+                    <input autoComplete="off" autoCapitalize="off" spellCheck="false" required type="email" name="email" placeholder="Email Id/Phone" value={forgetData.email} onChange={handleChangeForget}/>
                   </div>
                 </div>
                 <div className="row">
@@ -85,7 +94,7 @@ const Login=()=>{
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <h6>New to Saprtificial? <sign onClick={()=>{window.location.href="/user/signup"}}>Sign Up </sign> here</h6>
+                    <h6>New to Saprtificial? <b onClick={()=>{window.location.href="/user/signup"}}>Sign Up </b> here</h6>
                   </div>
                 </div>
               </form>

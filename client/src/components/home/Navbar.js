@@ -3,8 +3,11 @@ import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 import logo from '../../assets/images/hero.jpeg'
 import Payment from '../payments/Payment'
+import {setLoading, userLogout} from '../../redux/actions/user'
+import {useSelector,useDispatch} from 'react-redux'
 const NavbarComp=()=>{
-
+	const dispatch=useDispatch();
+	const current=useSelector(state=>state.users.current)
 	var preScrollPos=window.pageYOffset;
 	window.onscroll=()=>{
 		var currentScrollPos=window.pageYOffset;
@@ -34,10 +37,14 @@ const NavbarComp=()=>{
 			x.className="topnav"
 		}
 	}
+	const logout=()=>{
+		dispatch(setLoading())
+		dispatch(userLogout())
+	}
 	return (
 		<header>
 			<div className="user">
-				<NavLink to="/user/login">LogIn</NavLink>
+				{current?(<button onClick={()=>logout()} style={{color:'white',backgroundColor:'violet'}}>Logout</button>):(<NavLink to="/user/login">LogIn</NavLink>)}
 				<Payment/>
 			</div>
 			<div className="topnav" id="navbar">
