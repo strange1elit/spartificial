@@ -38,7 +38,24 @@ var  userSchema = new  Schema({
     dob:{
         type:String,
         default:''
+    },
+    about:{
+        type:String,
+        default:''
+    },
+    education:{
+        type:String,
+        default:''
+    },
+    address:{
+        type:String,
+        default:''
+    },
+    img:{
+        type:String,
+        default:''
     }
+
 });
 userSchema.plugin(passportLocalMongoose);
 module.exports=mongoose.model('User',userSchema)

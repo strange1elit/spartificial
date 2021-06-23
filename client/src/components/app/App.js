@@ -13,7 +13,7 @@ import './App.css';
 import Signup from '../login/Signup';
 import Blog from '../blogs/Blog'
 import Dash from '../dash/Dash'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {getUser} from '../../redux/actions/user'
 function App() {
   const dispatch=useDispatch();
@@ -21,6 +21,8 @@ function App() {
   useEffect(()=>{
     dispatch(getUser())
   },[dispatch])
+  const users=useSelector((state)=>state.users)
+  console.log(users)
   return (
     <div className="app">
       <Header/>

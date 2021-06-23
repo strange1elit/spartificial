@@ -1,6 +1,9 @@
 import React from 'react'
 import './Dash.css'
 const Dash=()=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+  //console.log(userdetails)
   return(
     <div className="body" id="dash">
       <div className="container">
@@ -8,7 +11,7 @@ const Dash=()=>{
           <div className="col-sm-7">
             <div className="heading">
               <h1>My Dashboard</h1>
-              <p>Welcome {"Aalok Kumar"}, ready for your new project? </p>
+              <p>Welcome {userdetails.user.firstname}, ready for your new project? </p>
             </div>
             <div className="dash-tab">
               <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -30,19 +33,19 @@ const Dash=()=>{
                 <div className="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                   <div className="profile-img">
                     <img alt="..." className="img-fluid" src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"/>
-                    <h2>Aalok Kumar</h2>
+                    <h2>{userdetails.user.firstname} {userdetails.user.lastname}</h2>
                   </div>
                   <div className="basic-info">
                     <h5>About</h5>
-                    <p>I'm 3rd year Electrical Engineering student at NIT Hamirpur. I'm a MERN Stack Developer with 2 years of experience.</p>
+                    <p>{userdetails.user.about}</p>
                     <h5>Email</h5>
-                    <p><a href="mailto:aaloksah766626@gmail.com">aaloksah766626@gmail.com</a></p>
+                    <p><a href={`mailto:${userdetails.user.email}`}>{userdetails.user.email}</a></p>
                     <h5>Phone</h5>
-                    <p><a href="tel:+919504496801">+91 950-4496-801</a></p>
+                    <p><a href={`tel:${userdetails.user.phone}`}>{userdetails.user.phone}</a></p>
                     <h5>Education</h5>
-                    <p>National Institute of Technology, Hamirpur</p>
+                    <p>{userdetails.user.education}</p>
                     <h5>Address</h5>
-                    <p>Vaishali, Bihar, India 844118</p>
+                    <p>{userdetails.user.address}</p>
                   </div>
                 </div>
                 <div className="tab-pane" id="projects" role="tabpanel" aria-labelledby="projects-tab">

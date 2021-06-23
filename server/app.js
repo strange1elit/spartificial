@@ -7,6 +7,7 @@ var cors=require('cors')
 var mongoose=require('mongoose')
 var passport=require('passport')
 var session=require('express-session')
+var FileStore=require('session-file-store')(session)
 var config=require('./config')
 
 var indexRouter = require('./routes/index');
@@ -30,13 +31,15 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('12345-67890-09876-54321'));
 //app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(session({
+  name:'session-id',
+  secret:'12345-67890-09876-54321',
+  saveUninitialized:false,
   resave:false,
-  saveUninitialized:true,
-  secret:'12345-67890-09876-54321'
+  store:new FileStore()
 }))
 
 app.use(passport.initialize())

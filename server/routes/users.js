@@ -14,18 +14,19 @@ router.use(bodyParser.json())
 
 //***********username password signup**************
 
-router.get('/',(req,res,next)=>{
+router.get('/',authenticate.verifyUser,(req,res,next)=>{
+  console.log(req.user)
   Users.find({}).then((users)=>{
     res.json({users})
   }).catch((err)=>console.log(err))
 })
 
 router.post('/signup',(req,res,next)=>{
-  Users.register(new Users({username:req.body.username,firstname:req.body.firstname,lastname:req.body.lastname,phone:req.body.phone}),req.body.password,(err,user)=>{
+  Users.register(new Users({username:req.body.username,firstname:req.body.firstname,lastname:req.body.lastname,email:req.body.email}),req.body.password,(err,user)=>{
     if(err){
       res.statusCode=500
       res.setHeader('Content-Type','application/json')
-      res.json({err:err})
+      res.json(err)
     }else{
       passport.authenticate('local')(req,res,()=>{
         var token= authenticate.getToken({_id:req.user._id})
@@ -33,7 +34,7 @@ router.post('/signup',(req,res,next)=>{
 
         res.statusCode=200;
         res.setHeader('Content-Type','application/json')
-        res.json({success:true,token:token,admin:req.user.admin,status:'Registration Successful'})
+        res.json({success:true,token:token,user:req.user,status:'Registration Successful'})
       })
     }
   })
@@ -43,7 +44,7 @@ router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Pass
   var token= authenticate.getToken({_id:req.user._id})
   res.statusCode=200;
   res.setHeader('Content-Type','application/json')
-  res.json({success:true,token:token,admin:req.user.admin,status:'Logged in Successfully'})
+  res.json({success:true,token:token,user:req.user,status:'Logged in Successfully'})
 })
 
 router.get('/logout',(req,res,next)=>{

@@ -3,6 +3,7 @@ import './Login.css'
 import {useDispatch,useSelector} from 'react-redux'
 import {userLogin,setLoading} from '../../redux/actions/user'
 import Loader from '../loader/Loading'
+import Toaster from '../loader/Toast'
 
 const Login=()=>{
   const dispatch=useDispatch();
@@ -32,9 +33,13 @@ const Login=()=>{
     setForgetData({...forgetData,[e.target.name]:e.target.value})
   }
 
+  var errmess=useSelector((state)=>state.users.errmess)
+
   if(!forget){
     return(
       <div  className="body" id="login">
+        {errmess?<Toaster message={errmess.message}/>:<></>}
+
         <div className="login">
           <div className="login-header">
           <div className="animate">
