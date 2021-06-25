@@ -53,17 +53,19 @@ export const userLogin=(formData)=>async(dispatch)=>{
   .then(response=>{
     if(response.ok) return response
     else{
-      var error =new Error ('Error '+response.status+': '+response.statusText)
-      error.response=response;
-      dispatch({type:'ANY_ERROR',payload:error})
-      throw error;
+      var error=''
+      response.json().then(body=> {
+        error =new Error (body.message)
+        error.response=response;
+        dispatch({type:'ANY_ERROR',payload:error})
+      })
     }
   },error=>{throw error})
   .then(response=>response.json())
   .then(response=>{
     if(response.success){
       //setCredentials to Local Storage
-      //console.log(response);
+      console.log(response);
       localStorage.setItem('userdetails',JSON.stringify(response))
       dispatch({type:'LOGIN',payload:response.user})
       //alert(response.status)
@@ -92,10 +94,99 @@ export const userLogout=()=>async(dispatch)=>{
   })
   .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
 }
+
+export const changeUserPassword=(changeData)=>async(dispatch)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
+  const bearer=`Bearer ${userdetails.token}`
+
+  return fetch(`${url}/changepassword`,{
+    method:"POST",
+    body:JSON.stringify(changeData),
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':bearer
+    },
+    credentials:"same-origin"
+  })
+  .then(response=>{
+    //console.log(response)
+    if(response.ok) return response
+    else{
+      var error=''
+      response.json().then(body=> {
+        //console.log(body)
+        error =new Error (body.message)
+        error.response=response;
+        dispatch({type:'ANY_ERROR',payload:error})
+      })
+    }
+  },error=>{throw error})
+  .then(response=>{
+    return response.json()
+  })
+  .then((response)=>{
+    if(response.success){
+      //setCredentials to Local Storage
+      //console.log(response);
+      // localStorage.setItem('userdetails',JSON.stringify(response))
+      dispatch({type:'CHANGE_PASSWORD',payload:response})
+      // //alert(response.status)
+      // window.location.href="/dash"
+    }
+  })
+  .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
+}
+
+export const userProfileUpdate=(formData)=>async(dispatch)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
+  const bearer=`Bearer ${userdetails.token}`
+
+  //console.log(formData)
+  return fetch(`${url}/${userdetails.user._id}`,{
+    method:"PUT",
+    body:JSON.stringify(formData),
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':bearer
+    },
+    credentials:"same-origin"
+  })
+  .then(response=>{
+    //console.log(response)
+    if(response.ok) return response
+    else{
+      var error =new Error ('Error '+response.status+': '+response.statusText)
+      error.response=response;
+      ////console.log(error)
+      dispatch({type:'ANY_ERROR',payload:error})
+      throw error;
+    }
+  },error=>{throw error})
+  .then(response=>{
+    return response.json()
+  })
+  .then((response)=>{
+    if(response.success){
+      //setCredentials to Local Storage
+      console.log(response);
+      localStorage.setItem('userdetails',JSON.stringify(response))
+      dispatch({type:'LOGIN',payload:response.user})
+      //alert(response.status)
+      window.location.href="/dash"
+    }
+  })
+  .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
+}
+
 export const getUser=()=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
+  
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
   //console.log(bearer)
@@ -111,6 +202,9 @@ export const getUser=()=>async(dispatch)=>{
     }else{
       var error=new Error('Error: '+response.status+': '+response.statusText);
       error.response=response;
+      if(response.status===401){
+        dispatch(userLogout())
+      }
       dispatch({type:'ANY_ERROR',payload:error})
       throw error;
     }

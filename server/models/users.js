@@ -28,7 +28,7 @@ var  userSchema = new  Schema({
         default:''
     },
     phone:{
-        type:Number,
+        type:String,
         default:''
     },
     gender:{

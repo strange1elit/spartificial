@@ -4,10 +4,9 @@ import Header from '../home/Navbar'
 import Home from '../home/Home'
 import Login from '../login/Login'
 import About from '../about/About'
-import Research from '../research/Research'
 import Projects from '../projects/Projects'
 import Blogs from '../blogs/Blogs'
-import Contact from '../contact/Contact'
+import getInvolved from '../getInvolved/getInvolved'
 import Footer from '../footer/Footer'
 import './App.css';
 import Signup from '../login/Signup';
@@ -16,6 +15,10 @@ import Dash from '../dash/Dash'
 import {useDispatch, useSelector} from 'react-redux'
 import {getUser} from '../../redux/actions/user'
 function App() {
+
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
   const dispatch=useDispatch();
 
   useEffect(()=>{
@@ -28,15 +31,14 @@ function App() {
       <Header/>
       <Switch>
         <Route exact path="/home" component={Home}/>
-        <Route exact path="/dash" component={Dash}/>
-        <Route exact path="/user/login" component={Login}/>
-        <Route exact path="/user/signup" component={Signup}/>
+        <Route exact path="/dash" component={Dash}/>        
         <Route exact path="/about" component={About}/>
-        <Route exact path="/research" component={Research}/>
         <Route exact path="/projects" component={Projects}/>
         <Route exact path="/blogs" component={Blogs}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>
-        <Route exact path="/contact" component={Contact}/>
+        <Route exact path="/getInvolved" component={getInvolved}/>
+        {!userdetails?(<><Route exact path="/user/login" component={Login}/>
+        <Route exact path="/user/signup" component={Signup}/></>):(<Redirect to="/home"/>)}
         <Redirect to="/home"/>
       </Switch>
       <Footer/>

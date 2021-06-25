@@ -1,9 +1,9 @@
 import React from 'react'
-import {Modal,Toast} from 'react-bootstrap'
+import {Toast} from 'react-bootstrap'
 
-const Toaster =({show,message,handler})=>{
+const Toaster =({message,style})=>{
   return(
-    <Toast style={{position:'absolute',top:'10%',right:'5%'}}>
+    <Toast style={style?(style):({position:'absolute',right:'0',top:'20%'})}>
       <Toast.Body className="text-center" >
         {message}
       </Toast.Body>

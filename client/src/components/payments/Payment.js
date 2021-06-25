@@ -18,8 +18,8 @@ const Payment=()=>{
   }
 
   async function displayRazorpay(e){
-    e.preventDefault()
-
+    e.preventDefault({amount:50000,reciept:Date.now()})
+    setPaymentData({})
     const res=await loadScript("https://checkout.razorpay.com/v1/checkout.js")
     if(!res){
       alert("Razorpay SDK failed to load!")
