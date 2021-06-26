@@ -14,18 +14,19 @@ router.use(bodyParser.json())
 
 //***********username password signup**************
 
-router.get('/',(req,res,next)=>{
+router.get('/',authenticate.verifyUser,(req,res,next)=>{
+  //console.log(req.user)
   Users.find({}).then((users)=>{
     res.json({users})
   }).catch((err)=>console.log(err))
 })
 
 router.post('/signup',(req,res,next)=>{
-  Users.register(new Users({username:req.body.username,firstname:req.body.firstname,lastname:req.body.lastname,phone:req.body.phone}),req.body.password,(err,user)=>{
+  Users.register(new Users({username:req.body.username,firstname:req.body.firstname,lastname:req.body.lastname,email:req.body.email}),req.body.password,(err,user)=>{
     if(err){
       res.statusCode=500
       res.setHeader('Content-Type','application/json')
-      res.json({err:err})
+      res.json(err)
     }else{
       passport.authenticate('local')(req,res,()=>{
         var token= authenticate.getToken({_id:req.user._id})
@@ -33,17 +34,38 @@ router.post('/signup',(req,res,next)=>{
 
         res.statusCode=200;
         res.setHeader('Content-Type','application/json')
-        res.json({success:true,token:token,admin:req.user.admin,status:'Registration Successful'})
+        res.json({success:true,token:token,user:req.user,status:'Registration Successful'})
       })
     }
   })
 })
 
-router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Password'}),(req,res,next)=>{
+// router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Password'}),(req,res,next)=>{
+//   var token= authenticate.getToken({_id:req.user._id})
+//   res.statusCode=200;
+//   res.setHeader('Content-Type','application/json')
+//   res.json({success:true,token:token,user:req.user,status:'Logged in Successfully'})
+// })
+
+router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Password',failWithError:true}),(req,res,next)=>{
   var token= authenticate.getToken({_id:req.user._id})
   res.statusCode=200;
   res.setHeader('Content-Type','application/json')
-  res.json({success:true,token:token,admin:req.user.admin,status:'Logged in Successfully'})
+  res.json({success:true,token:token,user:req.user,status:'Logged in Successfully'})
+},(err,req,res,next)=>{
+  if(err.name==="AuthenticationError"){
+    res.statusCode=401
+    err.message="Inavlid Username or Password!"
+    res.setHeader('Content-Type','application/json')
+    //console.log(err)
+    res.json(err)
+  }else{
+    res.statusCode=500
+    err.message="Something went wrong!"
+    res.setHeader('Content-Type','application/json')
+    //console.log(err)
+    res.json(err)
+  }
 })
 
 router.get('/logout',(req,res,next)=>{
@@ -58,25 +80,36 @@ router.get('/logout',(req,res,next)=>{
   }
 })
 
-router.post('/changepassword',(req, res)=> {
+router.post('/changepassword',authenticate.verifyUser,(req, res)=> {
 
-  Users.findOne({ _id: req.body._id },(err, user) => {
+  Users.findOne({ _id: req.user._id },(err, user) => {
+    //console.log(req.body)
     // Check if error connecting
     if (err) {
+      res.statusCode=404
+      res.setHeader('Content-Type','application/json')
       res.json({ success: false, message: err }); // Return error
     } else {
       // Check if user was found in database
       if (!user) {
+        res.statusCode=403
+        res.setHeader('Content-Type','application/json')  
         res.json({ success: false, message: 'User not found' }); // Return error, user was not found in db
       } else {
-        user.changePassword(req.body.oldpassword, req.body.newpassword, function(err) {
+        user.changePassword(req.body.currentpassword, req.body.newpassword, function(err) {
            if(err) {
                     if(err.name === 'IncorrectPasswordError'){
-                         res.json({ success: false, message: 'Incorrect password' }); // Return error
+                        res.statusCode=403
+                        res.setHeader('Content-Type','application/json')                
+                        res.json({ success: false, message: 'Incorrect password' }); // Return error
                     }else {
+                        res.statusCode=500
+                        res.setHeader('Content-Type','application/json')
                         res.json({ success: false, message: 'Something went wrong!! Please try again after sometimes.' });
                     }
           } else {
+            res.statusCode=200
+            res.setHeader('Content-Type','application/json')      
             res.json({ success: true, message: 'Your password has been changed successfully' });
            }
          })
@@ -113,6 +146,18 @@ router.post('/setpassword',(req,res,next)=>{
       })
     })
   })
+})
+
+router.put('/:_id',authenticate.verifyUser,(req,res,next)=>{
+  // console.log(req.user)
+  // console.log(req.body)
+  Users.findByIdAndUpdate(req.params._id,{$set:req.body},{new:true}).then((user)=>{
+    var token= authenticate.getToken({_id:req.user._id})
+    res.statusCode=200;
+    res.setHeader('Content-Type','application/json')
+    res.json({success:true,token:token,user:user,status:'Logged in Successfully'})
+    },(err)=>next(err))
+  .catch((err)=>next(err))
 })
 //***************otp login****************//
 

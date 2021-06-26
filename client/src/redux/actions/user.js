@@ -15,12 +15,15 @@ export const userRegister=(formData)=>async(dispatch)=>{
     }
   })
   .then(response=>{
+    //response.json().then(body=>{console.log(body.message)})
     if(response.ok) return response
     else{
-      var error =new Error ('Error '+response.status+': '+response.statusText)
-      error.response=response;
-      dispatch({type:'ANY_ERROR',payload:error})
-      throw error;
+      var error=''
+      response.json().then(body=> {
+        error =new Error (body.message)
+        error.response=response;
+        dispatch({type:'ANY_ERROR',payload:error})
+      })
     }
   },error=>{throw error})
   .then(response=>response.json())
@@ -28,9 +31,11 @@ export const userRegister=(formData)=>async(dispatch)=>{
     if(response.success){
       //setCredentials to Local Storage
       //console.log(response);
+      localStorage.setItem('userdetails',JSON.stringify(response))
       dispatch({type:'SIGNUP',payload:response})
-      alert(response.status)
-      //window.location.href="/home"
+      window.location.href="/dash"
+
+      //alert(response.status)
     }
   })
   .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
@@ -48,20 +53,23 @@ export const userLogin=(formData)=>async(dispatch)=>{
   .then(response=>{
     if(response.ok) return response
     else{
-      var error =new Error ('Error '+response.status+': '+response.statusText)
-      error.response=response;
-      dispatch({type:'ANY_ERROR',payload:error})
-      throw error;
+      var error=''
+      response.json().then(body=> {
+        error =new Error (body.message)
+        error.response=response;
+        dispatch({type:'ANY_ERROR',payload:error})
+      })
     }
   },error=>{throw error})
   .then(response=>response.json())
   .then(response=>{
     if(response.success){
       //setCredentials to Local Storage
-      //console.log(response);
-      dispatch({type:'LOGIN',payload:response})
-      alert(response.status)
-      //window.location.href="/home"
+      console.log(response);
+      localStorage.setItem('userdetails',JSON.stringify(response))
+      dispatch({type:'LOGIN',payload:response.user})
+      //alert(response.status)
+      window.location.href="/dash"
     }
   })
   .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
@@ -80,19 +88,123 @@ export const userLogout=()=>async(dispatch)=>{
     }
   },error=>{throw error})
   .then(response=>{
+    localStorage.removeItem('userdetails')
     window.location.href="/home"
     dispatch({type:'LOGOUT'})
   })
   .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
 }
 
+export const changeUserPassword=(changeData)=>async(dispatch)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
+  const bearer=`Bearer ${userdetails.token}`
+
+  return fetch(`${url}/changepassword`,{
+    method:"POST",
+    body:JSON.stringify(changeData),
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':bearer
+    },
+    credentials:"same-origin"
+  })
+  .then(response=>{
+    //console.log(response)
+    if(response.ok) return response
+    else{
+      var error=''
+      response.json().then(body=> {
+        //console.log(body)
+        error =new Error (body.message)
+        error.response=response;
+        dispatch({type:'ANY_ERROR',payload:error})
+      })
+    }
+  },error=>{throw error})
+  .then(response=>{
+    return response.json()
+  })
+  .then((response)=>{
+    if(response.success){
+      //setCredentials to Local Storage
+      //console.log(response);
+      // localStorage.setItem('userdetails',JSON.stringify(response))
+      dispatch({type:'CHANGE_PASSWORD',payload:response})
+      // //alert(response.status)
+      // window.location.href="/dash"
+    }
+  })
+  .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
+}
+
+export const userProfileUpdate=(formData)=>async(dispatch)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
+  const bearer=`Bearer ${userdetails.token}`
+
+  //console.log(formData)
+  return fetch(`${url}/${userdetails.user._id}`,{
+    method:"PUT",
+    body:JSON.stringify(formData),
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':bearer
+    },
+    credentials:"same-origin"
+  })
+  .then(response=>{
+    //console.log(response)
+    if(response.ok) return response
+    else{
+      var error =new Error ('Error '+response.status+': '+response.statusText)
+      error.response=response;
+      ////console.log(error)
+      dispatch({type:'ANY_ERROR',payload:error})
+      throw error;
+    }
+  },error=>{throw error})
+  .then(response=>{
+    return response.json()
+  })
+  .then((response)=>{
+    if(response.success){
+      //setCredentials to Local Storage
+      console.log(response);
+      localStorage.setItem('userdetails',JSON.stringify(response))
+      dispatch({type:'LOGIN',payload:response.user})
+      //alert(response.status)
+      window.location.href="/dash"
+    }
+  })
+  .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
+}
+
 export const getUser=()=>async(dispatch)=>{
-  return fetch(url+'/').then((response)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+  //console.log(userdetails)
+  
+  if(userdetails){
+    const bearer=`Bearer ${userdetails.token}`
+  //console.log(bearer)
+  return fetch(url+'/',{
+    method: "GET",
+    headers: {
+      'Authorization': bearer
+    },
+    credentials: "same-origin"
+  }).then((response)=>{
     if(response.ok){
       return response
     }else{
       var error=new Error('Error: '+response.status+': '+response.statusText);
       error.response=response;
+      if(response.status===401){
+        dispatch(userLogout())
+      }
       dispatch({type:'ANY_ERROR',payload:error})
       throw error;
     }
@@ -103,10 +215,16 @@ export const getUser=()=>async(dispatch)=>{
   .then((response)=>{
     return response.json()
   })
-  .then((users)=>{
-    dispatch({type:'GET_USERS_LIST',payload:users})
+  .then((user)=>{
+    //console.log(localStorage.getItem('token'))
+    dispatch({type:'GET_USERS_LIST',payload:user})
   })
   .catch((error)=>dispatch({type:'ANY_ERROR',payload:error}));
+  }else{
+    var error=new Error('Login/Signup to proceed!');
+    //error.response=response;
+    dispatch({type:'ANY_ERROR',payload:error})
+  }
 }
 
 export const sendOtp=(phone)=>async(dispatch)=>{

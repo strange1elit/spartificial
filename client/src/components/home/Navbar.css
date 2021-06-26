@@ -1,13 +1,15 @@
 /*********************navbar***********************/
 .topnav{
   display: block;
-  background-color: #0a0e2a;
+  /* background-color: #0a0e2a; */
+  background-color: #0a0e2a62;
   position: fixed;
   overflow: hidden;
-  top: 40px;
-  width: 100%;
+  top: 0px;
+  width: 100vw;
   transition: top 500ms;
   z-index: 2;
+  padding: 0 10%;
 }
 
 .topnav a{
@@ -34,7 +36,7 @@
 }
 
 .topnav a.active{
-  color: tomato;
+  color: #9d24c2;
 }
 .topnav a:hover{
   color: tomato;
@@ -42,19 +44,24 @@
 .topnav .icon{
   display: none;
 }
+.topnav .icon-close{
+  display: none;
+}
 @media screen and (max-width: 1000px) {
   .topnav a:not(:last-child) {display: none;}
   .topnav span.icon {
-    float: right;
+    position: absolute;
+    right: 20px;
     display: block;
   }
 }
 
 @media screen and (max-width: 1000px) {
-  .topnav.responsive {display: block;transition: 500ms;}
-  .topnav.responsive .icon {
+  .topnav.responsive {display: block;transition: 500ms;background-color: #0a0e2adc;}
+  .topnav.responsive .icon-close {
+    display: block;
     position: absolute;
-    right: 0;
+    right: 20px;
     top: 0;
   }
   .topnav.responsive a {
@@ -89,32 +96,12 @@
     opacity: 1;
   }
 }
-
-.user{
-  float: right;
-  z-index: 2;
+#close-toast{
+  position: absolute;
+  right: 15px;
+  color: #c4c4c4;
 }
-.user a{
-  color: white;
-  text-decoration: none;
-  font-size: 17px;
-  line-height: 35px;
-  letter-spacing: .5px;
-  background-color: tomato;
-  padding: 14px 18px;
-}
-.user a:hover{
-  color: #0a0e2a;
-  background-color: aliceblue;
-}
-.user a.active{
-  background-color: #04AA6D;
-  color: white;
-}
-.user button{
-  border-radius: 0;
-  outline: none;
-  border: none;
-  padding: 8px 18px;
-
+#close-toast:hover{
+  color: black;
+  cursor: pointer;
 }

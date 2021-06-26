@@ -11,9 +11,10 @@ footer{
   color: rgb(154, 194, 247);
   font-size: 25px;
 }
+.footer .links{
+  padding: 13px;
+}
 .footer .links a{
-  display: block;
-  float: none;
   color: white;
   text-align: left;
   padding: 2px 16px;

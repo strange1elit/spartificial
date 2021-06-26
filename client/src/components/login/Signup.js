@@ -4,6 +4,7 @@ import './Login.css'
 import {useDispatch,useSelector} from 'react-redux'
 import {userRegister,setLoading} from '../../redux/actions/user'
 import Loader from '../loader/Loading'
+import Toaster from '../loader/Toast'
 const Signup=()=>{
   const dispatch=useDispatch();
   const isLoading=useSelector(state=>state.users.isLoading)
@@ -21,8 +22,11 @@ const Signup=()=>{
   const handleChangeSign=(e)=>{
     setsignUpdata({...signUpData,[e.target.name]:e.target.value})
   }
+  var errmess=useSelector((state)=>state.users.errmess)
+
   return(
     <div  className="body" id="login">
+      {errmess?<Toaster message={errmess.message}/>:<></>}
       <div className="login">
         <div className="login-header">
         <div className="animate">
