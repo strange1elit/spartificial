@@ -4,7 +4,6 @@ import FileBase from 'react-file-base64';
 
 import {setLoading, userLogout, userProfileUpdate, changeUserPassword} from '../../redux/actions/user'
 import {useDispatch, useSelector} from 'react-redux'
-import { NavLink } from 'react-router-dom'
 import Loader from '../loader/Loading'
 import Toaster from '../loader/Toast';
 const Dash=()=>{
@@ -102,7 +101,7 @@ const Dash=()=>{
                     <p>{userdetails.user.address}</p>
                   </div>
                   <div className="logout">
-                    <NavLink to="/home" onClick={()=>logout()}>Logout</NavLink>
+                    <button type="button" onClick={()=>logout()}>Logout</button>
                   </div>
                 </div>
                 <div className="tab-pane" id="projects" role="tabpanel" aria-labelledby="projects-tab">

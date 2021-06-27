@@ -14,18 +14,23 @@ import Blog from '../blogs/Blog'
 import Dash from '../dash/Dash'
 import {useDispatch, useSelector} from 'react-redux'
 import {getUser} from '../../redux/actions/user'
+import {getBlogs} from '../../redux/actions/blog'
 function App() {
 
-  var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
+  // var userdetails=localStorage.getItem('userdetails');
+  // userdetails=JSON.parse(userdetails);
 
   const dispatch=useDispatch();
 
   useEffect(()=>{
     dispatch(getUser())
+    dispatch(getBlogs())
   },[dispatch])
+
   const users=useSelector((state)=>state.users)
+  const blogs=useSelector((state)=>state.blogs)
   console.log(users)
+  console.log(blogs)
   return (
     <div className="app">
       <Header/>
@@ -34,11 +39,11 @@ function App() {
         <Route exact path="/dash" component={Dash}/>        
         <Route exact path="/about" component={About}/>
         <Route exact path="/projects" component={Projects}/>
-        <Route exact path="/blogs" component={Blogs}/>
+        <Route exact path="/blogs" component={()=><Blogs blogs={blogs.blogs}/>}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>
         <Route exact path="/getInvolved" component={getInvolved}/>
-        {!userdetails?(<><Route exact path="/user/login" component={Login}/>
-        <Route exact path="/user/signup" component={Signup}/></>):(<Redirect to="/home"/>)}
+        <Route exact path="/user/login" component={Login}/>
+        <Route exact path="/user/signup" component={Signup}/>
         <Redirect to="/home"/>
       </Switch>
       <Footer/>

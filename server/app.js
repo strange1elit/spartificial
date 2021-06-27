@@ -14,7 +14,7 @@ var config=require('./config')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var paymentRouter= require('./routes/payments')
-
+var blogRouter=require('./routes/blogs')
 var app = express();
 
 mongoose.connect(config.mongoUrl, {
@@ -50,6 +50,7 @@ app.use(passport.session())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/payments',paymentRouter)
+app.use('/blogs',blogRouter)
 
 //app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 
