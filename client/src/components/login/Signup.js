@@ -30,7 +30,7 @@ const Signup=()=>{
       <div className="login">
         <div className="login-header">
         <div className="animate">
-          <h1>Sign Up</h1>
+          <h1>Register</h1>
           <div className="container">
             <form onSubmit={signUp}>
               <div className="row">

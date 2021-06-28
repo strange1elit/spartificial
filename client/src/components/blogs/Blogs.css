@@ -1,6 +1,9 @@
 #blogpage{
   background: #fff;
 }
+#blogpage a{
+  text-decoration: none;
+}
 .blog-tab{
   margin: 2% 11%;
   border-bottom: 1px groove #0a0e2a;
@@ -120,4 +123,38 @@
   #blogpage .blog-tab .tablink{
     display: block;
   }
+}
+
+
+.create-blog-form label{
+  padding-top: 15px;
+  display: block;
+}
+.create-blog-form input, .create-blog-form textarea, .create-blog-form select{
+  border: none;
+  outline: none;
+  background-color: rgba(184, 219, 230, 0.452);
+  margin-top: 8px;
+  width: 100%;
+  padding: 7px 5px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+#comments{
+  border-radius: 20px;
+  background-color: aliceblue;
+  padding: 8px;
+  margin: 3px;
+}
+#comments h6{
+  text-align: center;
+  padding: 5px 3px;
+  background-color: aqua;
+  border-radius: 20px;
+}
+#comments p{
+  margin-left: 15px;
+  font-size: 14px;
+  padding: 0;
+  border-radius: 20px;
 }

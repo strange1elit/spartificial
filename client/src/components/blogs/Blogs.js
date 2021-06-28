@@ -1,9 +1,19 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import './Blogs.css'
 
-import {blogsdata} from './blogsdata'
-const Blogs=()=>{
+import CreateBlog from './CreateBlog'
+import Toaster from '../loader/Toast'
+const Blogs=({blogs})=>{
+	const errmess=useSelector(state=>state.blogs.errmess)
+
+	const AI=blogs.filter(blog=>blog.category==="AI");
+	const Robotics=blogs.filter(blog=>blog.category==="Robotics");
+	const Programming=blogs.filter(blog=>blog.category==="Programming");
+	const Exploration=blogs.filter(blog=>blog.category==="Exploration");
+
+	//console.log(blogs)
 	//console.log(typeof(blogsdata),blogsdata)
 	const triggerTab=(tabName)=>{
 		var i,tabcontent,tablinks;
@@ -20,8 +30,14 @@ const Blogs=()=>{
 		document.getElementById(tabName+"-btn").style.color="black"
 		document.getElementById(tabName+"-btn").style.fontWeight="600"
 	}
+	const [show,setShow]=useState(false)
+	const onHide=()=>{
+		setShow(false)
+	}
 	return (
 		<div className="body" id="blogpage">
+			{errmess?<Toaster message={errmess.message}/>:<></>}
+			<CreateBlog show={show} onHide={onHide}/>
 			<div className="blogs-body">
 				<div className="blog-tab">
 					<button className="tablink" id="All-btn" onClick={()=>{triggerTab("All")}}>All</button>
@@ -29,12 +45,12 @@ const Blogs=()=>{
 					<button className="tablink" id="Robotics-btn" onClick={()=>{triggerTab("Robotics")}}>Robotics</button>
 					<button className="tablink" id="Programming-btn" onClick={()=>{triggerTab("Programming")}}>Programming</button>
 					<button className="tablink" id="Exploration-btn" onClick={()=>{triggerTab("Exploration")}}>Exploration Series</button>
-					{/* <button onClick={()=>window.location.href="/blogs/new"} id="blog-btn" className="tablink" onClick={()=>{}}>New Blog</button> */}
+					<button id="blog-btn" className="tablink" onClick={()=>setShow(true)}>New Blog</button>
 				</div>
 
 				<div id="All" className="tabcontent container">
-				{
-						blogsdata.AI.map((value)=>{
+				{blogs.length>0?
+						blogs.map((value)=>{
 							//console.log(idx,value)
 							return(
 								<div className="card mb-3" key={value._id}>
@@ -44,95 +60,23 @@ const Blogs=()=>{
 									</div>
 									<div className="col-md-8">
 										<div className="card-body">
-											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
+											<h5 className="card-title">{value.title}&nbsp;<span style={{color:'white',backgroundColor:'green'}} className="badge">{value.category}</span></h5>
+											<p className="card-text">{value.description}</p>
+											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/AI+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
+												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
 										</div>
 									</div>
 								</div>
 							</div>
 							)
-						})
-					}
-					{
-						blogsdata.Robotics.map((value)=>{
-							//console.log(idx,value)
-							return(
-								<div className="card mb-3" key={value._id}>
-								<div className="row g-0">
-									<div className="col-md-4">
-										<img loading="lazy" width="auto" className="img-fluid" src={value.image} alt="..."/>
-									</div>
-									<div className="col-md-8">
-										<div className="card-body">
-											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
-											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Robotics+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
-											</div>								
-										</div>
-									</div>
-								</div>
-							</div>
-							)
-						})
-					}
-					{
-						blogsdata.Programming.map((value)=>{
-							//console.log(idx,value)
-							return(
-								<div className="card mb-3" key={value._id}>
-								<div className="row g-0">
-									<div className="col-md-4">
-										<img loading="lazy" width="auto" className="img-fluid" src={value.image} alt="..."/>
-									</div>
-									<div className="col-md-8">
-										<div className="card-body">
-											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
-											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Programming+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
-											</div>								
-										</div>
-									</div>
-								</div>
-							</div>
-							)
-						})
-					}
-					{
-						blogsdata.Exploration.map((value)=>{
-							//console.log(idx,value)
-							return(
-								<div className="card mb-3" key={value._id}>
-								<div className="row g-0">
-									<div className="col-md-4">
-										<img loading="lazy" width="auto" className="img-fluid" src={value.image} alt="..."/>
-									</div>
-									<div className="col-md-8">
-										<div className="card-body">
-											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
-											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Exploration+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
-											</div>								
-										</div>
-									</div>
-								</div>
-							</div>
-							)
-						})
+						}):<h3>No blogs Found</h3>
 					}
 				</div>
 				<div id="AI" className="tabcontent container">
-					{
-						blogsdata.AI.map((value)=>{
+					{AI.length>0?
+						AI.map((value)=>{
 							//console.log(idx,value)
 							return(
 								<div className="card mb-3" key={value._id}>
@@ -143,22 +87,22 @@ const Blogs=()=>{
 									<div className="col-md-8">
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
+											<p className="card-text">{value.description}</p>
+											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/AI+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
+												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
 										</div>
 									</div>
 								</div>
 							</div>
 							)
-						})
+						}):<h3>No AI blogs found!</h3>
 					}
 				</div>
 				<div id="Robotics" className="tabcontent container">
-				{
-						blogsdata.Robotics.map((value)=>{
+				{Robotics.length>0?
+						Robotics.map((value)=>{
 							//console.log(idx,value)
 							return(
 								<div className="card mb-3" key={value._id}>
@@ -169,22 +113,22 @@ const Blogs=()=>{
 									<div className="col-md-8">
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
+											<p className="card-text">{value.description}</p>
+											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Robotics+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
+												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
 										</div>
 									</div>
 								</div>
 							</div>
 							)
-						})
+						}):<h3>No Robotics blogs found!</h3>
 					}
 				</div>
 				<div id="Programming" className="tabcontent container">
-				{
-						blogsdata.Programming.map((value)=>{
+				{Programming.length>0?
+						Programming.map((value)=>{
 							//console.log(idx,value)
 							return(
 								<div className="card mb-3" key={value._id}>
@@ -195,22 +139,22 @@ const Blogs=()=>{
 									<div className="col-md-8">
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
+											<p className="card-text">{value.description}</p>
+											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Programming+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
+												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
 										</div>
 									</div>
 								</div>
 							</div>
 							)
-						})
+						}):<h3>No Programming Blogs found!</h3>
 					}
 				</div>
 				<div id="Exploration" className="tabcontent container">
-				{
-						blogsdata.Exploration.map((value)=>{
+				{Exploration.length>0?
+						Exploration.map((value)=>{
 							//console.log(idx,value)
 							return(
 								<div className="card mb-3" key={value._id}>
@@ -221,17 +165,17 @@ const Blogs=()=>{
 									<div className="col-md-8">
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
-											<p className="card-text">{value.caption}</p>
-											<p className="card-text"><small className="text-muted">{value.updatedAt}</small></p>
+											<p className="card-text">{value.description}</p>
+											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
-												<button onClick={()=>window.location.href=`/blogs/Exploration+${value._id}`} className="read-btn me-md-2" type="button">Read More...</button>
+												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
 										</div>
 									</div>
 								</div>
 							</div>
 							)
-						})
+						}):<h3>No Exploration blog found</h3>
 					}
 				</div>
 			</div>
