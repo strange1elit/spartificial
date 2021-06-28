@@ -54,6 +54,11 @@ blogRouter.route('/:blogId')
         if(req.body.category) blog.category=req.body.category
         if(req.body.title) blog.title=req.body.title
         if(req.body.description) blog.description=req.body.description
+        
+        blog.profilePic=req.user.img
+        blog.about=req.user.about
+        blog.author=req.user.firstname+" "+req.user.lastname
+        blog.username=req.user.username
         blog.save().then(blog=>{
           res.statusCode=200;
           res.setHeader('Content-Type','application/json')
@@ -122,6 +127,9 @@ blogRouter.route('/:blogId/comments/:commentId')
       if(blog.comments.id(req.params.commentId).username===req.user.username||req.user.admin){
         if(req.body.comment) blog.comments.id(req.params.commentId).comment=req.body.comment
         if(req.body.rating) blog.comments.id(req.params.commentId).rating=req.body.rating
+
+        blog.author=req.user.firstname+" "+req.user.lastname
+        blog.username=req.user.username
       }else{
         err = new Error('Cannot edit this comment');
         err.status = 403;

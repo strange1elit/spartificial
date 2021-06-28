@@ -10,6 +10,7 @@ import getInvolved from '../getInvolved/getInvolved'
 import Footer from '../footer/Footer'
 import './App.css';
 import Signup from '../login/Signup';
+import Teams from '../teams/Teams'
 import Blog from '../blogs/Blog'
 import Dash from '../dash/Dash'
 import {useDispatch, useSelector} from 'react-redux'
@@ -42,6 +43,7 @@ function App() {
         <Route exact path="/blogs" component={()=><Blogs blogs={blogs.blogs}/>}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>
         <Route exact path="/getInvolved" component={getInvolved}/>
+        <Route exact path="/teams" component={Teams}/>
         <Route exact path="/user/login" component={Login}/>
         <Route exact path="/user/signup" component={Signup}/>
         <Redirect to="/home"/>

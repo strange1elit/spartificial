@@ -4,11 +4,12 @@ import {useSelector,useDispatch} from 'react-redux'
 import FileBase from 'react-file-base64';
 import Loader from '../loader/Loading'
 
-import {setLoading, createBlog} from '../../redux/actions/blog'
-const CreateBlog=({show,onHide})=> {
+import {setLoading, editBlog} from '../../redux/actions/blog'
+
+const EditBlog=({show,onHide,blog})=> {
   const dispatch=useDispatch()
 
-  const [blogData,setBlogData]=useState({category:'Other',title:'',description:'',image:''})
+  const [blogData,setBlogData]=useState({category:blog.category,title:blog.title,description:blog.description,image:blog.image})
 
   const isLoading=useSelector(state=>state.blogs.isLoading)
 
@@ -17,12 +18,10 @@ const CreateBlog=({show,onHide})=> {
   }
   const handleSubmit=(e)=>{
     e.preventDefault()
-    if(blogData.image!==''){
       dispatch(setLoading())
-      dispatch(createBlog(blogData))
-    }else{
-      alert('Choose an image to proceed!')
-    }
+      //console.log(blogData)
+      dispatch(editBlog(blogData,blog._id))
+      onHide()
   }
   return (
     <Modal backdrop="static"
@@ -33,7 +32,7 @@ const CreateBlog=({show,onHide})=> {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Create New Blog
+          Edit Blog
         </Modal.Title>
       </Modal.Header>
       <form onSubmit={handleSubmit} className="create-blog-form">
@@ -66,4 +65,4 @@ const CreateBlog=({show,onHide})=> {
     </Modal>
   );
 }
-export default CreateBlog;
+export default EditBlog;

@@ -14,6 +14,14 @@ export const blogs=(state={
       return {...state, isLoading:false, errmess:null, message:null, blogs:action.payload, blog:null}
     case 'CREATE_BLOG':
       return {...state, blog:action.payload}
+    case 'EDIT_BLOG':
+      return {...state, blog:action.payload}
+    case 'DELETE_BLOG':
+      return {...state, message:action.payload}
+    case 'EDIT_COMMENT':
+      return {...state, blog:action.payload}
+    case 'DELETE_COMMENT':
+      return {...state, message:action.payload}
     default:
       return state;
   }

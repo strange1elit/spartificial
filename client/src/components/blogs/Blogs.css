@@ -4,11 +4,11 @@
 #blogpage a{
   text-decoration: none;
 }
-.blog-tab{
+#blogpage .blog-tab{
   margin: 2% 11%;
   border-bottom: 1px groove #0a0e2a;
 }
-.tablink{
+#blogpage .tablink{
   background-color: #fff;
   color: #0a0e2a;
   border: none;
@@ -21,37 +21,51 @@
   letter-spacing: 0.5px;
   width: fit-content;
 }
-.blog-tab #blog-btn{
+#blogpage tablink:hover{
+  color: red;
+}
+#blogpage .blog-tab #blog-btn{
   background-color: #0a0e2a;
   color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  transition: color 600ms;
+  min-width: 16.66666666%;
+  letter-spacing: 0.5px;
+  width: fit-content;
+
   transition: background-color 600ms;
 }
-.blog-tab #blog-btn:hover{
+#blogpage .blog-tab #blog-btn:hover{
   background-color: aliceblue;
   color: #0a0e2a;
 }
-.tabcontent{
+#blogpage .tabcontent{
   color: black;
   display: none;
   padding: 100px 20px;
   height: 100%;
 }
-.tabcontent p{
+#blogpage .tabcontent p{
   line-height: 24px;
   overflow: hidden;
   max-height: 72px;
 }
-.tabcontent img{
+#blogpage .tabcontent img{
   height: 231px;
   width: fit-content;
 }
-#All{
+#blogpage #All{
   display: block;
-}#All-btn{
+}
+#blogpage #All-btn{
   color: black;
   font-weight: 600;
 }
-.card{
+#blogpage .card{
   transition: 500ms;
 }
 .read-btn{
