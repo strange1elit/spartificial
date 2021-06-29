@@ -2,10 +2,14 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import './Blogs.css'
-
+import moment from 'moment'
 import CreateBlog from './CreateBlog'
 import Toaster from '../loader/Toast'
+import Loading from '../loader/Loading'
 const Blogs=({blogs})=>{
+	var userdetails=localStorage.getItem('userdetails');
+  userdetails=JSON.parse(userdetails);
+
 	const errmess=useSelector(state=>state.blogs.errmess)
 
 	const AI=blogs.filter(blog=>blog.category==="AI");
@@ -40,12 +44,17 @@ const Blogs=({blogs})=>{
 			<CreateBlog show={show} onHide={onHide}/>
 			<div className="blogs-body">
 				<div className="blog-tab">
-					<button className="tablink" id="All-btn" onClick={()=>{triggerTab("All")}}>All</button>
-					<button className="tablink" id="AI-btn" onClick={()=>{triggerTab("AI")}}>Artificial Intelligence</button>
-					<button className="tablink" id="Robotics-btn" onClick={()=>{triggerTab("Robotics")}}>Robotics</button>
-					<button className="tablink" id="Programming-btn" onClick={()=>{triggerTab("Programming")}}>Programming</button>
-					<button className="tablink" id="Exploration-btn" onClick={()=>{triggerTab("Exploration")}}>Exploration Series</button>
-					<button id="blog-btn" className="tablink" onClick={()=>setShow(true)}>New Blog</button>
+					<button onMouseEnter={()=>document.getElementById("All-btn").style.color="green"} onMouseLeave={()=>document.getElementById("All-btn").style.color="#0a0e2a"} className="tablink" id="All-btn" onClick={()=>{triggerTab("All")}}>All</button>
+
+					<button onMouseEnter={()=>document.getElementById("AI-btn").style.color="green"} onMouseLeave={()=>document.getElementById("AI-btn").style.color="#0a0e2a"} className="tablink" id="AI-btn" onClick={()=>{triggerTab("AI")}}>Artificial Intelligence</button>
+
+					<button onMouseEnter={()=>document.getElementById("Robotics-btn").style.color="green"} onMouseLeave={()=>document.getElementById("Robotics-btn").style.color="#0a0e2a"} className="tablink" id="Robotics-btn" onClick={()=>{triggerTab("Robotics")}}>Robotics</button>
+
+					<button onMouseEnter={()=>document.getElementById("Programming-btn").style.color="green"} onMouseLeave={()=>document.getElementById("Programming-btn").style.color="#0a0e2a"} className="tablink" id="Programming-btn" onClick={()=>{triggerTab("Programming")}}>Programming</button>
+
+					<button onMouseEnter={()=>document.getElementById("Exploration-btn").style.color="green"} onMouseLeave={()=>document.getElementById("Exploration-btn").style.color="#0a0e2a"} className="tablink" id="Exploration-btn" onClick={()=>{triggerTab("Exploration")}}>Exploration Series</button>
+
+					{userdetails?<button id="blog-btn" onClick={()=>setShow(true)}>New Blog</button>:<></>}
 				</div>
 
 				<div id="All" className="tabcontent container">
@@ -62,7 +71,7 @@ const Blogs=({blogs})=>{
 										<div className="card-body">
 											<h5 className="card-title">{value.title}&nbsp;<span style={{color:'white',backgroundColor:'green'}} className="badge">{value.category}</span></h5>
 											<p className="card-text">{value.description}</p>
-											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
+											<p className="card-text"><small className="text-muted">{moment(value.createdAt).fromNow()}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
 												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
@@ -71,7 +80,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<h3>No blogs Found</h3>
+						}):<><h3 className="text-center">Please wait...</h3><Loading/></>
 					}
 				</div>
 				<div id="AI" className="tabcontent container">
@@ -88,7 +97,7 @@ const Blogs=({blogs})=>{
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
 											<p className="card-text">{value.description}</p>
-											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
+											<p className="card-text"><small className="text-muted">{moment(value.createdAt).fromNow()}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
 												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
@@ -97,7 +106,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<h3>No AI blogs found!</h3>
+						}):<h3>Not available!</h3>
 					}
 				</div>
 				<div id="Robotics" className="tabcontent container">
@@ -114,7 +123,7 @@ const Blogs=({blogs})=>{
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
 											<p className="card-text">{value.description}</p>
-											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
+											<p className="card-text"><small className="text-muted">{moment(value.createdAt).fromNow()}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
 												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
@@ -123,7 +132,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<h3>No Robotics blogs found!</h3>
+						}):<h3>Not available!</h3>
 					}
 				</div>
 				<div id="Programming" className="tabcontent container">
@@ -140,7 +149,7 @@ const Blogs=({blogs})=>{
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
 											<p className="card-text">{value.description}</p>
-											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
+											<p className="card-text"><small className="text-muted">{moment(value.createdAt).fromNow()}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
 												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
@@ -149,7 +158,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<h3>No Programming Blogs found!</h3>
+						}):<h3>Not available!</h3>
 					}
 				</div>
 				<div id="Exploration" className="tabcontent container">
@@ -166,7 +175,7 @@ const Blogs=({blogs})=>{
 										<div className="card-body">
 											<h5 className="card-title">{value.title}</h5>
 											<p className="card-text">{value.description}</p>
-											<p className="card-text"><small className="text-muted">{value.createdAt}</small></p>
+											<p className="card-text"><small className="text-muted">{moment(value.createdAt).fromNow()}</small></p>
 											<div className="d-grid gap-2 d-md-flex justify-content-md-end">
 												<NavLink to={`/blogs/${value.category}+${value._id}`} className="read-btn me-md-2" type="button">Read More...</NavLink>
 											</div>								
@@ -175,7 +184,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<h3>No Exploration blog found</h3>
+						}):<h3>Not available!</h3>
 					}
 				</div>
 			</div>

@@ -42,10 +42,11 @@ const NavbarComp=()=>{
 					<span id="title"><img src={logo} alt="logo"/>partificial</span>
 					{current?(<NavLink to="/dash" onClick={closeNav}>Dashboard</NavLink>):(<></>)}
 					<NavLink to="/home" onClick={closeNav}>Home</NavLink>
-					<NavLink to="/about" onClick={closeNav}>About</NavLink>
-					<NavLink to="/projects" onClick={closeNav}>Projects</NavLink>
 					<NavLink to="/blogs" onClick={closeNav}>Blogs</NavLink>
+					<NavLink to="/projects" onClick={closeNav}>Projects</NavLink>
 					<NavLink to="/getInvolved" onClick={closeNav}>Get Involved</NavLink>
+					<NavLink to="/teams" onClick={closeNav}>Our Teams</NavLink>
+					<NavLink to="/about" onClick={closeNav}>About</NavLink>
 					{current?(<></>):(<NavLink to="/user/login" onClick={closeNav}>LogIn</NavLink>)}
 
 					<span className="icon" onClick={openNav}><i className="fa fa-bars"></i></span>
