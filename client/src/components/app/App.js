@@ -16,6 +16,7 @@ import Dash from '../dash/Dash'
 import {useDispatch, useSelector} from 'react-redux'
 import {getUser} from '../../redux/actions/user'
 import {getBlogs} from '../../redux/actions/blog'
+import {getTeams} from '../../redux/actions/teams'
 function App() {
 
   // var userdetails=localStorage.getItem('userdetails');
@@ -26,6 +27,7 @@ function App() {
   useEffect(()=>{
     dispatch(getUser())
     dispatch(getBlogs())
+    dispatch(getTeams())
   },[dispatch])
 
   const users=useSelector((state)=>state.users)

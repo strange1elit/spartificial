@@ -15,6 +15,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var paymentRouter= require('./routes/payments')
 var blogRouter=require('./routes/blogs')
+var teamsRouter=require('./routes/teams')
+var involvedRouter=require('./routes/involved')
+
 var app = express();
 
 mongoose.connect(config.mongoUrl, {
@@ -47,10 +50,12 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/payments',paymentRouter)
-app.use('/blogs',blogRouter)
+app.use('/api', indexRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/payments',paymentRouter)
+app.use('/api/blogs',blogRouter)
+app.use('/api/teams',teamsRouter)
+app.use('/api/involved',involvedRouter)
 
 //app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 

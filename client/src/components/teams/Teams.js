@@ -1,50 +1,10 @@
 import React from "react";
 import './Teams.css'
+import {useSelector} from 'react-redux'
+
 const Teams=()=>{
-  const teams=[
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    },
-    {
-      "name":"Aalok Kumar",
-      "about":"HackerRank certified for ReactJs. 2+ years of experience in MERN development. B.Tech from NIT Hamirpur",
-      "designation":"MERN Stack Developer",
-      "image":"https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png"
-    }
-  ]
+  const teams=useSelector(state=>state.teams.teams)
+  //console.log(teams)
   return(
     <div id="teams">
 			<div className="hero">
@@ -76,10 +36,10 @@ const Teams=()=>{
                         </div>
                         <div className="card-back">
                           <p className="card-text">{val.about}</p>
-                          <a href="mailto:aaloksah766626@gmail.com"><span className="fa fa-envelope"></span></a>
-                          <a href="tel:9504496801" ><span className="fa fa-phone"></span></a>
-                          <a href="https://www.facebook.com" rel="noopener noreferrer"><span className="fa fa-facebook"></span></a>
-                          <a href="https://www.instagram.com" rel="noopener noreferrer"><span className="fa fa-instagram"></span></a>
+                          <a href={`mailto:${val.email}`}><span className="fa fa-envelope"></span></a>
+                          <a href={`tel:${val.phone}`} ><span className="fa fa-phone"></span></a>
+                          <a href={val.facebook?val.facebook:"#"}><span className="fa fa-facebook"></span></a>
+                          <a href={val.instagram?val.instagram:"#"} rel="noopener noreferrer"><span className="fa fa-instagram"></span></a>
                         </div>
                       </div>
                     </div>

@@ -1,0 +1,11 @@
+.payment input{
+  border-color: aqua;
+  border-radius: 5px;
+  outline: none;
+  margin: 5px;
+  transition: all 300ms;
+  width: 100%;
+}
+.payment input:focus{
+  background-color: #9ad7f3;
+}
