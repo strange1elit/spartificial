@@ -1,31 +1,31 @@
-const url='http://localhost:3000/api/blogs';
+const url='http://localhost:3000/api/projects';
 
 export const setLoading=()=>async(dispatch)=>{
-  dispatch({type:'LOADING'})
+  dispatch({type:'PROJECT_LOADING'})
 }
 
-export const getBlogs=()=>async(dispatch)=>{
+export const getProjects=()=>async(dispatch)=>{
   return fetch(url).then(response=>{
     if(response.ok) return response
     else{
       var error=""
       response.json(err=>{
         error=new Error(err.messsage)
-        dispatch({type:'BLOG_FAILED',payload:error})
+        dispatch({type:'PROJECT_FAILED',payload:error})
       },err=>{throw err})
-      .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+      .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
     }
   })
   .then(response=>{
     return response.json()
-  }).then(blogs=>{
-    //console.log(blogs)
-    dispatch({type:'GET_BLOGS',payload:blogs})
+  }).then(projects=>{
+    //console.log(projects)
+    dispatch({type:'GET_PROJECTS',payload:projects})
   },err=>{throw err})
-  .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+  .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
 }
 
-export const createBlog=(blogData)=>async(dispatch)=>{
+export const createProject=(projectData)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
@@ -35,7 +35,7 @@ export const createBlog=(blogData)=>async(dispatch)=>{
 
     return fetch(url,{
       method:"POST",
-      body:JSON.stringify(blogData),
+      body:JSON.stringify(projectData),
       headers:{
         'Authorization':bearer,
         'Content-Type':'application/json'
@@ -48,28 +48,28 @@ export const createBlog=(blogData)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },err=>{throw err})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
       return response.json()
     })
-    .then(blog=>{
-      //console.log(blog)
-      dispatch({type:'CREATE_BLOG',payload:blog})
-      dispatch(getBlogs());
+    .then(project=>{
+      //console.log(project)
+      dispatch({type:'CREATE_PROJECT',payload:project})
+      dispatch(getProjects());
     },err=>{throw err})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }
 
-export const editBlog=(blogData,blog_id)=>async(dispatch)=>{
+export const editProject=(projectData,project_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
@@ -77,9 +77,9 @@ export const editBlog=(blogData,blog_id)=>async(dispatch)=>{
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
 
-    return fetch(`${url}/${blog_id}`,{
+    return fetch(`${url}/${project_id}`,{
       method:"PUT",
-      body:JSON.stringify(blogData),
+      body:JSON.stringify(projectData),
       headers:{
         'Authorization':bearer,
         'Content-Type':'application/json'
@@ -93,28 +93,28 @@ export const editBlog=(blogData,blog_id)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },err=>{throw err})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
       return response.json()
     })
-    .then(blog=>{
-      //console.log(blog)
-      dispatch({type:'EDIT_BLOG',payload:blog})
-      dispatch(getBlogs());
+    .then(project=>{
+      //console.log(project)
+      dispatch({type:'EDIT_PROJECT',payload:project})
+      dispatch(getProjects());
     },err=>{throw err})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }
 
-export const deleteBlog=(blog_id)=>async(dispatch)=>{
+export const deleteProject=(project_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
@@ -122,7 +122,7 @@ export const deleteBlog=(blog_id)=>async(dispatch)=>{
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
 
-    return fetch(`${url}/${blog_id}`,{
+    return fetch(`${url}/${project_id}`,{
       method:"DELETE",
       headers:{
         'Authorization':bearer,
@@ -137,29 +137,29 @@ export const deleteBlog=(blog_id)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },err=>{throw err})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
       return response.json()
     })
     .then(message=>{
-      //console.log(blog)
-      dispatch({type:'DELETE_BLOG',payload:message})
-      dispatch(getBlogs());
-      window.location.href="/blogs"
+      //console.log(message)
+      dispatch({type:'DELETE_PROJECT',payload:message})
+      dispatch(getProjects());
+      window.location.href="/projects"
     },err=>{throw err})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }
 
-export const createComment=(commentData,blog_id)=>async(dispatch)=>{
+export const createInstructor=(instructorData,project_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
@@ -167,9 +167,9 @@ export const createComment=(commentData,blog_id)=>async(dispatch)=>{
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
 
-    return fetch(`${url}/${blog_id}/comments`,{
+    return fetch(`${url}/${project_id}/instructors`,{
       method:"POST",
-      body:JSON.stringify(commentData),
+      body:JSON.stringify(instructorData),
       headers:{
         'Authorization':bearer,
         'Content-Type':'application/json'
@@ -183,28 +183,28 @@ export const createComment=(commentData,blog_id)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },err=>{throw err})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
       return response.json()
     })
-    .then(blog=>{
-      //console.log(blog)
-      dispatch({type:'CREATE_BLOG',payload:blog})
-      dispatch(getBlogs());
+    .then(project=>{
+      //console.log(project)
+      dispatch({type:'CREATE_PROJECT',payload:project})
+      dispatch(getProjects());
     },err=>{throw err})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }
 
-export const editComment=(commentData, blog_id, comment_id)=>async(dispatch)=>{
+export const editInstructor=(instructorData, project_id, instructor_id)=>async(dispatch)=>{
   //console.log(comment_id)
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
@@ -213,9 +213,9 @@ export const editComment=(commentData, blog_id, comment_id)=>async(dispatch)=>{
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
 
-    return fetch(`${url}/${blog_id}/comments/${comment_id}`,{
+    return fetch(`${url}/${project_id}/comments/${instructor_id}`,{
       method:"PUT",
-      body:JSON.stringify(commentData),
+      body:JSON.stringify(instructorData),
       headers:{
         'Authorization':bearer,
         'Content-Type':'application/json'
@@ -229,28 +229,28 @@ export const editComment=(commentData, blog_id, comment_id)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },err=>{throw err})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
       return response.json()
     })
-    .then(blog=>{
-      //console.log(blog)
-      dispatch({type:'EDIT_COMMENT',payload:blog})
-      dispatch(getBlogs());
+    .then(project=>{
+      //console.log(project)
+      dispatch({type:'EDIT_INSTRUCTOR',payload:project})
+      dispatch(getProjects());
     },err=>{throw err})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }
 
-export const deleteComment=(blog_id, comment_id)=>async(dispatch)=>{
+export const deleteInstructor=(project_id, instructor_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
   userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
@@ -258,7 +258,7 @@ export const deleteComment=(blog_id, comment_id)=>async(dispatch)=>{
   if(userdetails){
     const bearer=`Bearer ${userdetails.token}`
 
-    return fetch(`${url}/${blog_id}/comments/${comment_id}`,{
+    return fetch(`${url}/${project_id}/comments/${instructor_id}`,{
       method:"DELETE",
       headers:{
         'Authorization':bearer,
@@ -273,9 +273,9 @@ export const deleteComment=(blog_id, comment_id)=>async(dispatch)=>{
         var error=""
         response.json(err=>{
           error=new Error(err.messsage)
-          dispatch({type:'BLOG_FAILED',payload:error})
+          dispatch({type:'PROJECT_FAILED',payload:error})
         },error=>{throw error})
-        .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+        .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
       }
     })
     .then(response=>{
@@ -283,13 +283,13 @@ export const deleteComment=(blog_id, comment_id)=>async(dispatch)=>{
     })
     .then(message=>{
       //console.log(blog)
-      dispatch({type:'DELETE_COMMENT',payload:message})
-      dispatch(getBlogs());
+      dispatch({type:'DELETE_INSTRUCTOR',payload:message})
+      dispatch(getProjects());
     },error=>{throw error})
-    .catch(error=>dispatch({type:'BLOG_FAILED',payload:error}))
+    .catch(error=>dispatch({type:'PROJECT_FAILED',payload:error}))
   }else{
     var error=new Error('Login/Signup to proceed!');
     //error.response=response;
-    dispatch({type:'BLOG_FAILED',payload:error})
+    dispatch({type:'PROJECT_FAILED',payload:error})
   }
 }

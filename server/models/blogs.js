@@ -20,6 +20,8 @@ var CommentSchema=new Schema({
     max:5,
     required:true
   }
+},{
+  timestamps:true
 })
 
 var BlogSchema=new Schema({

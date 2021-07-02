@@ -17,6 +17,7 @@ var paymentRouter= require('./routes/payments')
 var blogRouter=require('./routes/blogs')
 var teamsRouter=require('./routes/teams')
 var involvedRouter=require('./routes/involved')
+var projectRouter=require('./routes/projects')
 
 var app = express();
 
@@ -56,6 +57,7 @@ app.use('/api/payments',paymentRouter)
 app.use('/api/blogs',blogRouter)
 app.use('/api/teams',teamsRouter)
 app.use('/api/involved',involvedRouter)
+app.use('/api/projects',projectRouter)
 
 //app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 

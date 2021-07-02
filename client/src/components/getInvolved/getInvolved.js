@@ -90,7 +90,7 @@ const GetInvolved=()=>{
 							<input id="amount" required type="number" name="amount" value={paymentData.amount} onChange={(e)=>setPaymentData({...paymentData,amount:e.target.value})} placeholder="Amount"/>
 						</div>
 						<div className="refund text-center p-3">
-							<small className="text-muted">By paying you agree to our <a href="#">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>
+							<small className="text-muted">By paying you agree to our <a href="#refund">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>
 						</div>
 
 					</Modal.Body>

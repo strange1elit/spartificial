@@ -1,4 +1,4 @@
-const url =process.env.NODE_ENV==='production'?('server_url'):('http://localhost:3000/users');
+const url =process.env.NODE_ENV==='production'?('server_url'):('http://localhost:3000/api/users');
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'USER_LOADING'})
 }
