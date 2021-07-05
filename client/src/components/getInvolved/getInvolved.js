@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-
+import axios from 'axios'
 import './getInvolved.css'
+import {Modal} from 'react-bootstrap'
+import InvolvedModal from '../addons/getInvolvedModal'
 
 const GetInvolved=()=>{
 	const [isMobile,setIsMobile]=useState(false)
@@ -10,8 +12,95 @@ const GetInvolved=()=>{
 		}
 		else setIsMobile(false)
 	});
+
+		/***************Payment**************** */
+
+	const [paymentData,setPaymentData]=useState({amount:100,reciept:Date.now()})
+
+	const [show,setShow]=useState(false)
+
+	const loadScript=(src)=>{
+    return new Promise((resolve)=>{
+      const script=document.createElement("script");
+      script.src=src;
+      script.onload=()=>{
+        resolve(true);
+      }
+      script.onerror=()=>{
+        resolve(false)
+      }
+      document.body.appendChild(script)
+    })
+  }
+  async function displayRazorpay(e){
+    e.preventDefault()
+    const res=await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+    if(!res){
+      alert("Razorpay SDK failed to load!")
+      return;
+    }
+		paymentData.amount=paymentData.amount*100
+    const result=await axios.post("http://localhost:3000/payments/orders",paymentData);
+    if(!result){
+      alert("Server error!!!")
+      return;
+    }
+		setPaymentData({amount:100,reciept:Date.now()})
+    //console.log(result.data)
+    const {amount,id:order_id,currency}=result.data;
+    const options = {
+      key: "rzp_test_Fh3AgbAXuwfXuF", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "Spartificial",
+      description: "",
+      image: "./logo192.png",
+      order_id: order_id,
+      handler: async function (response) {
+          const data = {
+              orderCreationId: order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+							amount:amount/100
+          };
+
+          const result = await axios.post("http://localhost:3000/payments/success", data);
+
+          alert(JSON.stringify(result.data));
+      },
+      notes: {
+          address: "Spartificial",
+      },
+    };
+		setShow(false)
+    const paymentObject=new window.Razorpay(options)
+    paymentObject.open()
+  }
+
+	const [addOn,setAddOn]=useState({title:'',show:false,appType:''})
 	return (
 		<div className="getInvolved">
+			<Modal backdrop="static" show={show} onHide={()=>setShow(false)}>
+				<Modal.Header>Select an Amount</Modal.Header>
+				<form onSubmit={displayRazorpay}>
+					<Modal.Body>
+						<div className="payment">
+							<label htmlFor="amount">Amount</label>
+							<input id="amount" required type="number" name="amount" value={paymentData.amount} onChange={(e)=>setPaymentData({...paymentData,amount:e.target.value})} placeholder="Amount"/>
+						</div>
+						<div className="refund text-center p-3">
+							<small className="text-muted">By paying you agree to our <a href="#refund">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>
+						</div>
+
+					</Modal.Body>
+					<Modal.Footer>
+						<button className="btn btn-danger" type="button" onClick={()=>setShow(false)}>Cancel</button>
+						<button className="btn btn-primary" type="submit">Pay {paymentData.amount}</button>
+					</Modal.Footer>
+				</form>
+			</Modal>
+			<InvolvedModal show={addOn.show} onHide={()=>setAddOn({show:false,appType:'',title:''})} appType={addOn.appType} title={addOn.title}/>
       <div className="hero">
 				<div className="title">
 					<h4>Get Involved</h4>
@@ -30,8 +119,8 @@ const GetInvolved=()=>{
 						<div className="decription">
 							<p>Your donation will help support new research and collaborative projects to meet the UN’s Sustainable Development Goals and helps solve issues that matter.</p>
 						</div>
-						<button className="support-button button"> 
-							Support Us
+						<button onClick={()=>setShow(true)} className="support-button button"> 
+							Donate
 						</button>
 					</div>
 				</div>
@@ -46,7 +135,7 @@ const GetInvolved=()=>{
 						<div className="decription">
 							<p>We are looking to team up with Corporates, Academic Institutions, Government Agencies, Nonprofits and others to collaborate with us on AI and Machine Learning Projects and Policy to make a meaningful, global impact.</p>
 						</div>
-						<button className="partner-button button"> 
+						<button className="partner-button button" onClick={()=>setAddOn({...addOn,show:true,appType:'Partnership',title:'Partner with us on projects'})}> 
 							Let's Partner
 						</button>
 					</div>
@@ -62,7 +151,7 @@ const GetInvolved=()=>{
 						<div className="decription">
 							<p>Join a team of people driven to design, build and orchestrate innovative AI and Machine Learning research and projects that will shape the future of global policy.</p>
 						</div>
-						<button className="apply-button button"> 
+						<button className="apply-button button" onClick={()=>setAddOn({...addOn,show:true,appType:'Volunteer',title:'Volunteer to lead the change'})}> 
 							Apply now
 						</button>
 					</div>

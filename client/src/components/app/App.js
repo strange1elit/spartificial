@@ -5,6 +5,7 @@ import Home from '../home/Home'
 import Login from '../login/Login'
 import About from '../about/About'
 import Projects from '../projects/Projects'
+import Project from '../projects/Project'
 import Blogs from '../blogs/Blogs'
 import getInvolved from '../getInvolved/getInvolved'
 import Footer from '../footer/Footer'
@@ -13,9 +14,12 @@ import Signup from '../login/Signup';
 import Teams from '../teams/Teams'
 import Blog from '../blogs/Blog'
 import Dash from '../dash/Dash'
+
 import {useDispatch, useSelector} from 'react-redux'
 import {getUser} from '../../redux/actions/user'
 import {getBlogs} from '../../redux/actions/blog'
+import {getTeams} from '../../redux/actions/teams'
+import {getProjects} from '../../redux/actions/project'
 function App() {
 
   // var userdetails=localStorage.getItem('userdetails');
@@ -26,6 +30,8 @@ function App() {
   useEffect(()=>{
     dispatch(getUser())
     dispatch(getBlogs())
+    dispatch(getTeams())
+    dispatch(getProjects())
   },[dispatch])
 
   const users=useSelector((state)=>state.users)
@@ -40,6 +46,7 @@ function App() {
         <Route exact path="/dash" component={Dash}/>        
         <Route exact path="/about" component={About}/>
         <Route exact path="/projects" component={Projects}/>
+        <Route exact path="/projects/:project_id" component={Project}/>
         <Route exact path="/blogs" component={()=><Blogs blogs={blogs.blogs}/>}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>
         <Route exact path="/getInvolved" component={getInvolved}/>
