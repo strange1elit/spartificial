@@ -34,10 +34,13 @@ function App() {
     dispatch(getProjects())
   },[dispatch])
 
-  const users=useSelector((state)=>state.users)
+  // const users=useSelector((state)=>state.users)
   const blogs=useSelector((state)=>state.blogs)
-  console.log(users)
-  console.log(blogs)
+  const projects=useSelector((state)=>state.projects)
+
+  //console.log(users)
+  //console.log(blogs)
+  //console.log(projects)
   return (
     <div className="app">
       <Header/>
@@ -45,7 +48,7 @@ function App() {
         <Route exact path="/home" component={Home}/>
         <Route exact path="/dash" component={Dash}/>        
         <Route exact path="/about" component={About}/>
-        <Route exact path="/projects" component={Projects}/>
+        <Route exact path="/projects" component={()=><Projects projects={projects.projects}/>}/>
         <Route exact path="/projects/:project_id" component={Project}/>
         <Route exact path="/blogs" component={()=><Blogs blogs={blogs.blogs}/>}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>

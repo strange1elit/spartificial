@@ -2,11 +2,42 @@ const mongoose = require('mongoose')
 const passportLocalMongoose=require('passport-local-mongoose')
 const Schema=mongoose.Schema;
 
-var  userSchema = new  Schema({
-    googleId:{
+var projectSchema=new Schema({
+    project_id:{
         type:String,
-        default:''
+        required:true
+    }
+},{
+    timestamps:true
+})
+
+var paymentSchema=new Schema({
+    payment_id:{
+        type:String,
+        required:true
     },
+    project_id:{
+        type:String,
+        required:true
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
+        required:true
+    }
+},{
+    timestamps:true
+})
+
+
+var personalDetails=new Schema({
     firstname:{
         type:String,
         default:''
@@ -14,14 +45,6 @@ var  userSchema = new  Schema({
     lastname:{
         type:String,
         default:''
-    },
-    admin:{
-        type:Boolean,
-        default:false
-    },
-    mentor:{
-      type:Boolean,
-      default:false
     },
     email:{
         type:String,
@@ -55,7 +78,24 @@ var  userSchema = new  Schema({
         type:String,
         default:''
     }
+},{
+    timestamps:true
+})
+var  userSchema = new  Schema({
+    admin:{
+        type:Boolean,
+        default:false
+    },
+    mentor:{
+      type:Boolean,
+      default:false
+    },
+    personal:personalDetails,
+    projects:[projectSchema],
+    payments:[paymentSchema]
 
+},{
+    timestamps:true
 });
 userSchema.plugin(passportLocalMongoose);
 module.exports=mongoose.model('User',userSchema)

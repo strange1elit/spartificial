@@ -111,6 +111,23 @@ const GetInvolved=()=>{
 			<div className="row align-items-center">
 					<div className="col-sm-6 align-self-start">
 						<div className="image">
+							<img className="img-fluid" alt="..." src="https://cdn.mentorcruise.com/img/undraw_reviewed_docs_neeb.svg"/>
+						</div>
+					</div>
+					<div className={isMobile?("col-sm-6 align-self-center"):("col-sm-6 align-self-center order-first")}>
+						<h3 id="heading">Become a mentor</h3>
+						<div className="decription">
+							<p>Find a mentoring opportunity today! Using the Spartificial, submit your project for review and gt approved by our experts to become a mentor.</p>
+						</div>
+						<button className="partner-button button" onClick={()=>setAddOn({...addOn,show:true,appType:'Mentorship',title:'Become a Mentor'})}> 
+							Submit Project
+						</button>
+					</div>
+				</div>
+
+				<div className="row align-items-center">
+					<div className="col-sm-6 align-self-start">
+						<div className="image">
 							<img className="img-fluid" alt="..." src="https://ai4good.org/wp-content/plugins/phastpress/phast.php/c2VydmljZT1pbWFnZXMmc3JjPWh0dHBzJTNBJTJGJTJGYWk0Z29vZC5vcmclMkZ3cC1jb250ZW50JTJGdXBsb2FkcyUyRjIwMjAlMkYxMCUyRmdldGludm9sdmVkLWRvbmF0ZS0xMDI0eDU3Ni5qcGcmY2FjaGVNYXJrZXI9MTYxMDY0MTcwMS0xMDI1NTgmdG9rZW49ZGYyMjZmNzA5OGJiOTFkOQ.q.jpg"/>
 						</div>
 					</div>
@@ -119,7 +136,7 @@ const GetInvolved=()=>{
 						<div className="decription">
 							<p>Your donation will help support new research and collaborative projects to meet the UN’s Sustainable Development Goals and helps solve issues that matter.</p>
 						</div>
-						<button onClick={()=>setShow(true)} className="support-button button"> 
+						<button disabled onClick={()=>setShow(true)} className="support-button button"> 
 							Donate
 						</button>
 					</div>
@@ -127,7 +144,7 @@ const GetInvolved=()=>{
 				<div className="row align-items-center">
 					<div className="col-sm-6 align-self-start">
 						<div className="image">
-							<img className="img-fluid" alt="..." src="https://www.biocep.com/wp-content/uploads/2020/10/Partner-image.png"/>
+							<img className="img-fluid" alt="..." src="https://cdn.zaggle.in/images/web/zaggle/landing/partner-with-us.jpg"/>
 						</div>
 					</div>
 					<div className={isMobile?("col-sm-6 align-self-center"):("col-sm-6 align-self-center order-first")}>

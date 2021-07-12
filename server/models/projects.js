@@ -6,7 +6,7 @@ var instructorSchema=new Schema({
     type:String,
     required:true
   },
-  image:{
+  photo:{
     type:String,
     required:true
   }
@@ -33,6 +33,7 @@ var projectSchema=new Schema({
     type:String,
     required:true
   },
+  objectives:[String],
   instructors:[instructorSchema]
 },{
   timestamps:true

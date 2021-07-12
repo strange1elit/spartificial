@@ -49,6 +49,12 @@
 #dash .card{
   margin-bottom: 5%;
 }
+#dash .card p{
+  font-size: 15px;
+  line-height: 20px;
+  height: 80px;
+  overflow: hidden;
+}
 #dash .goal{
   margin-top: 20px;
   box-shadow: 0 0 20px #6e6a6a;

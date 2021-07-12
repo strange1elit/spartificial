@@ -6,8 +6,12 @@ const router=express.Router();
 
 const Payments = require('../models/payments');
 const { nextTick } = require('process');
-router.post("/orders", async (req, res) => {
+const authenticate = require('../authenticate');
+const Users = require('../models/users')
+
+router.post("/orders",authenticate.verifyUser, async (req, res) => {
     //console.log('called')
+    //console.log(req.body)
   try {
       const instance = new Razorpay({
           key_id: config.razorpay.KEY_ID,
@@ -30,15 +34,20 @@ router.post("/orders", async (req, res) => {
   }
 });
 
-router.post("/success", async (req, res, next) => {
+router.post("/success",authenticate.verifyUser, async (req, res, next) => {
+    //console.log(req.body)
   try {
       const {
           orderCreationId,
           razorpayPaymentId,
           razorpayOrderId,
           razorpaySignature,
+          amount,
+          projectId,
+          title,
+          description,
+          image
       } = req.body;
-
       const shasum = crypto.createHmac("sha256", config.razorpay.KEY_SECRET);
 
       shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
@@ -47,11 +56,16 @@ router.post("/success", async (req, res, next) => {
 
       if (digest !== razorpaySignature)
           return res.status(400).json({ msg: "Transaction not legit!" });
-      const payment=new Payments({message:"Succcessful payment",orderId:razorpayOrderId,paymentId:razorpayPaymentId})
+      const payment=new Payments({message:"Succcessful payment",orderId:razorpayOrderId,paymentId:razorpayPaymentId,amount:amount,projectId:projectId})
       payment.save().then((payment)=>{
         if(payment){
-          res.json(payment);
-          }
+          Users.findById(req.user._id).then(user=>{
+              //console.log(payment)
+              user.payments.push({payment_id:payment.paymentId,project_id:payment.projectId,title:title,description:description,image:image})
+              user.save();
+              res.json(payment)
+          })
+        }
       },err=>next(err))
   } catch (error) {
       res.status(500).send(error);

@@ -45,7 +45,8 @@ app.use(session({
   secret:'12345-67890-09876-54321',
   saveUninitialized:false,
   resave:false,
-  store:new FileStore()
+  store:new FileStore(),
+  maxAge:Date.now()+(30*86400*1000)
 }))
 
 app.use(passport.initialize())

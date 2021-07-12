@@ -5,7 +5,6 @@ import logo from '../../assets/images/hero.jpeg'
 const NavbarComp=()=>{
 
 	var current=localStorage.getItem('userdetails')
-	current=JSON.parse(current)
 
 	var preScrollPos=window.pageYOffset;
 	window.onscroll=()=>{

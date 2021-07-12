@@ -27,11 +27,10 @@ export const getBlogs=()=>async(dispatch)=>{
 
 export const createBlog=(blogData)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(url,{
       method:"POST",
@@ -71,11 +70,10 @@ export const createBlog=(blogData)=>async(dispatch)=>{
 
 export const editBlog=(blogData,blog_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(`${url}/${blog_id}`,{
       method:"PUT",
@@ -116,11 +114,10 @@ export const editBlog=(blogData,blog_id)=>async(dispatch)=>{
 
 export const deleteBlog=(blog_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(`${url}/${blog_id}`,{
       method:"DELETE",
@@ -161,11 +158,10 @@ export const deleteBlog=(blog_id)=>async(dispatch)=>{
 
 export const createComment=(commentData,blog_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(`${url}/${blog_id}/comments`,{
       method:"POST",
@@ -207,11 +203,10 @@ export const createComment=(commentData,blog_id)=>async(dispatch)=>{
 export const editComment=(commentData, blog_id, comment_id)=>async(dispatch)=>{
   //console.log(comment_id)
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(`${url}/${blog_id}/comments/${comment_id}`,{
       method:"PUT",
@@ -252,11 +247,10 @@ export const editComment=(commentData, blog_id, comment_id)=>async(dispatch)=>{
 
 export const deleteComment=(blog_id, comment_id)=>async(dispatch)=>{
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
   //console.log(userdetails)
   
   if(userdetails){
-    const bearer=`Bearer ${userdetails.token}`
+    const bearer=`Bearer ${userdetails}`
 
     return fetch(`${url}/${blog_id}/comments/${comment_id}`,{
       method:"DELETE",

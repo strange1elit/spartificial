@@ -23,7 +23,9 @@ projectRouter.route('/').all((req,res,next)=>{
 })
 .post(authenticate.verifyUser,(req,res,next)=>{
   //console.log(req.body)
-  if(req.user.admin){
+  const objectives=req.body.objectives.split('|');
+  req.body.objectives=objectives
+  if(req.user){
     Projects.create(req.body).then(project=>{
       res.statusCode=200;
       res.setHeader('Content-type','application/json');
@@ -33,13 +35,23 @@ projectRouter.route('/').all((req,res,next)=>{
   }else{
     res.statusCode=401;
     res.setHeader('Content-type','application/json')
-    res.json({message:"Only admin can add projects!"})
+    res.json({message:"Login to add projects!"})
   }
 })
 
 projectRouter.route('/:project_id')
+.get((req,res,next)=>{
+  Projects.findById(req.params.project_id)
+  .then((project)=>{
+    res.statusCode=200;
+    res.setHeader('Content-type','application/json')
+    res.json(project)
+  })
+})
 .put(authenticate.verifyUser,(req,res,next)=>{
-  if(req.user.admin){
+  const objectives=req.body.objectives?req.body.objectives.split('|'):null
+  if(objectives) req.body.objectives=objectives
+  if(req.user){
     Projects.findByIdAndUpdate(req.params.project_id,{$set:req.body},{new:true})
     .then((project)=>{
       res.statusCode=200;
@@ -53,8 +65,8 @@ projectRouter.route('/:project_id')
   }
 })
 .delete(authenticate.verifyUser,(req,res,next)=>{
-  if(req.user.admin){
-    Projects.findByIdAndRemove(req.params.project_id).then(res=>{
+  if(req.user){
+    Projects.findByIdAndRemove(req.params.project_id).then(resp=>{
       res.statusCode=200;
       res.setHeader('Content-type','application/json')
       res.json({resp,message:"Deleted Successfully!"})
@@ -68,7 +80,7 @@ projectRouter.route('/:project_id')
 
 projectRouter.route('/:project_id/instructors')
 .post(authenticate.verifyUser,(req,res,next)=>{
-  if(req.user.admin){
+  if(req.user){
     Projects.findById(req.params.project_id).then(project=>{
       project.instructors.push(req.body)
       project.save().then(project=>{
@@ -91,7 +103,7 @@ projectRouter.route('/:project_id/comments/:instructor_id')
   Blogs.findById(req.params.project_id).then(project=>{
     if(project.instructors.id(req.params.instructor_id)!=null){
         if(req.body.name) project.instructors.id(req.params.instructor_id).name=req.body.name
-        if(req.body.image) project.instructors.id(req.params.instructor_id).rating=req.body.image
+        if(req.body.photo) project.instructors.id(req.params.instructor_id).rating=req.body.photo
 
       project.save().then(project=>{
         Projects.findById(project._id)

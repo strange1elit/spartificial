@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Modal} from 'react-bootstrap'
 const url="http://localhost:3000/api/payments"
 
-const Payments=({show,amount,onHide,title})=>{
+const Payments=({show,amount,onHide,title,project_id,description,image})=>{
 	const [paymentData,setPaymentData]=useState({reciept:Date.now(),referal:''})
 
 	const [isValid,setValid]=useState({message:null,discount:0})
@@ -41,7 +41,7 @@ const Payments=({show,amount,onHide,title})=>{
 		//console.log(e.target.value)
 		var cod=referalCodes.filter(code=>code.code===e.target.value)[0]
 		if(cod) {setValid({message:"Discount of Rs. "+cod.discount,discount:cod.discount})}
-		else setValid({message:"Invalid Code",discount:0})
+		else setValid({message:"",discount:0})
 		if(e.target.value==='') setValid({message:null,discount:0})
 		setPaymentData({...paymentData,referal:e.target.value})
 	}
@@ -63,49 +63,79 @@ const Payments=({show,amount,onHide,title})=>{
     e.preventDefault()
 		if(isValid.message!=="Invalid Code"){
 			//console.log(paymentData)
-			const res=await loadScript("https://checkout.razorpay.com/v1/checkout.js")
-			if(!res){
-				alert("Razorpay SDK failed to load!")
-				return;
-			}
-			//paymentData.amount=amount?amount*100-isValid.discount*100:0
-			//console.log(paymentData)
-			const result=await axios.post(url+"/orders",paymentData);
-			if(!result){
-				alert("Server error!!!")
-				return;
-			}
-			setPaymentData({reciept:Date.now(),referal:''})
-			//console.log(result.data)
-			const {amount,id:order_id,currency}=result.data;
-			const options = {
-				key: "rzp_test_Fh3AgbAXuwfXuF", // Enter the Key ID generated from the Dashboard
-				amount: amount.toString(),
-				currency: currency,
-				name: "Spartificial",
-				description: "",
-				image: "./logo192.png",
-				order_id: order_id,
-				handler: async function (response) {
-						const data = {
-								orderCreationId: order_id,
-								razorpayPaymentId: response.razorpay_payment_id,
-								razorpayOrderId: response.razorpay_order_id,
-								razorpaySignature: response.razorpay_signature,
-								amount:amount/100
-						};
+			var userdetails=localStorage.getItem('userdetails');
+			//console.log(userdetails)
+			
+			if(userdetails){
+				try{
+					const bearer=`Bearer ${userdetails}`
 
-						const result = await axios.post(url+"/success", data);
-
-						alert(JSON.stringify(result.data));
-				},
-				notes: {
-						address: "Spartificial",
-				},
-			};
-			onModalHide()
-			const paymentObject=new window.Razorpay(options)
-			paymentObject.open()
+					const res=await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+					if(!res){
+						alert("Razorpay SDK failed to load!")
+						return;
+					}
+					//paymentData.amount=amount?amount*100-isValid.discount*100:0
+					//console.log(paymentData)
+					const result=await axios.post(url+"/orders",paymentData,{
+						headers:{
+							'Authorization':bearer,
+							'Content-Type':'application/json'
+						}
+					});
+					if(!result){
+						alert("Server error!!!")
+						return;
+					}
+					//console.log(result.data)
+					setPaymentData({reciept:Date.now(),referal:''})
+					//console.log(result.data)
+					const {amount,id:order_id,currency}=result.data;
+					const options = {
+						key: "rzp_test_038x6mXw4YTv6g", // Enter the Key ID generated from the Dashboard
+						amount: amount.toString(),
+						currency: currency,
+						name: "Spartificial",
+						description: "",
+						image: "./logo192.png",
+						order_id: order_id,
+						handler: async function (response) {
+								const data = {
+										orderCreationId: order_id,
+										razorpayPaymentId: response.razorpay_payment_id,
+										razorpayOrderId: response.razorpay_order_id,
+										razorpaySignature: response.razorpay_signature,
+										amount:amount/100,
+										projectId:project_id,
+										description:description,
+										title:title,
+										image:image
+								};
+		
+								const result = await axios.post(url+"/success", data,{
+									headers:{
+										'Authorization':bearer,
+										'Content-Type':'application/json'
+									}
+								});
+		
+								alert(result.data.message+'\nPayment Id: '+result.data.paymentId+'\nAmount: '+result.data.amount+'\nThank You!!!');				
+								window.location.reload()
+							},
+						notes: {
+								address: "Spartificial",
+						},
+					};
+					onModalHide()
+					const paymentObject=new window.Razorpay(options)
+					paymentObject.open()
+				}catch(error){
+					alert(error)
+				}
+			}else{
+				alert('Please Login to continue!')
+				window.location.href='/user/login'
+			}
 		}
   }
 

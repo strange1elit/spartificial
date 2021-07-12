@@ -22,7 +22,7 @@ const InvolvedModal=({show,onHide,appType,title})=>{
   }
   return(
     <Modal show={show} backdrop="static" centered onHide={onHide}>
-      <Modal.Header style={{backgroundColor:'orangered',color:'aliceblue'}}>
+      <Modal.Header style={{backgroundColor:'#0a0e2adf',color:'aliceblue'}}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <form onSubmit={submitForm}>

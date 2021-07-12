@@ -8,7 +8,6 @@ import Toaster from '../loader/Toast'
 import Loading from '../loader/Loading'
 const Blogs=({blogs})=>{
 	var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
 
 	const errmess=useSelector(state=>state.blogs.errmess)
 
