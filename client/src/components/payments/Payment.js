@@ -1,15 +1,15 @@
 import React,{useState} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-bootstrap'
-const url="http://localhost:3000/api/payments"
+const url="https://spartificial.herokuapp.com/api/payments"
 
-const Payments=({show,amount,onHide,title,project_id,description,image})=>{
+const Payments=({show,fees,onHide,title,project_id,description,image})=>{
 	const [paymentData,setPaymentData]=useState({reciept:Date.now(),referal:''})
 
 	const [isValid,setValid]=useState({message:null,discount:0})
+	const [amount,setAmount]=useState('')
 
-
-	//console.log(amount)
+	//console.log(fees)
 	const referalCodes=[
 		{
 			"code":"SPART100",
@@ -35,6 +35,7 @@ const Payments=({show,amount,onHide,title,project_id,description,image})=>{
 	const onModalHide=()=>{
 		setValid({message:null,discount:0})
 		setPaymentData({reciept:Date.now(),referal:''})
+		setAmount('')
     onHide()
 	}
 	const onChangeReferral=(e)=>{
@@ -145,6 +146,14 @@ const Payments=({show,amount,onHide,title,project_id,description,image})=>{
 				<Modal.Header style={{backgroundColor:'magenta',color:'aliceblue',fontWeight:'bold'}}>Enroll in {title}</Modal.Header>
 				<form onSubmit={displayRazorpay}>
 					<Modal.Body>
+						<div className="row sel">
+							<label>Select a Plan</label>
+							<select onChange={e=>setAmount(e.target.value)} >
+								<option>Choose plan</option>
+								{fees? <><option value={fees.T1.split('/-')[0]}>{fees.T1}</option>
+								<option value={fees.T2.split('/-')[0]}>{fees.T2}</option></> :''}
+							</select>
+						</div>
 						<div className="row payment">
 							<div className="col-sm-6">
 								<label htmlFor="amount">Amount:</label>

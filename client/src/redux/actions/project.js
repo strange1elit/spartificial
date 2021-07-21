@@ -1,4 +1,4 @@
-const url='http://localhost:3000/api/projects';
+const url='https://spartificial.herokuapp.com/api/projects';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'PROJECT_LOADING'})

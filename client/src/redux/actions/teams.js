@@ -1,4 +1,4 @@
-const url = process.env.NODE_ENV==='production'?('http://localhost:3000/api/teams'):('http://localhost:3000/api/teams');
+const url = 'https://spartificial.herokuapp.com/api/teams';
 
 export const getTeams=()=>async(dispatch)=>{
   return fetch(url).then((response)=>{

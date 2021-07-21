@@ -3,7 +3,7 @@ import axios from 'axios'
 import './getInvolved.css'
 import {Modal} from 'react-bootstrap'
 import InvolvedModal from '../addons/getInvolvedModal'
-
+import {Link} from 'react-router-dom'
 const GetInvolved=()=>{
 	const [isMobile,setIsMobile]=useState(false)
 	window.addEventListener("resize", function() {
@@ -115,13 +115,13 @@ const GetInvolved=()=>{
 						</div>
 					</div>
 					<div className={isMobile?("col-sm-6 align-self-center"):("col-sm-6 align-self-center order-first")}>
-						<h3 id="heading">Become a mentor</h3>
+						<h3 id="heading">Become an Instructor</h3>
 						<div className="decription">
 							<p>Find a mentoring opportunity today! Using the Spartificial, submit your project for review and gt approved by our experts to become a mentor.</p>
 						</div>
-						<button className="partner-button button" onClick={()=>setAddOn({...addOn,show:true,appType:'Mentorship',title:'Become a Mentor'})}> 
-							Submit Project
-						</button>
+						<Link to="/instructor">
+							<button className="partner-button button" >Become an Instructor</button>						
+						</Link>
 					</div>
 				</div>
 

@@ -1,67 +1,181 @@
-import React,{useState} from 'react'
-
+import React, { useState } from 'react'
+import logo from '../../assets/images/logoname.png'
 import './Home.css'
+import About from '../about/About'
+import { Link } from 'react-router-dom'
+const Home = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  window.addEventListener("resize", function () {
+    if (window.innerWidth < 700) {
+      setIsMobile(true)
+    }
+    else setIsMobile(false)
+  });
 
-const Home=()=>{
-  const [isMobile,setIsMobile]=useState(false)
-	window.addEventListener("resize", function() {
-		if (window.innerWidth < 700) {
-			setIsMobile(true)	
-		}
-		else setIsMobile(false)
-	});
-
-  return(
+  const aims = [
+    {
+      "_id": "1",
+      "heading": "For Better Future",
+      "paragraph": "Finding and identifying practical applications of AI to advance the Sustainable development Goals and scale those solutions for global impact. These small solutions and initiatives are the stepping stones to the better future.",
+      "image": "https://i1.wp.com/www.un.org/sustainabledevelopment/wp-content/uploads/2015/12/english_SDG_17goals_poster_all_languages_with_UN_emblem_1.png?fit=728%2C451&ssl=1"
+    },
+    {
+      "_id": "2",
+      "heading": "Path to Innovation",
+      "paragraph": "Spartificial is a community of like-minded intellectuals that share a common zeal for exploring the world of Impactful Artificial Intelligence.",
+      "image": "./1.jpeg"
+    },
+    {
+      "_id": "3",
+      "heading": "Collaboration",
+      "paragraph": "Finding and identifying practical applications of AI to advance the Sustainable development Goals and scale those solutions for global impact. These small solutions and initiatives are the stepping stones to the better future.",
+      "image": "./2.jpeg"
+    },
+    {
+      "_id": "4",
+      "heading": "Research",
+      "paragraph": "It is a place where not just people meet but their minds meet to indulge in some of the most advanced and kick-ass research projects concerning Space Science and AI, whilst also having fun learning and discovering together.",
+      "image": "./3.jpeg"
+    },
+  ]
+  const hp=[
+    {
+      "_id":1,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    },
+    {
+      "_id":2,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    },
+    {
+      "_id":3,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    },
+    {
+      "_id":4,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    },
+    {
+      "_id":5,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    },
+    {
+      "_id":6,
+      "title":"Project",
+      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+    }
+  ]
+  return (
     <div className="home" id="home">
       <div className="hero-image">
         <div className="title">
-          <h3>Welcome to</h3>
-          <h1>Spartificial</h1>
+          {/* <h3>Welcome to</h3>
+          <h1>Spartificial</h1> */}
+          <img src={logo} alt="..." className="img-fluid" />
+        </div>
+        <div className="arrow bounce">
+          <a className="fa fa-arrow-down fa-2x" href="/#hp"></a>
         </div>
       </div>
-      <div className="body" id="home-div">
-        <div className="container-xl">
-          <div className="card mb-3">
-            <div className="row g-0">
-              <div className="col-md-5 text-center">
-                <img loading="lazy" width="auto" className="img-fluid" src="https://cdn.pocket-lint.com/r/s/1200x/assets/images/142413-apps-feature-art-and-science-collide-the-best-in-modern-space-art-image1-iha6vzu3wk.jpg" alt="..."/>
-              </div>
-              <div className="col-md-7">
-                <div className="card-body">
-                  <h3 className="card-title">Space</h3>
-                  <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula nisl purus, non faucibus turpis luctus ac. Proin quis purus in arcu faucibus interdum vitae eget turpis. Sed mollis quam quam, sit amet sollicitudin ante dignissim nec. Nunc blandit eros vel imperdiet ullamcorper. Suspendisse orci felis, rutrum eget eros ac, malesuada euismod est. Vestibulum non fringilla dolor, nec placerat enim. Ut fermentum libero accumsan. Nunc tempus semper porta. Suspendisse potenti. Integer quis rutrum elit. Mauris vitae sollicitudin dolor. In lacus augue, accumsan in dictum ac, efficitur ut urna. Curabitur sagittis, ex et posuere dignissim, risus dolor semper diam, nec varius justo velit vitae lectus.</p>
+      <div className="home-project" id="hp">
+        <div className="container pb-2">
+          <div className="row justify-content-center">
+            <h1>Trending projects</h1>
+          {
+            hp.map(value=>{
+              return(
+              <div className="col-4 col-sm-3 col-md-3 col-xl-2" key={value._id}>
+                <div className="hp-card">
+                  <img className="img-fluid" src={value.image} alt="..."/>
+                  <h6><strong>{value.title}</strong></h6>
+                  <small><strong></strong></small>
+                  <Link to={`/projects/${value._id}`}><small><strong>Learn More</strong></small></Link>
                 </div>
               </div>
+              )
+            })
+          }
+          </div>
+          <div className="row">
+            <div className="col text-center">
+            <Link to="/projects"><button className="btn btn-success"><strong>More Projects</strong></button></Link>
             </div>
           </div>
-          <div className="card mb-3">
-            <div className="row g-0">
-              <div className={!isMobile?("col-sm-7"):("col-sm-7 order-last")}>
-                <div className="card-body">
-                  <h3 className="card-title">Artificial Intelligence</h3>
-                  <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula nisl purus, non faucibus turpis luctus ac. Proin quis purus in arcu faucibus interdum vitae eget turpis. Sed mollis quam quam, sit amet sollicitudin ante dignissim nec. Nunc blandit eros vel imperdiet ullamcorper. Ut ultrices ligula nec nibh consequat, ut fermentum libero accumsan. Nunc tempus semper porta. Suspendisse potenti. Integer quis rutrum elit. Mauris vitae sollicitudin dolor. In lacus augue, accumsan in dictum ac, efficitur ut urna. Curabitur sagittis, ex et posuere dignissim, risus dolor semper diam, nec varius justo velit vitae lectus.</p>
+        </div>
+      </div>
+      <div className="story" id="story">
+        <div className="container p-5">
+          <div className="row">
+            <div className="col-12">
+              <h5 className="story-head">We wanted to build an enthusiastic community that loves Space tech, support sustainable future and Artificial Intelligence; where we meet people, "Our Minds Meet" and we indulge in some of the most important, advanced and kick-ass research projects for betterment of humanity, and have fun working on them</h5>
+            </div>
+          </div>
+          <div className="row p-5">
+            <div className="col-12 text-center">
+              <h1>So, we started <span>Sp</span>ARTIFICIAL</h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <h5 className="story-foot">SPARTIFICIAL is an open space like the cosmos to meet some of the most intelligent, innovative and creative people. Here, we give an opportunity to meet nerds like you and work in teams on different interesting and highly complex projects.</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="home-div">
+        <div className="container">
+          {
+            aims.map((value) => {
+              return (
+                <div className="card" key={value._id}>
+                  <div className="row g-0">
+                    <div className={value._id % 2 === 0 && (!isMobile || window.innerWidth > 700) ? "col-md-6 text-center align-self-center order-last" : "col-md-6 text-center align-self-center order-first"}>
+                      <div className="card-body">
+                        <h1 className="card-title">{value.heading}</h1>
+                        <p className="text-center">{value.paragraph}</p>
+                      </div>
+                    </div>
+                    <div className="col-md-6 text-center align-self-center">
+                      <img loading="lazy" width="auto" className="img-fluid" src={value.image} alt="..." />
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5 text-center">
-                <img loading="lazy" width="auto" className="img-fluid" src="https://images.idgesg.net/images/article/2019/11/ai_artificial_intelligence_ml_machine_learning_vector_by_kohb_gettyimages_1146634284-100817775-large.jpg" alt="..."/>
-              </div>
 
+              )
+            })
+          }
+        </div>
+      </div>
+      <div className="success">
+        <div className="container">
+          <div className="row">
+          <div className="col-sm-5 offset-sm-1 align-self-center">
+            <h2 className="text-center">Success</h2>
+            <h6 className="text-center">"Would you like me to give you a formula for success? It’s quite simple, really: Double your rate of failure. You are thinking of failure as the enemy of success. But it isn’t at all. You can be discouraged by failure or you can learn from it, so go ahead and make mistakes. Make all you can. Because remember that’s where you will find success."</h6>
+          </div>
+          <div className="col-sm-5 align-self-center">
+            <img className="img-fluid" src="https://lh6.googleusercontent.com/D6XPD9N_0eNmQ7QAyWaHdkS_ftEFGd9fJixVrAbdLX9kl6aK05nMPoRhedvnUpxwMmk2RDjNUt-IJnYKnUbrTck3PSBQYQk9peSmjivan2bzuG32xx09diZJHNWz6uMb4A=w1280" alt="..."/>
+          </div>
+          <div className="col-1"></div>
+          </div>
+        </div>
+      </div>
+      <div className="suggestion mb-2">
+        <div className="container p-5">
+          <div className="row justify-content-center">
+            <div className="col-sm-6">
+              <h5>Are you confused, which project to choose?</h5>
+              <h6> Contact our experts and get suggestion for projects best for you.</h6>
+            </div>
+            <div className="col-sm-6 align-self-center text-center">
+              <button className="btn btn-outline-dark btn-lg">Click Here</button>
             </div>
           </div>
-          <div className="card mb-3">
-            <div className="row g-0">
-              <div className="col-md-5 text-center">
-                <img loading="lazy" width="auto" className="img-fluid" src="https://www.globalizationpartners.com/wp-content/uploads/2019/12/e-learning-blog.png" alt="..."/>
-              </div>
-              <div className="col-md-7">
-                <div className="card-body">
-                  <h3 className="card-title">Education</h3>
-                  <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula nisl purus, non faucibus turpis luctus ac. Proin quis purus in arcu faucibus interdum vitae eget turpis. Sed mollis quam quam, sit amet sollicitudin ante dignissim nec. Nunc blandit eros vel imperdiet ullamcorper. Suspendisse orci felis, rutrum eget eros ac, malesuada euismod est. Vestibulum non fringilla dolor, nec placerat enim. Ut fermentum libero accumsan. Nunc tempus semper porta. Suspendisse potenti. Integer quis rutrum elit. Mauris vitae sollicitudin dolor. In lacus augue, accumsan in dictum ac, efficitur ut urna. Curabitur sagittis, ex et posuere dignissim, risus dolor semper diam, nec varius justo velit vitae lectus.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

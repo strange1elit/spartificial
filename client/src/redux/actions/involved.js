@@ -1,4 +1,4 @@
-const url='http://localhost:3000/api/involved';
+const url='https://spartificial.herokuapp.com/api/involved';
 
 
 export const getInvolve=()=>async(dispatch)=>{

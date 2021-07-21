@@ -13,7 +13,7 @@ const Dash=()=>{
   const users=useSelector((state)=>state.users)
   var current=null
   if(users.current) current=users.current
-  //console.log(current)
+  console.log(current)
   const [showToast,setShowToast]=useState(false)
   //var userdetails=localStorage.getItem('userdetails');
 

@@ -1,0 +1,30 @@
+.instructor .hero{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)),url("https://cdn-media2.leanin.org/mentorship1.jpg");
+  
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50vh;
+}
+.instructor .hero .hero-text{
+  position: absolute;
+  bottom: 54vh;
+  width: 100%;
+  color: #fff;
+}
+.instructor .hero .hero-text h1{
+  font-weight: 700;
+}
+.instructor .hero .hero-text h5{
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.instructor .work-card p{
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+.instructor .ready-instr{
+  padding-top: 25px;
+  background-color: rgb(21, 56, 109);
+  color: #fff;
+}

@@ -11,27 +11,16 @@ const Footer=()=>{
             <div className="col-12 col-sm-6 links">
               <h5>Important Links</h5>
 							<ul className="list-unstyled">
-								<div className="row">
-									<div className="col-4" style={{textAlign:'left'}}>
-										<li><Link to="/home">Home</Link></li>
-										<li><Link to="/about">About</Link></li>
-									</div>
-									<div className="col-4" style={{textAlign:'center'}}>
-										<li><Link to="/projects">Projects</Link></li>
-										<li><Link to="/getInvolved">Get Involved</Link></li>
-									</div>
-									<div className="col-4" style={{textAlign:'right'}}>
-										<li><Link to="/blogs">Blogs</Link></li>
-									</div>
-								</div>
+								<li><Link to="/home">Home</Link></li>
+								<li><Link to="/getInvolved">Get Involved</Link></li>
+								<li><Link to="/instructor">Become an Instructor</Link></li>
+								<li><Link to="/privacy-policy">Privacy Policy</Link></li>
+								<li><Link to="/terms-conditions">Terms of Use</Link></li>
 							</ul>
 						</div>
 						<div className="col-12 col-sm-6 align-self-center">
 							<div className="text-center">
-								<a className="social-icon" href="http://google.com/+"><i className="fa fa-google"></i></a>
-								<a className="social-icon" href="http://www.instagram.com/"><i className="fa fa-instagram"></i></a>
 								<a className="social-icon" href="http://www.linkedin.com/in/"><i className="fa fa-linkedin"></i></a>
-								<a className="social-icon" href="http://youtube.com/"><i className="fa fa-youtube"></i></a>
 								<a className="social-icon" href="mailto:"><i className="fa fa-envelope-o"></i></a>
 							</div>
 						</div>

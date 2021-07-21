@@ -7,8 +7,8 @@ const Project =({match}) =>{
   const users=useSelector((state)=>state.users)
 
   var purchased=null
-  if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===match.params.project_id)
-  // console.log(purchased)
+  if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===match.params.project_id)[0]
+  //console.log(purchased)
   // console.log(users.current)
   // console.log(match.params.project_id)
 
@@ -17,12 +17,11 @@ const Project =({match}) =>{
   //console.log(project)
   return(project?
     <div className="project-desc">
-      <Payments show={show} amount={project.price} onHide={()=>setShow(false)} title={project.title} project_id={project._id} description={project.description} image={project.image}/>
+      <Payments show={show} fees={project.fees} onHide={()=>setShow(false)} title={project.title} project_id={project._id} description={project.description} image={project.image}/>
       <div className="container">
         <div className="row pb-5">
           <div className="col-sm-6 col-12 text-center align-self-center">
             <h2 className="m-3" style={{fontWeight:'600'}}><i>{project.title}</i></h2>
-            <p className="m-2">{project.message}</p>
             {
               purchased?
               <button className="btn btn-outline-success btn-sm"><strong>Enrolled</strong></button>
@@ -30,7 +29,7 @@ const Project =({match}) =>{
               :
               <>            
                 <button className="btn btn-primary btn-sm" onClick={()=>setShow(true)}><strong>Enroll Now</strong></button><br/>
-                <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small>
+                {/* <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small> */}
               </>
             }
           </div>
@@ -42,15 +41,35 @@ const Project =({match}) =>{
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Description</h4>
+            {/* <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Description</h4> */}
             <p className="p-3 mb-3">{project.description}</p>
           </div>
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Objectives</h4>
+            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Objectives</h4>
             <ol style={{paddingLeft:'25px'}}>
               {project.objectives.map((val,idx)=>{
+                return <li key={idx}>{val}</li>
+              })}
+            </ol>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Prerequisites</h4>
+            <ol style={{paddingLeft:'25px'}}>
+              {project.prerequisites.map((val,idx)=>{
+                return <li key={idx}>{val}</li>
+              })}
+            </ol>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Deliverables</h4>
+            <ol style={{paddingLeft:'25px'}}>
+              {project.deliverables.map((val,idx)=>{
                 return <li key={idx}>{val}</li>
               })}
             </ol>

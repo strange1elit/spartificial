@@ -5,7 +5,7 @@ import Payments from '../payments/Payment'
 import { useSelector } from 'react-redux'
 const Projects=({projects})=>{
 	//console.log(projects)
-	const [pay,setPay]=useState({amount:0,title:'',show:false,project_id:'',description:'',image:''})
+	const [pay,setPay]=useState({fees:null,title:'',show:false,project_id:'',description:'',image:''})
 
 	const users=useSelector((state)=>state.users)
 
@@ -14,7 +14,7 @@ const Projects=({projects})=>{
 
 	return (
 		<div className="projects">
-			<Payments show={pay.show} onHide={()=>setPay({amount:0,title:'',show:false})} title={pay.title} amount={pay.amount} project_id={pay.project_id} description={pay.description} image={pay.image}/>
+			<Payments show={pay.show} onHide={()=>setPay({fees:null,title:'',show:false})} title={pay.title} fees={pay.fees} project_id={pay.project_id} description={pay.description} image={pay.image}/>
 			<div className="hero">
 				<div className="title">
 					<h4>Projects</h4>
@@ -25,7 +25,7 @@ const Projects=({projects})=>{
 				<div className="row">
 					{projects?projects.map((val,idx)=>{
 						return(
-							<div className="col-sm-12 col-md-6 col-xs-4 col-12 text-center" key={idx}>
+							<div className="col-sm-12 col-md-6 col-lg-4 col-12 text-center p-4" key={idx}>
 								<div className="card m-3">
 									<img src={val.image} alt="..." className="img-fluid"/>
 									<div className="card-body">
@@ -41,19 +41,19 @@ const Projects=({projects})=>{
 														Enrolled
 													</button>	:
 													<button key={id} onClick={()=>{
-														setPay({amount:val.price,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+														setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
 														}} className="btn btn-warning m-2"> 
 														Enroll Now
 													</button>				
 												}):
 												<button onClick={()=>{
-													setPay({amount:val.price,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+													setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
 													}} className="btn btn-warning m-2"> 
 													Enroll Now
 												</button>				
 										:<React.Fragment>
 													<button onClick={()=>{
-														setPay({amount:val.price,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+														setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
 														}} className="btn btn-warning m-2"> 
 														Enroll Now
 													</button>				

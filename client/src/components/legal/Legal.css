@@ -1,0 +1,17 @@
+#legal{
+  padding-top: 70px;
+  font-family: "Poppins",sans-serif;
+}
+#legal h1{
+  font-weight: 700;
+  text-decoration: underline;
+}
+#legal .col h1{
+  font-size: 23px;
+  text-decoration: none;
+  font-weight: normal;
+}
+#legal p{
+  color: rgb(77, 74, 74);
+  letter-spacing: 0.8px;
+}

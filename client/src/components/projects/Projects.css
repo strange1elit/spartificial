@@ -52,11 +52,7 @@
 
 .project-desc{
   padding-top: 80px;
-  
-  background: linear-gradient(#c4c4c488,#c4c4c488), url("https://www.symphonyai.com/wp-content/uploads/2019/11/hero-curve.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-color: #fff;  
 }
 .project-desc .top img{
   box-shadow: 2px 2px 10px#000000;
@@ -65,4 +61,14 @@
 .project-desc .card{
   max-width: 200px;
   max-height: 200px;
+}
+
+
+.sel select{
+  padding: 2px 2%;
+  margin-left: 3%;
+  width: 95.5%;
+  border: 2px ridge magenta;
+  border-radius: 4px;
+  color: rgb(51, 49, 49);
 }

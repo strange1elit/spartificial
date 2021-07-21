@@ -1,4 +1,4 @@
-const url='http://localhost:3000/api/blogs';
+const url='https://spartificial.herokuapp.com/api/blogs';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'LOADING'})
