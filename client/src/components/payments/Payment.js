@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-bootstrap'
-const url="https://spartificial.herokuapp.com/api/payments"
+import { BASE_URL, RZP_KEY } from '../../config'
 
 const Payments=({show,fees,onHide,title,queries,description,image})=>{
 	const [paymentData,setPaymentData]=useState({reciept:Date.now(),referal:''})
@@ -78,7 +78,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 					}
 					//paymentData.amount=amount?amount*100-isValid.discount*100:0
 					//console.log(paymentData)
-					const result=await axios.post(url+"/orders",paymentData,{
+					const result=await axios.post(BASE_URL+"/payments/orders",{...paymentData,userId:queries[2]?atob(queries[2]):'',link:queries[2]?queries.join("us="):'',},{
 						headers:{
 							'Authorization':bearer,
 							'Content-Type':'application/json'
@@ -93,7 +93,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 					//console.log(result.data)
 					const {amount,id:order_id,currency}=result.data;
 					const options = {
-						key: "rzp_test_038x6mXw4YTv6g", // Enter the Key ID generated from the Dashboard
+						key: RZP_KEY, // Enter the Key ID generated from the Dashboard
 						amount: amount.toString(),
 						currency: currency,
 						name: "Spartificial",
@@ -113,7 +113,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 										image:image
 								};
 		
-								const result = await axios.post(url+"/success", data,{
+								const result = await axios.post(BASE_URL+"/payments/success", data,{
 									headers:{
 										'Authorization':bearer,
 										'Content-Type':'application/json'
@@ -139,7 +139,8 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 			}
 		}
   }
-
+	const disc=queries?queries[3]?atob(queries[3]):0:0
+	console.log(disc)
 	return (
 			<Modal backdrop="static" size="lg" centered show={show} onHide={()=>onModalHide()}>
 
@@ -148,7 +149,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 					<Modal.Body>
 						<div className="row sel">
 							<label>Select a Plan</label>
-							<select onChange={e=>setAmount(e.target.value-atob(queries[3]))} >
+							<select onChange={e=>setAmount((1000-9*disc)*(e.target.value/1000))} >
 								<option>Choose plan</option>
 								{fees? <><option value={fees.T1.split('/-')[0]}>{fees.T1}</option>
 								<option value={fees.T2.split('/-')[0]}>{fees.T2}</option></> :''}
@@ -159,11 +160,11 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 								<label htmlFor="amount">Amount:</label>
 								<input id="amount" disabled required type="number" name="amount" value={amount} placeholder="Amount"/>							
 							</div>
-							{!queries[3]&&!queries.length===4?<div className="col-sm-12">
+							{queries?!queries.length===4?<div className="col-sm-12">
 								<label htmlFor="referal">Referral Code:</label>
 								<input id="referal" type="text" name="amount" value={paymentData.referal} onChange={onChangeReferral} placeholder="Referral Code"/>	
 								{isValid.message==="Invalid Code"?<small className="text-danger text-right">{isValid.message}</small>:<small className="text-right">{isValid.message}</small>}						
-							</div>:""}
+							</div>:"":""}
 						</div>
 						<div className="refund text-center p-3">
 							<small className="text-muted">By paying you agree to our <a href="#refund">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>

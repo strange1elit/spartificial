@@ -15,7 +15,7 @@ var instructorSchema=new Schema({
 var projectSchema=new Schema({
   image:{
     type:String,
-    required:true
+    default:'https://www.kindpng.com/picc/m/399-3992452_project-management-insights-and-data-and-insights-icon.png'
   },
   title:{
     type:String,
@@ -25,16 +25,32 @@ var projectSchema=new Schema({
     type:String,
     required:true
   },
-  message:{
+  start_date:{
+    type:Date,
+    required:true
+  },
+  duration:{
     type:String,
     required:true
   },
-  price:{
-    type:String,
+  prerequisites:{
+    type:[String],
+    default:["None"]
+  },
+  objectives:{
+    type:[String],
+    default:["None"]
+  },
+  deliverables:{
+    type:[String],
+    default:["None"]
+  },
+  fees:{
+    type:Object,
     required:true
   },
-  objectives:[String],
-  instructors:[instructorSchema]
+  instructors:[instructorSchema],
+  referal:[Object]
 },{
   timestamps:true
 })

@@ -4,6 +4,8 @@ import './getInvolved.css'
 import {Modal} from 'react-bootstrap'
 import InvolvedModal from '../addons/getInvolvedModal'
 import {Link} from 'react-router-dom'
+import { BASE_URL, RZP_KEY } from '../../config'
+
 const GetInvolved=()=>{
 	const [isMobile,setIsMobile]=useState(false)
 	window.addEventListener("resize", function() {
@@ -40,7 +42,7 @@ const GetInvolved=()=>{
       return;
     }
 		paymentData.amount=paymentData.amount*100
-    const result=await axios.post("http://localhost:3000/payments/orders",paymentData);
+    const result=await axios.post(BASE_URL+"payments/orders",paymentData);
     if(!result){
       alert("Server error!!!")
       return;
@@ -49,7 +51,7 @@ const GetInvolved=()=>{
     //console.log(result.data)
     const {amount,id:order_id,currency}=result.data;
     const options = {
-      key: "rzp_test_Fh3AgbAXuwfXuF", // Enter the Key ID generated from the Dashboard
+      key: RZP_KEY, // Enter the Key ID generated from the Dashboard
       amount: amount.toString(),
       currency: currency,
       name: "Spartificial",
@@ -65,7 +67,7 @@ const GetInvolved=()=>{
 							amount:amount/100
           };
 
-          const result = await axios.post("http://localhost:3000/payments/success", data);
+          const result = await axios.post(BASE_URL+"/payments/success", data);
 
           alert(JSON.stringify(result.data));
       },

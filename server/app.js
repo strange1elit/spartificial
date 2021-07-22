@@ -38,7 +38,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('12345-67890-09876-54321'));
-//app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(session({
   name:'session-id',
@@ -60,7 +60,7 @@ app.use('/api/teams',teamsRouter)
 app.use('/api/involved',involvedRouter)
 app.use('/api/projects',projectRouter)
 
-//app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
+app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 
 app.use(function(req, res, next) {
   next(createError(404));

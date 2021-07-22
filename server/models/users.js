@@ -6,6 +6,18 @@ var projectSchema=new Schema({
     project_id:{
         type:String,
         required:true
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
+        required:true
     }
 },{
     timestamps:true
@@ -92,7 +104,9 @@ var  userSchema = new  Schema({
     },
     personal:personalDetails,
     projects:[projectSchema],
-    payments:[paymentSchema]
+    payments:[paymentSchema],
+    referalStudent:[String],
+    referalInstructor:[String]
 
 },{
     timestamps:true

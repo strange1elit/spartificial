@@ -3,9 +3,9 @@ import './Projects.css'
 import {NavLink} from 'react-router-dom'
 import Payments from '../payments/Payment'
 import { useSelector } from 'react-redux'
-const Projects=({projects})=>{
+const Projects=({projects,que})=>{
 	//console.log(projects)
-	const [pay,setPay]=useState({fees:null,title:'',show:false,project_id:'',description:'',image:''})
+	const [pay,setPay]=useState({fees:null,title:'',show:false,queries:que,description:'',image:''})
 
 	const users=useSelector((state)=>state.users)
 
@@ -14,7 +14,7 @@ const Projects=({projects})=>{
 
 	return (
 		<div className="projects">
-			<Payments show={pay.show} onHide={()=>setPay({fees:null,title:'',show:false})} title={pay.title} fees={pay.fees} project_id={pay.project_id} description={pay.description} image={pay.image}/>
+			<Payments show={pay.show} onHide={()=>setPay({fees:null,title:'',show:false})} title={pay.title} fees={pay.fees} queries={pay.queries} description={pay.description} image={pay.image}/>
 			<div className="hero">
 				<div className="title">
 					<h4>Projects</h4>
@@ -41,19 +41,19 @@ const Projects=({projects})=>{
 														Enrolled
 													</button>	:
 													<button key={id} onClick={()=>{
-														setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+														setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
 														}} className="btn btn-warning m-2"> 
 														Enroll Now
 													</button>				
 												}):
 												<button onClick={()=>{
-													setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+													setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
 													}} className="btn btn-warning m-2"> 
 													Enroll Now
 												</button>				
 										:<React.Fragment>
 													<button onClick={()=>{
-														setPay({fees:val.fees,title:val.title,show:true,project_id:val._id,description:val.description,image:val.image})
+														setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
 														}} className="btn btn-warning m-2"> 
 														Enroll Now
 													</button>				

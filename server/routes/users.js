@@ -79,7 +79,8 @@ router.get('/logout',(req,res,next)=>{
     req.session.destroy();
     res.clearCookie('session-id')
     res.statusCode=200;
-    res.json({success:true})
+    //res.redirect('/')
+     res.json({success:true})
   }else{
     var err=new Error('Not Logged in!');
     err.status=403
@@ -157,7 +158,7 @@ router.post('/setpassword',(req,res,next)=>{
 
 router.put('/:_id',authenticate.verifyUser,(req,res,next)=>{
   // console.log(req.user)
-  //console.log(req.body)
+  //console.log(req.body.referal)
   Users.findById(req.params._id).then((user)=>{
     
     if(req.body.firstname) user.personal.firstname=req.body.firstname
@@ -170,6 +171,8 @@ router.put('/:_id',authenticate.verifyUser,(req,res,next)=>{
     if(req.body.education) user.personal.education=req.body.education
     if(req.body.address) user.personal.address=req.body.address
     if(req.body.img) user.personal.img=req.body.img
+    if(req.body.referalStudent) user.referalStudent.push(req.body.referalStudent)
+    if(req.body.referalInstructor) user.referalInstructor.push(req.body.referalInstructor)
     user.save().then(user=>{
       res.statusCode=200;
       res.setHeader('Content-Type','application/json')

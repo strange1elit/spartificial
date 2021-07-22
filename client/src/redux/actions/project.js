@@ -1,4 +1,6 @@
-const url='https://spartificial.herokuapp.com/api/projects';
+import { BASE_URL } from "../../config";
+
+const url=BASE_URL+'/projects';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'PROJECT_LOADING'})

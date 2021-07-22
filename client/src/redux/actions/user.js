@@ -1,4 +1,6 @@
-const url ='https://spartificial.herokuapp.com/api/users';
+import { BASE_URL } from "../../config";
+
+const url =BASE_URL+'/users';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'USER_LOADING'})

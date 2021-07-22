@@ -1,4 +1,6 @@
-const url='https://spartificial.herokuapp.com/api/involved';
+import { BASE_URL } from "../../config";
+
+const url=BASE_URL+'/involved';
 
 
 export const getInvolve=()=>async(dispatch)=>{

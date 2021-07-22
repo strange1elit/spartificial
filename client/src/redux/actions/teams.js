@@ -1,4 +1,6 @@
-const url = 'https://spartificial.herokuapp.com/api/teams';
+import { BASE_URL } from "../../config";
+
+const url = BASE_URL+'/teams';
 
 export const getTeams=()=>async(dispatch)=>{
   return fetch(url).then((response)=>{

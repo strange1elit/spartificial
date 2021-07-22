@@ -1,4 +1,6 @@
-const url='https://spartificial.herokuapp.com/api/blogs';
+import { BASE_URL } from "../../config";
+
+const url=BASE_URL+'/blogs';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'LOADING'})

@@ -3,11 +3,15 @@ import './Dash.css'
 import FileBase from 'react-file-base64';
 import {NavLink} from 'react-router-dom'
 import moment from 'moment'
-import {setLoading, userLogout, userProfileUpdate, changeUserPassword} from '../../redux/actions/user'
+import {setLoading, userLogout, userProfileUpdate, changeUserPassword, getUser} from '../../redux/actions/user'
 import {useDispatch, useSelector} from 'react-redux'
 import Loader from '../loader/Loading'
 import Toaster from '../loader/Toast';
 import { Modal } from 'react-bootstrap';
+import {BASE_URL,REF_BASE_URL} from '../../config'
+import axios from 'axios'
+import ProRef from './ProjRef';
+
 const Dash=()=>{
   const dispatch=useDispatch();
 
@@ -53,7 +57,7 @@ const Dash=()=>{
     e.preventDefault();
     if(changeData.newpassword===changeData.confirmpassword){
       setShowToast(false)
-      console.log(changeData)
+      //console.log(changeData)
       dispatch(setLoading())
       dispatch(changeUserPassword(changeData))
       setChangeData({currentpassword:'',newpassword:'',confirmpassword:''})
@@ -67,12 +71,17 @@ const Dash=()=>{
 
   const [referModal,setShowReferModal]=useState(false)
   const [discount,setDiscount]=useState('')
+  const [referalLink,setReferalLink]=useState('')
   const handleCloseRefer=()=>{
     setShowReferModal(false)
     setDiscount(false)
+    setReferalLink(``)
+
   }
   const handleChangeDiscount=(e)=>{
     setDiscount(e.target.value)
+    setReferalLink(`${REF_BASE_URL}/projects/us=us=${btoa(current._id)}us=${btoa(e.target.value)}`)
+
   }
   const copyToClip=()=>{
     var copyText = document.getElementById("discount");
@@ -81,6 +90,25 @@ const Dash=()=>{
     copyText.setSelectionRange(0,9999);
     document.execCommand("copy")
     alert("Copied to Clipboard!")
+  }
+  const [load,setLoad]=useState(false);
+  const createReferal=async()=>{
+    //console.log(referalLink)
+    if(discount===""){
+      alert("Please enter a discount value!")
+    }else{
+      setLoad(true)
+      const data={referalStudent:referalLink}
+      const result=await axios.put(`${BASE_URL}/users/${current._id}`,data,{
+        headers:{
+          'Authorization':`Bearer ${localStorage.getItem('userdetails')}`,
+          'Content-Type':'application/json'
+        }
+      })
+      alert("Link Generated Successfully.\nCopy, Share and Earn!")
+      setLoad(false)
+      dispatch(getUser())
+    }
   }
   return(current?
     <div className="body" id="dash">
@@ -139,21 +167,29 @@ const Dash=()=>{
                               <label>Discount:&nbsp;</label>
                               <input style={{width:'60%'}} required min="0" max="100" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
                             </div>
+                            <div className="col-4">
+                              {load?<Loader/>:<button onClick={createReferal} className="btn btn-sm btn-primary">Create</button>}
+                            </div>
+                          </div>
+                          <div className="row justify-content-center text-center pb-2">
+                            <div className="col-3 align-self-center" style={{textAlign:'right'}}>
+                              Send to:
+                            </div>
                             <div className="col-1">
                               <span className="btn btn-sm btn-outline-dark" onClick={()=>copyToClip()}><i className="fa fa-copy"></i></span>
                             </div>
-                            <div className="col-1" style={{textAlign:'left'}}>
-                              <a href={`whatsapp://send?text=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us=us="+btoa(current._id)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
-                            </div>
-                            <div className="col-1" style={{textAlign:'left'}}>
-                              <a href={`sms:?body=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us=us="+btoa(current._id)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                            <div className="col-1">
+                              <a href={`whatsapp://send?text=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
                             </div>
                             <div className="col-1">
+                              <a href={`sms:?body=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                            </div>
+                            <div className="col-3">
                             </div>
                         </div>
                         <div className="row">
                           <div className="col-12">
-                            <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={`https://spartificial.herokuapp.com/projects/us=us=${btoa(current._id)}us=${btoa(discount)}`}/>
+                            <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={referalLink}/>
                           </div>
                         </div>
                       </Modal.Body>
@@ -164,25 +200,10 @@ const Dash=()=>{
                   </div>
                 </div>
                 <div className="tab-pane" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
-                  {/* <div style={{textAlign:'right',padding:'5px'}}>
-                    <button className="btn btn-sm btn-success"><strong>Create new Project</strong></button>
-                  </div> */}
-                  <div>
-                    <h5><strong>My Projects</strong></h5>
-                  </div>
-                  {current?current.projects.map((val,idx)=>{
-                    return(
-                      <div className="card bg-dark text-white" key={idx}>
-                        <div className="card-body">
-                          <h5 className="card-title">{val.title}</h5>
-                          <p className="card-text">{val.description}</p>
-                          <small className="card-text">{moment(val.createdAt).fromNow()}</small>
-                          <br/>
-                          <NavLink to={`/projects/${val.project_id}`} className="btn btn-primary">More Info...</NavLink>
-                        </div>
-                      </div>
-                    )
-                  }):'Not submitted Projects'}
+                  <ProRef title="My Projects" projects={current.projects} referals={current.referalInstructor}/>
+                </div>
+                <div className="tab-pane" id="student" role="tabpanel" aria-labelledby="student-tab">
+                  <ProRef title="Enrolled Projects" projects={current.payments} referals={current.referalStudent}/>
                 </div>
                 <div className="tab-pane" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
                   <div className="table-responsive p-2">
