@@ -61,7 +61,7 @@ const Projects=({projects})=>{
 										}
 
 
-											<NavLink to={`/projects/${val._id}`} className="btn btn-primary m-2">Read More...</NavLink>
+											<NavLink to={`/projects/us=${btoa(val._id)}`} className="btn btn-primary m-2">Read More...</NavLink>
 										</div>
 									</div>
 								</div>

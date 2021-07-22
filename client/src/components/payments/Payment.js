@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Modal} from 'react-bootstrap'
 const url="https://spartificial.herokuapp.com/api/payments"
 
-const Payments=({show,fees,onHide,title,project_id,description,image})=>{
+const Payments=({show,fees,onHide,title,queries,description,image})=>{
 	const [paymentData,setPaymentData]=useState({reciept:Date.now(),referal:''})
 
 	const [isValid,setValid]=useState({message:null,discount:0})
@@ -107,7 +107,7 @@ const Payments=({show,fees,onHide,title,project_id,description,image})=>{
 										razorpayOrderId: response.razorpay_order_id,
 										razorpaySignature: response.razorpay_signature,
 										amount:amount/100,
-										projectId:project_id,
+										projectId:queries[1],
 										description:description,
 										title:title,
 										image:image
@@ -148,22 +148,22 @@ const Payments=({show,fees,onHide,title,project_id,description,image})=>{
 					<Modal.Body>
 						<div className="row sel">
 							<label>Select a Plan</label>
-							<select onChange={e=>setAmount(e.target.value)} >
+							<select onChange={e=>setAmount(e.target.value-atob(queries[3]))} >
 								<option>Choose plan</option>
 								{fees? <><option value={fees.T1.split('/-')[0]}>{fees.T1}</option>
 								<option value={fees.T2.split('/-')[0]}>{fees.T2}</option></> :''}
 							</select>
 						</div>
 						<div className="row payment">
-							<div className="col-sm-6">
+							<div className="col-sm-12">
 								<label htmlFor="amount">Amount:</label>
 								<input id="amount" disabled required type="number" name="amount" value={amount} placeholder="Amount"/>							
 							</div>
-							<div className="col-sm-6">
+							{!queries[3]&&!queries.length===4?<div className="col-sm-12">
 								<label htmlFor="referal">Referral Code:</label>
 								<input id="referal" type="text" name="amount" value={paymentData.referal} onChange={onChangeReferral} placeholder="Referral Code"/>	
 								{isValid.message==="Invalid Code"?<small className="text-danger text-right">{isValid.message}</small>:<small className="text-right">{isValid.message}</small>}						
-							</div>
+							</div>:""}
 						</div>
 						<div className="refund text-center p-3">
 							<small className="text-muted">By paying you agree to our <a href="#refund">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>

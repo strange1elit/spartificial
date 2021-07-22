@@ -57,7 +57,7 @@ function App() {
         <Route exact path="/dash" component={Dash}/>        
         {/* <Route exact path="/about" component={About}/> */}
         <Route exact path="/projects" component={()=><Projects projects={projects.projects}/>}/>
-        <Route exact path="/projects/:project_id" component={Project}/>
+        <Route exact path="/projects/:query" component={Project}/>
         <Route exact path="/blogs" component={()=><Blogs blogs={blogs.blogs}/>}/>
         <Route exact path="/blogs/:blog_id" component={Blog}/>
         <Route exact path="/getInvolved" component={getInvolved}/>

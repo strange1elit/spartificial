@@ -7,6 +7,7 @@ import {setLoading, userLogout, userProfileUpdate, changeUserPassword} from '../
 import {useDispatch, useSelector} from 'react-redux'
 import Loader from '../loader/Loading'
 import Toaster from '../loader/Toast';
+import { Modal } from 'react-bootstrap';
 const Dash=()=>{
   const dispatch=useDispatch();
 
@@ -64,12 +65,28 @@ const Dash=()=>{
     }
   }
 
-
+  const [referModal,setShowReferModal]=useState(false)
+  const [discount,setDiscount]=useState('')
+  const handleCloseRefer=()=>{
+    setShowReferModal(false)
+    setDiscount(false)
+  }
+  const handleChangeDiscount=(e)=>{
+    setDiscount(e.target.value)
+  }
+  const copyToClip=()=>{
+    var copyText = document.getElementById("discount");
+    //console.log(copyText.value)
+    copyText.select();
+    copyText.setSelectionRange(0,9999);
+    document.execCommand("copy")
+    alert("Copied to Clipboard!")
+  }
   return(current?
     <div className="body" id="dash">
       <div className="container">
         <div className="row">
-          <div className="col-sm-7">
+          <div className="col">
             <div className="heading">
               <h1>My Dashboard</h1>
               <p>Welcome {current.personal.firstname}, ready for your new project? </p>
@@ -80,7 +97,10 @@ const Dash=()=>{
                   <button className="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button>
                 </li>
                 <li className="nav-item" role="presentation">
-                  <button className="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab" aria-controls="projects" aria-selected="false">Projects</button>
+                  <button className="nav-link" id="instructors-tab" data-bs-toggle="tab" data-bs-target="#instructors" type="button" role="tab" aria-controls="instructors" aria-selected="false">Instructor</button>
+                </li>
+                <li className="nav-item" role="presentation">
+                  <button className="nav-link" id="student-tab" data-bs-toggle="tab" data-bs-target="#student" type="button" role="tab" aria-controls="student" aria-selected="false">Student</button>
                 </li>
                 <li className="nav-item" role="presentation">
                   <button className="nav-link" id="purchases-tab" data-bs-toggle="tab" data-bs-target="#purchases" type="button" role="tab" aria-controls="purchases" aria-selected="false">Purchases</button>
@@ -97,29 +117,60 @@ const Dash=()=>{
                     <h2>{current.personal.firstname} {current.personal.lastname}</h2>
                   </div>
                   <div className="basic-info">
-                    <h5>About</h5>
-                    <p>{current.personal.about}</p>
-                    <h5>Email</h5>
-                    <p><a href={`mailto:${current.personal.email}`}>{current.personal.email}</a></p>
-                    <h5>Phone</h5>
-                    <p><a href={`tel:${current.personal.phone}`}>{current.personal.phone}</a></p>
-                    <h5>Education</h5>
-                    <p>{current.personal.education}</p>
-                    <h5>Address</h5>
-                    <p>{current.personal.address}</p>
+                    {current.personal.about?(<><h5>About</h5>
+                    <p>{current.personal.about}</p></>):""}
+
+                    {current.personal.email?<><h5>Email</h5>
+                    <p><a href={`mailto:${current.personal.email}`}>{current.personal.email}</a></p></>:""}
+                    {current.personal.phone?<><h5>Phone</h5>
+                    <p><a href={`tel:${current.personal.phone}`}>{current.personal.phone}</a></p></>:""}
+                    {current.personal.education?<><h5>Education</h5>
+                    <p>{current.personal.education}</p></>:""}
+                    {current.personal.address?<><h5>Address</h5>
+                    <p>{current.personal.address}</p></>:""}
+                    <button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>
+                    <Modal show={referModal} onHide={()=>handleCloseRefer()}>
+                      <Modal.Header>
+                        <h5>Refer a Friend</h5>
+                      </Modal.Header>
+                      <Modal.Body>
+                          <div className="row justify-content-center p-2">
+                            <div className="col-8">
+                              <label>Discount:&nbsp;</label>
+                              <input style={{width:'60%'}} required min="0" max="100" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                            </div>
+                            <div className="col-1">
+                              <span className="btn btn-sm btn-outline-dark" onClick={()=>copyToClip()}><i className="fa fa-copy"></i></span>
+                            </div>
+                            <div className="col-1" style={{textAlign:'left'}}>
+                              <a href={`whatsapp://send?text=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us=us="+btoa(current._id)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
+                            </div>
+                            <div className="col-1" style={{textAlign:'left'}}>
+                              <a href={`sms:?body=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us=us="+btoa(current._id)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                            </div>
+                            <div className="col-1">
+                            </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={`https://spartificial.herokuapp.com/projects/us=us=${btoa(current._id)}us=${btoa(discount)}`}/>
+                          </div>
+                        </div>
+                      </Modal.Body>
+                    </Modal>
                   </div>
                   <div className="logout">
                     <button type="button" onClick={()=>logout()}>Logout</button>
                   </div>
                 </div>
-                <div className="tab-pane" id="projects" role="tabpanel" aria-labelledby="projects-tab">
-                  <div style={{textAlign:'right',padding:'5px'}}>
+                <div className="tab-pane" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
+                  {/* <div style={{textAlign:'right',padding:'5px'}}>
                     <button className="btn btn-sm btn-success"><strong>Create new Project</strong></button>
-                  </div>
+                  </div> */}
                   <div>
-                    <h5><strong>Enrolled Projects</strong></h5>
+                    <h5><strong>My Projects</strong></h5>
                   </div>
-                  {current?current.payments.map((val,idx)=>{
+                  {current?current.projects.map((val,idx)=>{
                     return(
                       <div className="card bg-dark text-white" key={idx}>
                         <div className="card-body">
@@ -131,7 +182,7 @@ const Dash=()=>{
                         </div>
                       </div>
                     )
-                  }):'No projects found'}
+                  }):'Not submitted Projects'}
                 </div>
                 <div className="tab-pane" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
                   <div className="table-responsive p-2">
@@ -198,7 +249,7 @@ const Dash=()=>{
               </div>            
             </div>
           </div>
-          <div className="col-sm-5">
+          {/* <div className="col-sm-5">
             <div className="heading">
               <h1>Statements</h1>
             </div>
@@ -208,7 +259,7 @@ const Dash=()=>{
                 <div className="progress-bar" role="progressbar" style={{width: "57%"}} aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">57%</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>:<div style={{height:'80vh'}}></div>

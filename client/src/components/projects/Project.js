@@ -1,23 +1,51 @@
 import React, { useState } from 'react'
 import Payments from '../payments/Payment'
 import {useSelector } from 'react-redux'
+import { Modal } from 'react-bootstrap';
+
 const Project =({match}) =>{
+  const queries=match.params.query.split("us=");
+  console.log(queries)
+  if(queries.length===4){
+    console.log("referal")
+  }
   const [show,setShow]=useState(false)
   const projects=useSelector(state=>state.projects.projects)
   const users=useSelector((state)=>state.users)
+  var current=null
+  if(users.current) current=users.current
 
   var purchased=null
-  if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===match.params.project_id)[0]
+  if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===atob(queries[1]))[0]
   //console.log(purchased)
   // console.log(users.current)
   // console.log(match.params.project_id)
 
-  const project=projects.filter(project=>project._id===match.params.project_id)[0]
+  const project=projects.filter(project=>project._id===atob(queries[1]))[0]
 
-  //console.log(project)
+  console.log(project)
+
+  const [referModal,setShowReferModal]=useState(false)
+  const [discount,setDiscount]=useState('')
+  const handleCloseRefer=()=>{
+    setShowReferModal(false)
+    setDiscount('')
+  }
+  const handleChangeDiscount=(e)=>{
+    setDiscount(e.target.value)
+  }
+  const copyToClip=()=>{
+    var copyText = document.getElementById("discount");
+    //console.log(copyText.value)
+    copyText.select();
+    copyText.setSelectionRange(0,9999);
+    document.execCommand("copy")
+    alert("Copied to Clipboard!")
+  }
+
   return(project?
     <div className="project-desc">
-      <Payments show={show} fees={project.fees} onHide={()=>setShow(false)} title={project.title} project_id={project._id} description={project.description} image={project.image}/>
+      <Payments show={show} fees={project.fees} onHide={()=>setShow(false)} title={project.title} queries={queries} description={project.description} image={project.image}/>
       <div className="container">
         <div className="row pb-5">
           <div className="col-sm-6 col-12 text-center align-self-center">
@@ -32,6 +60,38 @@ const Project =({match}) =>{
                 {/* <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small> */}
               </>
             }
+            {current?<><button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>
+              
+              <Modal show={referModal} onHide={()=>handleCloseRefer()}>
+              <Modal.Header>
+                <h5>Refer a Friend</h5>
+              </Modal.Header>
+              <Modal.Body>
+                  <div className="row justify-content-center p-2">
+                    <div className="col-8">
+                      <label>Discount:&nbsp;</label>
+                      <input style={{width:'60%'}} required min="0" max="100" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                    </div>
+                    <div className="col-1">
+                      <span className="btn btn-sm btn-outline-dark" onClick={()=>copyToClip()}><i className="fa fa-copy"></i></span>
+                    </div>
+                    <div className="col-1" style={{textAlign:'left'}}>
+                      <a href={`whatsapp://send?text=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us="+btoa(project._id)+"us="+btoa(current.username)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
+                    </div>
+                    <div className="col-1" style={{textAlign:'left'}}>
+                      <a href={`sms:?body=${"Register with this link and get "+discount+"% dicount https://spartificial.herokuapp.com/projects/us="+btoa(project._id)+"us="+btoa(current.username)+"us="+btoa(discount)}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                    </div>
+                    <div className="col-1">
+                    </div>
+                </div>
+                <div className="row">
+                  <div className="col-12">
+                    <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={`https://spartificial.herokuapp.com/projects/us=${btoa(project._id)}us=${btoa(current._id)}us=${btoa(discount)}`}/>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
+            </>:""}
           </div>
           <div className="col-sm-6 align-self-center p-3 top">
             <div style={{textAlign:'right'}}>
