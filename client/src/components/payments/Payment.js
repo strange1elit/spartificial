@@ -2,14 +2,17 @@ import React,{useState} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-bootstrap'
 import { BASE_URL, RZP_KEY } from '../../config'
+import { useLocation } from 'react-router-dom'
 
 const Payments=({show,fees,onHide,title,queries,description,image})=>{
+	const {pathname}=useLocation();
+	//console.log(pathname)
 	const [paymentData,setPaymentData]=useState({reciept:Date.now(),referal:''})
 
 	const [isValid,setValid]=useState({message:null,discount:0})
 	const [amount,setAmount]=useState('')
 
-	//console.log(fees)
+	console.log(queries)
 	const referalCodes=[
 		{
 			"code":"SPART100",
@@ -107,10 +110,11 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 										razorpayOrderId: response.razorpay_order_id,
 										razorpaySignature: response.razorpay_signature,
 										amount:amount/100,
-										projectId:queries[1],
+										projectId:atob(queries[1]),
 										description:description,
 										title:title,
-										image:image
+										image:image,
+										link:pathname
 								};
 		
 								const result = await axios.post(BASE_URL+"/payments/success", data,{
@@ -149,7 +153,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 					<Modal.Body>
 						<div className="row sel">
 							<label>Select a Plan</label>
-							<select onChange={e=>setAmount((1000-9*disc)*(e.target.value/1000))} >
+							<select onChange={e=>setAmount(e.target.value-e.target.value*disc/100)} >
 								<option>Choose plan</option>
 								{fees? <><option value={fees.T1.split('/-')[0]}>{fees.T1}</option>
 								<option value={fees.T2.split('/-')[0]}>{fees.T2}</option></> :''}

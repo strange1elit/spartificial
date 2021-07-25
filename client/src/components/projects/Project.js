@@ -7,11 +7,12 @@ import {BASE_URL,REF_BASE_URL} from '../../config'
 import Loader from '../loader/Loading';
 import axios from 'axios'
 import { getUser } from '../../redux/actions/user';
+import moment from 'moment';
 
 const Project =({match}) =>{
   const dispatch=useDispatch()
   const queries=match.params.query.split("us=");
-  console.log(queries)
+  //console.log(queries)
   if(queries.length===4){
     console.log("referal")
   }
@@ -24,8 +25,10 @@ const Project =({match}) =>{
   var purchased=null
   if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===atob(queries[1]))[0]
   //console.log(purchased)
-  // console.log(users.current)
+  //console.log(users.current)
   // console.log(match.params.project_id)
+  var isInstructor=null
+  if(users.current) isInstructor=users.current.projects.filter(project=>project.project_id===atob(queries[1]))[0]
 
   const project=projects.filter(project=>project._id===atob(queries[1]))[0]
 
@@ -42,7 +45,7 @@ const Project =({match}) =>{
   }
   const handleChangeDiscount=(e)=>{
     setDiscount(e.target.value)
-    setReferalLink(`${REF_BASE_URL}/projects/us=${project?btoa(project._id):''}us=${btoa(current._id)}us=${btoa(e.target.value)}`)
+    setReferalLink(`${REF_BASE_URL}/projects/us=${project?btoa(project._id):''}us=${btoa(current._id)}us=${btoa(e.target.value<91?e.target.value:0)}`)
 
   }
   const copyToClip=()=>{
@@ -54,8 +57,9 @@ const Project =({match}) =>{
     alert("Copied to Clipboard!")
   }
   const [load,setLoad]=useState(false);
-  const createReferal=async()=>{
+  const createReferal=async(e)=>{
     //console.log(referalLink)
+    e.preventDefault()
     if(discount===""){
       alert("Please enter a discount value!")
     }else{
@@ -79,33 +83,45 @@ const Project =({match}) =>{
       <div className="container">
         <div className="row pb-5">
           <div className="col-sm-6 col-12 text-center align-self-center">
-            <h2 className="m-3" style={{fontWeight:'600'}}><i>{project.title}</i></h2>
+            {queries.length===4&&!isInstructor?<h6 className="text-primary">Welcome to Spartificial projects Referral. Here you will get a discount of {atob(queries[3])}% on this project. This referral link can be disabled any time by the Instructor.<br/><strong className="text-danger">Hurry Up!!</strong></h6>:null}
+            <h4 className="m-3" style={{fontWeight:'600'}}><i>{project.title}</i></h4>
+            <p><strong>Starting from: </strong>{project.start_date}</p>
+            <p><strong>Duration: </strong> {project.duration}</p>
             {
               purchased?
-              <button className="btn btn-outline-success btn-sm"><strong>Enrolled</strong></button>
+              null
 
               :
               <>            
-                <button className="btn btn-primary btn-sm" onClick={()=>setShow(true)}><strong>Enroll Now</strong></button><br/>
+                {!isInstructor?<button className="btn btn-primary btn-sm" onClick={()=>setShow(true)}><strong>Enroll Now</strong></button>:null}<br/>
                 {/* <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small> */}
               </>
             }
-            {current?<><button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>
+            {isInstructor?current.referalInstructor.length<1?<><button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer</strong></button>
               
             <Modal show={referModal} onHide={()=>handleCloseRefer()}>
                       <Modal.Header>
-                        <h5>Refer a Friend</h5>
+                        <h5>Refer</h5>
                       </Modal.Header>
                       <Modal.Body>
+                        <form onSubmit={createReferal}>
                           <div className="row justify-content-center p-2">
                             <div className="col-8">
                               <label>Discount:&nbsp;</label>
-                              <input style={{width:'60%'}} required min="0" max="100" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                              <input style={{width:'60%'}} required type="number" min="0" max="90" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
                             </div>
                             <div className="col-4">
-                              {load?<Loader/>:<button onClick={createReferal} className="btn btn-sm btn-primary">Create</button>}
+                              {load?<Loader/>:<button type="submit" className="btn btn-sm btn-primary">Create</button>}
                             </div>
                           </div>
+                        </form>
+                        <div className="row">
+                          <div className="col-12 p-3 text-center">
+                            <h6>Get 90% extra of project registration fees for every student who enroll through your referral link or coupon.</h6>
+                            <small><strong>You will decide the discount student get through referral link. i.e. if you give a discount of 15% to the student then reffered student will get 15% discount and your commision will be 90-15=85%.</strong></small>
+                            <h6 className="text-danger"><strong>Note: </strong><small> Spartificial’s share will be 10% of the original registration fees.</small></h6>
+                          </div>
+                        </div>
                           <div className="row justify-content-center text-center pb-2">
                             <div className="col-3 align-self-center" style={{textAlign:'right'}}>
                               Send to:
@@ -129,7 +145,7 @@ const Project =({match}) =>{
                         </div>
                       </Modal.Body>
                     </Modal>
-            </>:""}
+            </>:null:null}
           </div>
           <div className="col-sm-6 align-self-center p-3 top">
             <div style={{textAlign:'right'}}>

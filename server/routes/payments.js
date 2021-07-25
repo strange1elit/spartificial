@@ -12,7 +12,7 @@ const { create } = require('domain');
 
 router.post("/orders",authenticate.verifyUser, async (req, res) => {
     //console.log('called')
-    console.log(req.body)
+    //console.log(req.body)
     const link=`https://spartificial.herokuapp.com/projects/${req.body.link}`
     var valid=false;
     if(req.body.link){
@@ -71,7 +71,8 @@ router.post("/success",authenticate.verifyUser, async (req, res, next) => {
           projectId,
           title,
           description,
-          image
+          image,
+          link
       } = req.body;
       const shasum = crypto.createHmac("sha256", config.razorpay.KEY_SECRET);
 
@@ -86,7 +87,7 @@ router.post("/success",authenticate.verifyUser, async (req, res, next) => {
         if(payment){
           Users.findById(req.user._id).then(user=>{
               //console.log(payment)
-              user.payments.push({payment_id:payment.paymentId,project_id:payment.projectId,title:title,description:description,image:image})
+              user.payments.push({payment_id:payment.paymentId,project_id:payment.projectId,title:title,description:description,image:image,link:link})
               user.save();
               res.json(payment)
           })

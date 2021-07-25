@@ -181,5 +181,24 @@ router.put('/:_id',authenticate.verifyUser,(req,res,next)=>{
     },(err)=>next(err))
   .catch((err)=>next(err))
 })
-
+router.delete('/:id/referral-student',authenticate.verifyUser,(req,res,next)=>{
+  Users.findById(req.params.id).then((user)=>{
+    user.referalStudent.pop();
+    user.save().then(user=>{
+      res.statusCode=200;
+      res.json({success:true,message:"Deleted referal ink"})
+    })
+  },err=>next(err))
+  .catch(err=>next(err));
+})
+router.delete('/:id/referral-instructor',authenticate.verifyUser,(req,res,next)=>{
+  Users.findById(req.params.id).then((user)=>{
+    user.referalInstructor.pop();
+    user.save().then(user=>{
+      res.statusCode=200;
+      res.json({success:true,message:"Deleted referal ink"})
+    })
+  },err=>next(err))
+  .catch(err=>next(err));
+})
 module.exports = router;

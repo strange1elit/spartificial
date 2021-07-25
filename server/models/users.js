@@ -32,6 +32,7 @@ var paymentSchema=new Schema({
         type:String,
         required:true
     },
+    link:String,
     title:{
         type:String,
         required:true

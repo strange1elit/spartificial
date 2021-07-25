@@ -1,10 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { BASE_URL } from '../../config'
+import { useDispatch } from 'react-redux'
+import { getUser } from '../../redux/actions/user'
 
-const ProRef=({projects,referals,title})=>{
-  const deleteReferal=(ref)=>{
+const ProRef=({id, referrer,projects,referals,title})=>{
+  const dispatch=useDispatch()
+  const deleteReferal=async(ref)=>{
     if(window.confirm(`Delete Referal Link:\n${ref}`)){
-      alert("Deleted")
+      const result=await axios.delete(`${BASE_URL}/users/${id}/referral-${referrer}`,{
+        headers:{
+          'Authorization':`Bearer ${localStorage.getItem('userdetails')}`,
+          'Content-Type':'application/json'
+        }
+      })
+      console.log(result)
+      dispatch(getUser())
     }
   }
   return(
@@ -23,22 +35,22 @@ const ProRef=({projects,referals,title})=>{
                 <img src={val.image} alt="..." className="img-fluid"/>
                 <div className="overlay">
                   <h5><strong>{val.title}</strong></h5>
-                  <h6><p>{val.description}</p>...</h6>
+                  <h6>{val.description}</h6>...<br/>
                   <Link to={`/projects/us=${btoa(val.project_id)}`} className="btn btn-success btn-sm">Check</Link>
                 </div>
               </div>
             </div>
           )
-        }):<div className="col-12 text-center p-5">No Projects Submitted</div>}
+        }):<div className="col-12 text-center p-5">No Projects {referrer==="student"?"Enrolled":"Submitted"}</div>}
       </div>
       <div className="row">
         <div className="col-12">
-          <h5><strong>My Referrals</strong></h5>
+          <h5><strong>Referral History</strong></h5>
         </div>
       </div>
       <div className="row justify-content-center">
         <div className="col-12 table-responsive ">
-          <table className="table table-hover table-sm table-bordered">
+          <table className="table table-hover table-sm table-borderless">
             <thead>
               <tr>
                 <th scope="col">#</th>

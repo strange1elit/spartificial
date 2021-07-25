@@ -11,7 +11,15 @@ const Projects=({projects,que})=>{
 
   var current=null
   if(users.current) current=users.current
-
+	//console.log(que)
+	const searchProject=(nameKey,array)=>{
+		for(var i=0;i<array.length;i++){
+			if(array[i].project_id===nameKey){
+				return true
+			}
+		}
+		return false
+	}
 	return (
 		<div className="projects">
 			<Payments show={pay.show} onHide={()=>setPay({fees:null,title:'',show:false})} title={pay.title} fees={pay.fees} queries={pay.queries} description={pay.description} image={pay.image}/>
@@ -23,6 +31,10 @@ const Projects=({projects,que})=>{
       </div>
 			<div className="container projects-list p-1">
 				<div className="row">
+					{que?que[3]?
+					<div className="col-12 text-center text-primary">
+						<h6>Welcome to Spartificial projects Referral. Here you will get a discount of {atob(que[3])}% on every projects. This referral link can be disabled any time by the Referrer. <br/><strong>Hurry Up!!</strong></h6>
+					</div>:null:null}
 					{projects?projects.map((val,idx)=>{
 						return(
 							<div className="col-sm-12 col-md-6 col-lg-4 col-12 text-center p-4" key={idx}>
@@ -32,31 +44,20 @@ const Projects=({projects,que})=>{
 										<h5 className="card-title">{val.title}</h5>
 										<p className="card-text">{val.description}</p>
 										<div className="buttons" style={{textAlign:'right'}}>
-
-										{
-											current?current.payments.length>0?current.payments.map((paid,id)=>{
-												//console.log(paid)
-												return paid.project_id===val._id?
-													<button key={id} className="btn btn-outline-success btn-sm m-2"> 
-														Enrolled
-													</button>	:
-													<button key={id} onClick={()=>{
-														setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
-														}} className="btn btn-warning m-2"> 
-														Enroll Now
-													</button>				
-												}):
+											{current?
+												searchProject(val._id,current.projects)?
+												null
+												:searchProject(val._id,current.payments)?null:
 												<button onClick={()=>{
-													setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
+													setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",btoa(val._id)],description:val.description,image:val.image})
 													}} className="btn btn-warning m-2"> 
 													Enroll Now
 												</button>				
-										:<React.Fragment>
-													<button onClick={()=>{
-														setPay({fees:val.fees,title:val.title,show:true,queries:que?que:["",val._id],description:val.description,image:val.image})
-														}} className="btn btn-warning m-2"> 
-														Enroll Now
-													</button>				
+
+												:null
+											}
+										{
+										<React.Fragment>
 											</React.Fragment>
 										}
 

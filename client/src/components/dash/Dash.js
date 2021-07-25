@@ -70,7 +70,7 @@ const Dash=()=>{
   }
 
   const [referModal,setShowReferModal]=useState(false)
-  const [discount,setDiscount]=useState('')
+  const [discount,setDiscount]=useState("")
   const [referalLink,setReferalLink]=useState('')
   const handleCloseRefer=()=>{
     setShowReferModal(false)
@@ -80,7 +80,7 @@ const Dash=()=>{
   }
   const handleChangeDiscount=(e)=>{
     setDiscount(e.target.value)
-    setReferalLink(`${REF_BASE_URL}/projects/us=us=${btoa(current._id)}us=${btoa(e.target.value)}`)
+    setReferalLink(`${REF_BASE_URL}/projects/us=us=${btoa(current._id)}us=${btoa(e.target.value<26?e.target.value:0)}`)
 
   }
   const copyToClip=()=>{
@@ -92,7 +92,8 @@ const Dash=()=>{
     alert("Copied to Clipboard!")
   }
   const [load,setLoad]=useState(false);
-  const createReferal=async()=>{
+  const createReferal=async(e)=>{
+    e.preventDefault()
     //console.log(referalLink)
     if(discount===""){
       alert("Please enter a discount value!")
@@ -156,21 +157,30 @@ const Dash=()=>{
                     <p>{current.personal.education}</p></>:""}
                     {current.personal.address?<><h5>Address</h5>
                     <p>{current.personal.address}</p></>:""}
-                    <button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>
+                    {current.referalStudent.length<1?<button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>:null}
                     <Modal show={referModal} onHide={()=>handleCloseRefer()}>
                       <Modal.Header>
                         <h5>Refer a Friend</h5>
                       </Modal.Header>
                       <Modal.Body>
+                        <form onSubmit={createReferal}>
                           <div className="row justify-content-center p-2">
                             <div className="col-8">
                               <label>Discount:&nbsp;</label>
-                              <input style={{width:'60%'}} required min="0" max="100" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                              <input style={{width:'60%'}} required type="number" min="0" max="25" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
                             </div>
                             <div className="col-4">
-                              {load?<Loader/>:<button onClick={createReferal} className="btn btn-sm btn-primary">Create</button>}
+                              {load?<Loader/>:<button type="submit" className="btn btn-sm btn-primary">Create</button>}
                             </div>
                           </div>
+                        </form>
+                        <div className="row">
+                          <div className="col-12 p-3 text-center">
+                            <h6>Get 25% of project registration fees for every student you bring who enroll in any project.</h6>
+                            <small><strong>You can give discount to students from your commission i.e. if you give a discount of 10% to the student then reffered student will get 10% discount and your commision will be 15%.</strong></small>
+                            <h6 className="text-danger"><strong>Note: </strong><small>You will not get any discount if you yourself enroll with your own referral link.</small></h6>
+                          </div>
+                        </div>
                           <div className="row justify-content-center text-center pb-2">
                             <div className="col-3 align-self-center" style={{textAlign:'right'}}>
                               Send to:
@@ -200,10 +210,10 @@ const Dash=()=>{
                   </div>
                 </div>
                 <div className="tab-pane" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
-                  <ProRef title="My Projects" projects={current.projects} referals={current.referalInstructor}/>
+                  <ProRef id={current._id} referrer="instructor" title="My Projects" projects={current.projects} referals={current.referalInstructor}/>
                 </div>
                 <div className="tab-pane" id="student" role="tabpanel" aria-labelledby="student-tab">
-                  <ProRef title="Enrolled Projects" projects={current.payments} referals={current.referalStudent}/>
+                  <ProRef id={current._id} referrer="student" title="Enrolled Projects" projects={current.payments} referals={current.referalStudent}/>
                 </div>
                 <div className="tab-pane" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
                   <div className="table-responsive p-2">
