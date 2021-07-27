@@ -5,7 +5,8 @@ import { postInvolve } from '../../redux/actions/involved'
 import './addOns.css'
 const InvolvedModal=({show,onHide,appType,title})=>{
   const dispatch=useDispatch()
-  const [formData,setFormData]=useState({name:'',email:'',phone:'',type:'',proposal:''})
+  const [formData,setFormData]=useState({organisation:'',name:'',email:'',phone:'',type:'',proposal:''})
+
   const handleChange=(e)=>{
     setFormData({...formData,[e.target.name]:e.target.value})
   }
@@ -13,13 +14,15 @@ const InvolvedModal=({show,onHide,appType,title})=>{
     setFormData({name:'',email:'',phone:'',type:'',proposal:''})
     onHide()
   }
-  const submitForm=(e)=>{
+  const submitForm=async(e)=>{
     e.preventDefault()
     formData.type=appType
-    dispatch(postInvolve(formData))
+    console.log(formData)
+    await dispatch(postInvolve(formData))
     hideAddOn()
     
   }
+  //console.log(appType)
   return(
     <Modal show={show} backdrop="static" centered onHide={onHide}>
       <Modal.Header style={{backgroundColor:'#0a0e2adf',color:'aliceblue'}}>
@@ -28,6 +31,9 @@ const InvolvedModal=({show,onHide,appType,title})=>{
       <form onSubmit={submitForm}>
         <Modal.Body>
           <div className="addons">
+            {appType==="Partnership"?
+            <input required type="name" name="organisation" placeholder="Organisation Name" value={formData.organisation} onChange={handleChange}/>:null}
+
             <input required type="name" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange}/>
 
             <input required type="email" name="email" placeholder="Your Email Id" value={formData.email} onChange={handleChange}/>

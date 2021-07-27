@@ -42,7 +42,7 @@ const Instructor=()=>{
           <h6>Become an Instructor on Spartificial and share your research with students around the world.</h6>
         </div>
       </div>
-      <div className="container p-5">
+      <div className="container p-5 why">
         <div className="row">
           <div className="col">
             {/* <h2 className="text-center p-2"><strong>Why become Spartificial's Instructor?</strong></h2> */}
@@ -50,7 +50,7 @@ const Instructor=()=>{
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container works">
         <div className="row">
           <div className="col">
             <h3 className="text-left pb-4"><strong>How it Works?</strong></h3>
@@ -83,7 +83,7 @@ const Instructor=()=>{
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container works">
         <div className="row">
           <div className="col">
             <h3 className="text-left pb-4"><strong>Spartificial-Instructor revenue share</strong></h3>
@@ -92,14 +92,14 @@ const Instructor=()=>{
         <div className="row p-2">
           <div className="col-sm-6 col-12 p-1">
             <h6><strong>When you submit your own developed project:</strong></h6>
-            <ul className="list-styled">
+            <ul className="list-styled" style={{color:'rgb(87, 5, 5)'}}>
               <li>If you promote a project via any promo code or referral link, you will receive 90% of the revenue when the student enroll in your project.</li>
               <li>Enrollments occurring through Spartifical's Promotion or discovery on the platform, you will receive 50% of the revenue generated.</li>
             </ul>
           </div>
           <div className="col-sm-6 col-12 p-1">
             <h6><strong>When you develop a project with our team:</strong></h6>
-            <ul className="list-styled">
+            <ul className="list-styled" style={{color: 'rgb(87, 5, 5)'}}>
               <li>If you promote a project via any promo code or referral link, you will receive 80% of the revenue when the student enroll in your project.</li>
               <li>Enrollments occurring through Spartifical's Promotion or discovery on the platform, you will receive 40% of the revenue generated.</li>
             </ul>

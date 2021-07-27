@@ -23,6 +23,8 @@ import {getUser} from '../../redux/actions/user'
 import {getBlogs} from '../../redux/actions/blog'
 import {getTeams} from '../../redux/actions/teams'
 import {getProjects} from '../../redux/actions/project'
+import ReferralRules from '../addons/ReferralRules';
+import ProjectTypes from '../addons/ProjectTypes';
 
 function App() {
 
@@ -65,6 +67,9 @@ function App() {
         <Route exact path="/instructor" component={Instructor}/>
         <Route exact path="/privacy-policy" component={Privacy}/>
         <Route exact path="/terms-conditions" component={Terms}/>
+        <Route exact path="/project-types" component={ProjectTypes}/>
+        <Route exact path="/referral-rules" component={ReferralRules}/>
+        
         <Route exact path="/user/login" component={Login}/>
         <Route exact path="/user/signup" component={Signup}/>
         <Redirect to="/"/>

@@ -134,12 +134,12 @@ const GetInvolved=()=>{
 						</div>
 					</div>
 					<div className="col-sm-6 align-self-center">
-						<h3 id="heading">Donate to make an impact</h3>
+						<h3 id="heading">Support Us</h3>
 						<div className="decription">
-							<p>Your donation will help support new research and collaborative projects to meet the UN’s Sustainable Development Goals and helps solve issues that matter.</p>
+							<p>Help us in identifying different problems which can be solved using machine learning and data science</p>
 						</div>
 						<button disabled onClick={()=>setShow(true)} className="support-button button"> 
-							Donate
+							Share your ideas
 						</button>
 					</div>
 				</div>

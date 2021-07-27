@@ -28,7 +28,7 @@ const Home = () => {
     {
       "_id": "3",
       "heading": "Collaboration",
-      "paragraph": "Finding and identifying practical applications of AI to advance the Sustainable development Goals and scale those solutions for global impact. These small solutions and initiatives are the stepping stones to the better future.",
+      "paragraph": "You'll meet and interact with passionate future scientists and work as a team to complete complex projects and push your own limits of knowledge. Like the Cosmos, Spartificial is an open space that welcomes anyone interested.",
       "image": "./2.jpeg"
     },
     {
@@ -38,38 +38,38 @@ const Home = () => {
       "image": "./3.jpeg"
     },
   ]
-  const hp=[
-    {
-      "_id":1,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    },
-    {
-      "_id":2,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    },
-    {
-      "_id":3,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    },
-    {
-      "_id":4,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    },
-    {
-      "_id":5,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    },
-    {
-      "_id":6,
-      "title":"Project",
-      "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
-    }
-  ]
+  // const hp=[
+  //   {
+  //     "_id":1,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   },
+  //   {
+  //     "_id":2,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   },
+  //   {
+  //     "_id":3,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   },
+  //   {
+  //     "_id":4,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   },
+  //   {
+  //     "_id":5,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   },
+  //   {
+  //     "_id":6,
+  //     "title":"Project",
+  //     "image":"https://espaitic.upc.edu/en/shared/icons/project.png/@@images/79e8ccc3-b4f1-4295-9b2e-baa1c5a9ca16.png"
+  //   }
+  // ]
   return (
     <div className="home" id="home">
       <div className="hero-image">
@@ -77,12 +77,14 @@ const Home = () => {
           {/* <h3>Welcome to</h3>
           <h1>Spartificial</h1> */}
           <img src={logo} alt="..." className="img-fluid" />
+          <h5>A complete project based-learning platform</h5>
+          <Link to="/projects"><button className="btn btn-sm btn-outline-danger"><strong>All Projects</strong></button></Link>
         </div>
         <div className="arrow bounce">
           <a className="fa fa-arrow-down fa-2x" href="/#hp"></a>
         </div>
       </div>
-      <div className="home-project" id="hp">
+      {/* <div className="home-project" id="hp">
         <div className="container pb-2">
           <div className="row justify-content-center">
             <h1>Trending projects</h1>
@@ -107,7 +109,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="story" id="story">
         <div className="container p-5">
           <div className="row">

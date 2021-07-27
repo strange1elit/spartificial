@@ -31,8 +31,9 @@
   text-transform: uppercase;
   text-shadow: 2px 2px 6px black;
 }
-.hero-image .title h3{
-  text-transform: uppercase;
+.hero-image .title h5{
+  text-transform: capitalize;
+  color: darkblue;
 }
 #home-div .card{
   padding: 50px 2%;
@@ -47,12 +48,12 @@
   padding: 0.5%;
 }
 #home-div .card h1{
-  color: rgb(0, 0, 0);
+  color: darkblue;
   letter-spacing: .3px;
 }
 #home-div .card p{
   padding: 5px;
-  color: rgb(100, 97, 97);
+  color: rgb(87, 5, 5);
   font-size: 17px;
   letter-spacing: .5px;
 }
@@ -111,6 +112,7 @@
 }
 .story h1 span{
   color: red;
+  font-size: 50px;
 }
 
 .success{

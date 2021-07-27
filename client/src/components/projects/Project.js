@@ -83,10 +83,10 @@ const Project =({match}) =>{
       <div className="container">
         <div className="row pb-5">
           <div className="col-sm-6 col-12 text-center align-self-center">
-            {queries.length===4&&!isInstructor?<h6 className="text-primary">Welcome to Spartificial projects Referral. Here you will get a discount of {atob(queries[3])}% on this project. This referral link can be disabled any time by the Instructor.<br/><strong className="text-danger">Hurry Up!!</strong></h6>:null}
-            <h4 className="m-3" style={{fontWeight:'600'}}><i>{project.title}</i></h4>
-            <p><strong>Starting from: </strong>{project.start_date}</p>
-            <p><strong>Duration: </strong> {project.duration}</p>
+            {queries.length===4&&!isInstructor?<h6 className="text-dark">Welcome to Spartificial projects Referral. Here you will get a discount of {atob(queries[3])}% on this project. This referral link can be disabled any time by the Instructor.<br/><strong className="text-danger">Hurry Up!!</strong></h6>:null}
+            <h4 className="m-3" style={{fontWeight:'600',color:'darkblue'}}><i>{project.title}</i></h4>
+            <p><strong style={{color:'darkblue'}}>Starting from: </strong>{project.start_date}</p>
+            <p style={{color: 'rgb(87, 5, 5)'}}><strong style={{color:'darkblue'}}>Duration: </strong> {project.duration}</p>
             {
               purchased?
               null
@@ -155,13 +155,13 @@ const Project =({match}) =>{
         </div>
         <div className="row">
           <div className="col">
-            {/* <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Description</h4> */}
+            {/* <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Project Description</h4> */}
             <p className="p-3 mb-3">{project.description}</p>
           </div>
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Objectives</h4>
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Objectives</h4>
             <ol style={{paddingLeft:'25px'}}>
               {project.objectives.map((val,idx)=>{
                 return <li key={idx}>{val}</li>
@@ -171,7 +171,7 @@ const Project =({match}) =>{
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Prerequisites</h4>
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Prerequisites</h4>
             <ol style={{paddingLeft:'25px'}}>
               {project.prerequisites.map((val,idx)=>{
                 return <li key={idx}>{val}</li>
@@ -181,7 +181,7 @@ const Project =({match}) =>{
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Deliverables</h4>
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Deliverables</h4>
             <ol style={{paddingLeft:'25px'}}>
               {project.deliverables.map((val,idx)=>{
                 return <li key={idx}>{val}</li>
@@ -190,7 +190,7 @@ const Project =({match}) =>{
           </div>
         </div>
         <div className="row justify-content-center">
-          <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Our Instructors</h4>
+          <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Our Instructors</h4>
           {project.instructors.map((val,idx)=>{
             return(
               <div className="col-6 col-sm-4 col-md-3 text-center" key={idx}>

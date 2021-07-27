@@ -3,19 +3,19 @@ import './Legal.css'
 const Privacy=()=>{
   return(
     <div className="container" id="legal">
-      <h1 className="text-center">Our Terms &amp; Conditions</h1>
+      <h1 className="text-center p-5">Our Terms &amp; Conditions</h1>
       <div className="text-center" id="terms-conditions">
         <small className="text-danger">By visiting <a href="https://spartificial.com">spartificial.com</a> you are consenting to our Terms of Service.</small>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong></strong></h1>
           <p>This site (the “Site”) is owned and developed by “Spartificial” (“COMPANY,” “we” or “us”). By utilizing the Site, you consent to be bound by these Terms of Service and to utilize the Site as per these Terms of Service, our Privacy Policy and any extra terms and conditions that may apply to explicit areas of the Site or to items and administrations accessible through the Site or from COMPANY. Getting to the Site, in any way, regardless of whether robotized or something else, establishes utilization of the Site and your consent to be bound by these Terms of Service. </p>
           <p>We maintain whatever authority is needed to change these Terms of Service or to force new conditions on utilization of the Site, when necessary, in which case we will post the updated Terms of Service on this site. By proceeding to utilize the Site after we post any such changes, you acknowledge the Terms of Service, as altered.</p>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Intellectual Propert Rights</strong></h1>
           <p>Our Limited License to You.</p>
           <p>This Site and every one of the materials accessible on the Site are the property of us and additionally our partners or licensors. The Site is given exclusively to your own non-commercial use. You may not utilize the Site or the materials accessible on the Site in a way that establishes an encroachment of our rights or that has not been approved by us. All the more explicitly, except if unequivocally approved in these Terms of Service or by the proprietor of the materials, you may not alter, duplicate, imitate, republish, transfer, post, transmit, decipher, sell, make subsidiary works, misuse, or convey in any way or medium (counting by email or other electronic methods) any material from the Site. You may, in any case, now and again, download as well as print one duplicate of individual pages of the Site for your own, non-business use, given that you keep flawless all copyright and other exclusive takes note. </p>
@@ -26,13 +26,13 @@ const Privacy=()=>{
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Limitations on Linking and Framing</strong></h1>
           <p>You may establish a hypertext link to the Site so long as the link does not state or imply any sponsorship of your site by us or by the Site. However, you may not, without our prior written permission, frame or link to any of the content of the Site, or incorporate into another website or other service any of our material, content or intellectual property.</p>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Disclaimers</strong></h1>
           <p>All through the Site, we may give connections and pointers to Internet locales kept up by outsiders. Our connecting to such outsider destinations does not infer an underwriting or sponsorship of such locales, or the data, items or administrations offered on or through the destinations. Also, neither we nor partners work or control in any regard any data, items or administrations that outsiders may give on or through the Site or on sites connected to by us on the Site. </p>
           <p>In the event that pertinent, any sentiments, exhortation, articulations, administrations, offers, or other data or substance communicated or made accessible by outsiders, including data suppliers, are those of the separate creators or merchants, and not COMPANY. Neither COMPANY nor any outside supplier of data ensures the precision, culmination, or value of any substance. Moreover, COMPANY neither supports nor is in charge of the precision and unwavering quality of any sentiment, counsel, or proclamation made on any of the Sites by anybody other than an approved COMPANY agent while acting in his/her official limit. </p>
@@ -42,7 +42,7 @@ const Privacy=()=>{
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Purchases and Online Commerce</strong></h1>
           <p>On the off chance that paying by check card, or Visa, you give us consent to naturally charge your acknowledge or platinum card as instalment for your Program, Product or Service with no extra approval, for which you will get an electronic receipt. </p>
           <p>If instalment isn’t gotten by the date due, you will have a three (3) day period to make the instalment, generally the Program, Product or Services won’t proceed and we maintain all authority to stop your entrance quickly and forever.</p>
@@ -57,14 +57,14 @@ const Privacy=()=>{
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Refund Policy</strong></h1>
           <p>Unless otherwise provided by law, you acknowledge that we do not offer refunds for any portion of your payment for any of our one-on-one services, digital products, courses, coaching or masterminds.</p>
           <p>No refunds are given for purchases made towards the Spartificial courses and trainings. If you choose to cancel your monthly membership, your membership will stay active until the next due billing cycle, in which case your membership will then become deactivated and no more charges will be issued to your credit card on file.</p>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Interactive Features</strong></h1>
           <p>This Site may incorporate an assortment of highlights, for example, announcement loads up, web logs, visit rooms, and email administrations, which enable input to us and continuous collaboration among clients, and different highlights which enable clients to speak with others. Duty regarding what is posted on announcement sheets, web logs, visit rooms, and other open posting regions on the Site, or sent by means of any email benefits on the Site, lies with every client, only you are in charge of the material you post or send. We don’t control the messages, data or records that you or others may give through the Site.</p>
           <p>It is a state of your utilization of the Site that you don’t: </p>
@@ -85,19 +85,19 @@ const Privacy=()=>{
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Registration</strong></h1>
           <p>To access certain features of the Site, we may ask you to provide certain demographic information including your gender, year of birth, zip code and country. In addition, if you elect to sign-up for a particular feature of the Site, such as chat rooms, web logs, or bulletin boards, you may also be asked to register with us on the form provided and such registration may require you to provide personally identifiable information such as your name and email address. You agree to provide true, accurate, current and complete information about yourself as prompted by the Site’s registration form. If we have reasonable grounds to suspect that such information is untrue, inaccurate, or incomplete, we have the right to suspend or terminate your account and refuse any and all current or future use of the Site (or any portion thereof). Our use of any personally identifiable information you provide to us as part of the registration process is governed by the terms of our Privacy Policy.</p>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Passwords</strong></h1>
           <p>If you need a username and password to use certain features of the Site, you will receive a username and password through the Site’s registration process. You are responsible for maintaining the confidentiality of the password and account, and are responsible for all activities (whether by you or by others) that occur under your password or account. You agree to notify us immediately of any unauthorized use of your password or account or any other breach of security, and to ensure that you exit from your account at the end of each session. We cannot and will not be liable for any loss or damage arising from your failure to protect your password or account information.</p>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Limitations of Liability</strong></h1>
           <p>UNDER NO CIRCUMSTANCES, INCLUDING, BUT NOT LIMITED TO, NEGLIGENCE, SHALL WE, OUR SUBSIDIARY AND PARENT COMPANIES OR AFFILIATES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES THAT RESULT FROM THE USE OF, OR THE INABILITY TO USE, THE SITE, INCLUDING ITS MATERIALS, PRODUCTS, OR SERVICES, OR THIRD-PARTY MATERIALS, PRODUCTS, OR SERVICES MADE AVAILABLE THROUGH THE SITE, EVEN IF WE ARE ADVISED BEFOREHAND OF THE POSSIBILITY OF SUCH DAMAGES. (BECAUSE SOME PROVINCES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF CERTAIN CATEGORIES OF DAMAGES, THE ABOVE LIMITATION MAY NOT APPLY TO YOU. IN SUCH PROVINCES, OUR LIABILITY AND THE LIABILITY OF OUR SUBSIDIARY AND PARENT COMPANIES OR AFFILIATES IS LIMITED TO THE FULLEST EXTENT PERMITTED BY SUCH STATE LAW.) YOU SPECIFICALLY ACKNOWLEDGE AND AGREE THAT WE ARE NOT LIABLE FOR ANY DEFAMATORY, OFFENSIVE OR ILLEGAL CONDUCT OF ANY USER. IF YOU ARE DISSATISFIED WITH THE SITE, ANY MATERIALS, PRODUCTS, OR SERVICES ON THE SITE, OR WITH ANY OF THE SITE’S TERMS AND CONDITIONS, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITE AND THE PRODUCTS, SERVICES AND/OR MATERIALS.</p>
           <p>THIS SITE IS CONTINUALLY UNDER DEVELOPMENT AND COMPANY MAKES NO WARRANTY OF ANY KIND, IMPLIED OR EXPRESS, AS TO ITS ACCURACY, COMPLETENESS OR APPROPRIATENESS FOR ANY PURPOSE.</p>
@@ -105,13 +105,13 @@ const Privacy=()=>{
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col p-4">
           <h1><strong>Termination</strong></h1>
           <p>We may cancel or terminate your right to use the Site or any part of the Site at any time without notice. In the event of cancellation or termination, you are no longer authorized to access the part of the Site affected by such cancellation or termination. The restrictions imposed on you with respect to material downloaded from the Site, and the disclaimers and limitations of liabilities set forth in these Terms of Service, shall survive.</p>
         </div>
       </div>
-      <div className="row">
-        <div className="col">
+      <div className="row pb-5">
+        <div className="col p-4">
           <h1><strong>Other</strong></h1>
           <p>This Agreement shall be binding upon and inure to the benefit of COMPANY and our respective assigns, successors, heirs, and legal representatives. Neither this Agreement nor any rights hereunder may be assigned without the prior written consent of COMPANY. Notwithstanding the foregoing, all rights and obligations under this Agreement may be freely assigned by COMPANY to any affiliated entity or any of its wholly owned subsidiaries.</p>
           <p>These Terms of Use shall be governed by and construed in accordance with the laws of the province of India and any dispute shall be subject to binding arbitration in India. If any provision of this agreement shall be unlawful, void or for any reason unenforceable, then that provision shall be deemed severable from this agreement and shall not affect the validity and enforceability of any remaining provisions.</p>

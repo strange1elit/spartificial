@@ -79,7 +79,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<><h3 className="text-center">Please wait...</h3><Loading/></>
+						}):<><h3 className="text-center">Coming Soon</h3><Loading/></>
 					}
 				</div>
 				<div id="AI" className="tabcontent container">

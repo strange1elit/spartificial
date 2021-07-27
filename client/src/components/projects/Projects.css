@@ -41,12 +41,14 @@
 }
 .projects-list h5{
   font-weight: 600;
+  color: darkblue;
 }
 .projects-list p{
   line-height: 24px;
   font-size: 15px;
   height: 120px;
   overflow: hidden;
+  color: rgb(87, 5, 5);
 }
 
 
@@ -71,4 +73,11 @@
   border: 2px ridge magenta;
   border-radius: 4px;
   color: rgb(51, 49, 49);
+}
+.project-desc li{
+  color: rgb(87, 5, 5);
+}
+.project-desc p{
+  color: rgb(87, 5, 5);
+
 }

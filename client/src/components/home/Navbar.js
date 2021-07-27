@@ -68,10 +68,10 @@ const NavbarComp=()=>{
 					{current?(<></>):(<NavLink to="/user/login" onClick={closeNav}>LogIn</NavLink>)} */}
 					{current?(<></>):(<NavLink className="btn btn-outline-danger btn-sm" to="/user/login" onClick={closeNav}>LogIn</NavLink>)}
 					{/* <NavLink to="/teams" onClick={closeNav}>Our Teams</NavLink> */}
+					<NavLink to="/blogs" onClick={closeNav}>Blogs</NavLink>
 					<NavLink to="/instructor" onClick={closeNav}>Become an Instructor</NavLink>
 					<NavLink to="/getInvolved" onClick={closeNav}>Get Involved</NavLink>
 					<NavLink to="/projects" onClick={closeNav}>Projects</NavLink>
-					<NavLink to="/blogs" onClick={closeNav}>Blogs</NavLink>
 					<NavLink to="/home" onClick={closeNav}>Home</NavLink>
 					
 					<span className="icon" onClick={openNav}><i className="fa fa-bars"></i></span>

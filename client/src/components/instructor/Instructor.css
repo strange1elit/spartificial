@@ -15,16 +15,37 @@
 .instructor .hero .hero-text h1{
   font-weight: 700;
 }
-.instructor .hero .hero-text h5{
+.instructor .hero .hero-text h6{
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 .instructor .work-card p{
   font-size: 17px;
   letter-spacing: 0.5px;
+  color: rgb(87, 5, 5);
 }
 .instructor .ready-instr{
   padding-top: 25px;
-  background-color: rgb(21, 56, 109);
+  background-color: darkblue;
   color: #fff;
+}
+.instructor .why h5{
+  color: rgb(87, 5, 5);
+}
+.instructor .works h3,
+.instructor .works h6{
+  color: darkblue;
+}
+.instructor .work-card h5{
+  color: darkblue;
+}
+
+.instructor .faq h2,
+.instructor .faq h6,
+.instructor .faq h5{
+  color: darkblue;
+}
+.instructor .faq p{
+  color: rgb(87, 5, 5);
+
 }
