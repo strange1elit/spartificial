@@ -2,14 +2,14 @@ import React from 'react'
 import '../legal/Legal.css'
 const ReferralRules=()=>{
   return(
-    <div className="container" id="legal">
+    <div className="container referral" id="legal">
       <h1 className="text-center p-5"> Sales and Referral Terms</h1>
-      <div className="row">
+      {/* <div className="row">
         <div className="col p-4">
           <h1><strong>For Mentors:</strong></h1>
           <p>Get 90% extra of project registration fees for every student who enroll through your referral link or coupon. You will decide the discount student get through referral link. Spartificial’s share will be 10% of the original registration fees.</p>
         </div>
-      </div>
+      </div> */}
       <div className="row">
         <div className="col p-4">
           <h1><strong>Refer new student (Open for all):</strong></h1>

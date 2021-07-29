@@ -77,7 +77,7 @@ const Home = () => {
           {/* <h3>Welcome to</h3>
           <h1>Spartificial</h1> */}
           <img src={logo} alt="..." className="img-fluid" />
-          <h5>A complete project based-learning platform</h5>
+          <h3>A complete project based-learning platform</h3>
           <Link to="/projects"><button className="btn btn-sm btn-outline-danger"><strong>All Projects</strong></button></Link>
         </div>
         <div className="arrow bounce">

@@ -31,8 +31,7 @@
   text-transform: uppercase;
   text-shadow: 2px 2px 6px black;
 }
-.hero-image .title h5{
-  text-transform: capitalize;
+.hero-image .title h3{
   color: darkblue;
 }
 #home-div .card{

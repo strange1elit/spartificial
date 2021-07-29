@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Instructor.css'
+import JoinUs from './JoinUs'
+import SubmitProject from './SubmitProject'
 
 const Instructor=()=>{
   const faqs=[
@@ -34,6 +36,15 @@ const Instructor=()=>{
       "answer":"Please refer 'Spartificial-Instructor Revenue Share'."
     },
   ]
+  const [show,setShow]=useState(false);
+  const handleModal=(status)=>{
+    setShow(status)
+  }
+  const [showP,setShowP]=useState(false);
+  const handleModalP=(status)=>{
+    setShowP(status)
+  }
+
   return (
     <div className="instructor">
       <div className="hero">
@@ -107,12 +118,14 @@ const Instructor=()=>{
         </div>
       </div>
       <div className="ready-instr">
+        <JoinUs show={show} handleModal={handleModal}/>
+        <SubmitProject show={showP} handleModal={handleModalP}/>
         <div className="container text-center p-3">
           <h3 className="pb-1"><strong>Ready to Start?</strong></h3>
           {/* <h5><strong><a href="#" className="text-light">Create your project</a> and share your skills with millions of members today.</strong></h5> */}
           <div className="p-3 pb-4">
-            <button className="btn btn-success m-1">Join US</button>
-            <button className="btn btn-primary m-1">Start a Project</button>
+            <button className="btn btn-success m-1" onClick={()=>handleModal(true)}>Join US</button>
+            <button className="btn btn-primary m-1" onClick={()=>handleModalP(true)}>Start a Project</button>
           </div>
         </div>
       </div>

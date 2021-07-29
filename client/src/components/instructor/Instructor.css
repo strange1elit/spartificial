@@ -49,3 +49,17 @@
   color: rgb(87, 5, 5);
 
 }
+.modal .close{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: gray;
+}
+.modal .form-group{
+  margin-bottom: 15px;
+}
+.modal .form-label{
+  margin-bottom: 0px;
+  font-size: 15px;
+  display: block;
+}
