@@ -16,13 +16,15 @@ router.use(bodyParser.json())
 
 router.get('/',authenticate.verifyUser,(req,res,next)=>{
   //console.log(req.user)
-  Users.find({}).then((users)=>{
-    res.json({users})
-  }).catch((err)=>console.log(err))
+  Users.findById(req.user._id).then((user)=>{
+    res.setHeader('Content-Type','application/json')
+    res.statusCode=200;
+    res.json(user)
+  }).catch((err)=>next(err))
 })
 
 router.post('/signup',(req,res,next)=>{
-  Users.register(new Users({username:req.body.username,firstname:req.body.firstname,lastname:req.body.lastname,email:req.body.email}),req.body.password,(err,user)=>{
+  Users.register(new Users({username:req.body.username}),req.body.password,(err,user)=>{
     if(err){
       res.statusCode=500
       res.setHeader('Content-Type','application/json')
@@ -31,10 +33,14 @@ router.post('/signup',(req,res,next)=>{
       passport.authenticate('local')(req,res,()=>{
         var token= authenticate.getToken({_id:req.user._id})
         //console.log(req.user)
-
-        res.statusCode=200;
-        res.setHeader('Content-Type','application/json')
-        res.json({success:true,token:token,user:req.user,status:'Registration Successful'})
+        Users.findById(req.user._id).then(user=>{
+          user.personal=req.body
+          user.save().then(user=>{
+            res.statusCode=200;
+            res.setHeader('Content-Type','application/json')
+            res.json({success:true,token:token,status:'Registration Successful'})
+          }).catch(err=>next(err))
+        }).catch(err=>next(err))
       })
     }
   })
@@ -51,7 +57,7 @@ router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Pass
   var token= authenticate.getToken({_id:req.user._id})
   res.statusCode=200;
   res.setHeader('Content-Type','application/json')
-  res.json({success:true,token:token,user:req.user,status:'Logged in Successfully'})
+  res.json({success:true,token:token,status:'Logged in Successfully'})
 },(err,req,res,next)=>{
   if(err.name==="AuthenticationError"){
     res.statusCode=401
@@ -72,7 +78,9 @@ router.get('/logout',(req,res,next)=>{
   if(req.session){
     req.session.destroy();
     res.clearCookie('session-id')
-    res.redirect('/')
+    res.statusCode=200;
+    //res.redirect('/')
+     res.json({success:true})
   }else{
     var err=new Error('Not Logged in!');
     err.status=403
@@ -150,58 +158,47 @@ router.post('/setpassword',(req,res,next)=>{
 
 router.put('/:_id',authenticate.verifyUser,(req,res,next)=>{
   // console.log(req.user)
-  // console.log(req.body)
-  Users.findByIdAndUpdate(req.params._id,{$set:req.body},{new:true}).then((user)=>{
-    var token= authenticate.getToken({_id:req.user._id})
-    res.statusCode=200;
-    res.setHeader('Content-Type','application/json')
-    res.json({success:true,token:token,user:user,status:'Logged in Successfully'})
+  //console.log(req.body.referal)
+  Users.findById(req.params._id).then((user)=>{
+    
+    if(req.body.firstname) user.personal.firstname=req.body.firstname
+    if(req.body.lastname) user.personal.lastname=req.body.lastname
+    if(req.body.phone) user.personal.phone=req.body.phone
+    if(req.body.firstname) user.personal.firstname=req.body.firstname
+    if(req.body.gender) user.personal.gender=req.body.gender
+    if(req.body.dob) user.personal.dob=req.body.dob
+    if(req.body.about) user.personal.about=req.body.about
+    if(req.body.education) user.personal.education=req.body.education
+    if(req.body.address) user.personal.address=req.body.address
+    if(req.body.img) user.personal.img=req.body.img
+    if(req.body.referalStudent) user.referalStudent.push(req.body.referalStudent)
+    if(req.body.referalInstructor) user.referalInstructor.push(req.body.referalInstructor)
+    user.save().then(user=>{
+      res.statusCode=200;
+      res.setHeader('Content-Type','application/json')
+      res.json({ success: true, message: 'Updated Successfully!' })
+    })
     },(err)=>next(err))
   .catch((err)=>next(err))
 })
-//***************otp login****************//
-
-router.post('/phone/sendotp',(req,res)=>{
-  sendOtp.send(req.body.phone,'senderID',(err,data)=>{
-    if(err) return res.json({err})
-    res.statusCode=200;
-    res.setHeader('Content-Type','application/json')  
-    data.type==="success"?res.json({success:true}):res.json({success:false})
-  })
-})
-
-router.post('/phone/validateotp',(req,res)=>{
-  sendOtp.verify(req.body.phone,req.body.otp,(err,data)=>{
-    if(err) return res.json({err})
-    let{phone}=req.body
-    Users.findOne({phone},(err,user)=>{
-      if(err) return res.json({err})
-      if(!user){
-        Users.create({phone:req.body.phone,username:req.body.phone},(err,user)=>{
-          if(err) return res.json({err})
-          let token=authenticate.getToken({_id:user._id})
-          res.statusCode=200;
-          res.setHeader('Content-Type','application/json')   
-          console.log()     
-          res.json({success:true,token:token,admin:user.admin,status:'Logged in Successfully'})
-        })
-      }else{
-        let token=authenticate.getToken({_id:user._uid})
-        res.statusCode=200;
-        res.setHeader('Content-Type','application/json')       
-        res.json({success:true,token:token,admin:user.admin,status:'Logged in Successfully'})
-      }
+router.delete('/:id/referral-student',authenticate.verifyUser,(req,res,next)=>{
+  Users.findById(req.params.id).then((user)=>{
+    user.referalStudent.pop();
+    user.save().then(user=>{
+      res.statusCode=200;
+      res.json({success:true,message:"Deleted referal ink"})
     })
-  })
+  },err=>next(err))
+  .catch(err=>next(err));
 })
-
-//*********************google oauth login******************/
-
-router.get('/google',passport.authenticate('google',{scope:['profile','email']}))
-
-router.get('/google/callback',passport.authenticate('google'),(req,res)=>{
-  //console.log(req.user)
-  var token=authenticate.getToken({_id:req.user._id})
-  res.json({success:true,token:token,status:"Logged in successffully!"})
+router.delete('/:id/referral-instructor',authenticate.verifyUser,(req,res,next)=>{
+  Users.findById(req.params.id).then((user)=>{
+    user.referalInstructor.pop();
+    user.save().then(user=>{
+      res.statusCode=200;
+      res.json({success:true,message:"Deleted referal ink"})
+    })
+  },err=>next(err))
+  .catch(err=>next(err));
 })
 module.exports = router;

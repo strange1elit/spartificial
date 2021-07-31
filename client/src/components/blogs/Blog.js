@@ -12,7 +12,11 @@ const Blog=({match})=>{
   const [edit,setEdit]=useState(false);
 
   var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
+
+  const users=useSelector((state)=>state.users)
+  var current=null
+  if(users.current) current=users.current
+  //console.log(current)
 
   //console.log(match.params.blog_id)
   var parameters=match.params.blog_id.split("+")
@@ -82,7 +86,7 @@ const Blog=({match})=>{
             <h1>{blog.title}</h1>
             <div style={{textAlign:'right',padding:'2px 0px 8px 0px'}}>
               {!isLoading?(
-                userdetails?userdetails.user.username===blog.username?<>
+                userdetails&&current?current.username===blog.username?<>
                 <span onClick={openEditBlog} style={{textAlign:'right',cursor:'pointer', padding:'5px 7px', marginRight:'8px', borderRadius:'50%',boxShadow:'0 0 8px #c4c4c4'}} className="fa fa-pencil"></span>
                 
                 <span onClick={delBlog} style={{textAlign:'right',cursor:'pointer', padding:'5px 7px', borderRadius:'50%',boxShadow:'0 0 8px #c4c4c4'}} className="fa fa-trash"></span>
@@ -151,7 +155,7 @@ const Blog=({match})=>{
                 </form>
               </Modal>:
               !isLoading?(
-                userdetails?userdetails.user.username===comment.username?
+                userdetails&&current?current.username===comment.username?
               <div style={{textAlign:'right',padding:'2px 0px 8px 0px'}}>
                 <span style={{textAlign:'right',cursor:'pointer', padding:'5px 7px', borderRadius:'50%',boxShadow:'0 0 8px #c4c4c4'}}className="fa fa-pencil" onClick={()=>openEditComment(comment._id,comment.comment,comment.rating)}></span>
                 <span style={{textAlign:'right',cursor:'pointer', padding:'5px 7px', borderRadius:'50%',boxShadow:'0 0 8px #c4c4c4'}}className="fa fa-trash" onClick={()=>delComm(comment._id)}></span>
@@ -161,14 +165,14 @@ const Blog=({match})=>{
           )
         }):<></>}
 
-        <div className="row" id="author">
+        <div className="row justify-content-center" id="author">
           <div className="col-12">
           <div className="card mb-3" key={blog._id}>
 								<div className="row g-0">
-									<div className="col-md-4 text-center">
+									<div className="col-md-4 text-center align-self-center">
 										<img loading="lazy" width="auto" className="img-fluid" src={blog.profilePic} alt="..."/>
 									</div>
-									<div className="col-md-8">
+									<div className="col-md-8 align-self-center">
 										<div className="card-body">
 											<h5 className="card-title">{blog.author}</h5>
 											<p className="card-text"><small className="text-muted">{blog.about}</small></p>

@@ -2,7 +2,7 @@
 .topnav{
   display: block;
   /* background-color: #0a0e2a; */
-  background-color: #0a0e2a62;
+  background-color: aliceblue;
   position: fixed;
   overflow: hidden;
   top: 0px;
@@ -15,7 +15,7 @@
 .topnav a{
   float: right;
   display: block;
-  color: white;
+  color: rgb(83, 79, 79);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -26,7 +26,7 @@
 .topnav span{
   float: left;
   display: block;
-  color: white;
+  color: rgb(83, 79, 79);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -36,16 +36,19 @@
 }
 
 .topnav a.active{
-  color: #9d24c2;
+  color: #000000;
+  font-weight: 600;
 }
 .topnav a:hover{
-  color: tomato;
+  color: rgb(0, 0, 0);
 }
 .topnav .icon{
   display: none;
+  font-size: 23px;
 }
 .topnav .icon-close{
   display: none;
+  font-size: 23px;
 }
 @media screen and (max-width: 1000px) {
   .topnav a:not(:last-child) {display: none;}
@@ -57,14 +60,14 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .topnav.responsive {display: block;transition: 500ms;background-color: #0a0e2adc;}
+  .topnav.responsive {display: block;transition: 500ms;background-color: aliceblue;}
   .topnav.responsive .icon-close {
     display: block;
     position: absolute;
     right: 20px;
     top: 0;
   }
-  .topnav.responsive a {
+  .topnav.responsive a, .topnav.responsive #title {
     float: none;
     display: block;
     text-align: left;
@@ -84,8 +87,7 @@
 }
 
 .topnav #title img{
-  width: 25px;
-  border-radius: 50%;
+  width: 170px;
   margin: 0px 5px 0px 0px;
 }
 @keyframes fadeInAnimation{
@@ -104,4 +106,8 @@
 #close-toast:hover{
   color: black;
   cursor: pointer;
+}
+.topnav .btn{
+  margin-top: 7px;
+  padding: 8px 16px;
 }

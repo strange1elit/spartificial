@@ -8,7 +8,6 @@ import Toaster from '../loader/Toast'
 import Loading from '../loader/Loading'
 const Blogs=({blogs})=>{
 	var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
 
 	const errmess=useSelector(state=>state.blogs.errmess)
 
@@ -80,7 +79,7 @@ const Blogs=({blogs})=>{
 								</div>
 							</div>
 							)
-						}):<><h3 className="text-center">Please wait...</h3><Loading/></>
+						}):<><h3 className="text-center">Coming Soon</h3><Loading/></>
 					}
 				</div>
 				<div id="AI" className="tabcontent container">

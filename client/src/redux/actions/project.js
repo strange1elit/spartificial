@@ -1,4 +1,6 @@
-const url='http://localhost:3000/api/projects';
+import { BASE_URL } from "../../config";
+
+const url=BASE_URL+'/projects';
 
 export const setLoading=()=>async(dispatch)=>{
   dispatch({type:'PROJECT_LOADING'})

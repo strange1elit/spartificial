@@ -3,6 +3,8 @@ import axios from 'axios'
 import './getInvolved.css'
 import {Modal} from 'react-bootstrap'
 import InvolvedModal from '../addons/getInvolvedModal'
+import {Link} from 'react-router-dom'
+import { BASE_URL, RZP_KEY } from '../../config'
 
 const GetInvolved=()=>{
 	const [isMobile,setIsMobile]=useState(false)
@@ -40,7 +42,7 @@ const GetInvolved=()=>{
       return;
     }
 		paymentData.amount=paymentData.amount*100
-    const result=await axios.post("http://localhost:3000/payments/orders",paymentData);
+    const result=await axios.post(BASE_URL+"payments/orders",paymentData);
     if(!result){
       alert("Server error!!!")
       return;
@@ -49,7 +51,7 @@ const GetInvolved=()=>{
     //console.log(result.data)
     const {amount,id:order_id,currency}=result.data;
     const options = {
-      key: "rzp_test_Fh3AgbAXuwfXuF", // Enter the Key ID generated from the Dashboard
+      key: RZP_KEY, // Enter the Key ID generated from the Dashboard
       amount: amount.toString(),
       currency: currency,
       name: "Spartificial",
@@ -65,7 +67,7 @@ const GetInvolved=()=>{
 							amount:amount/100
           };
 
-          const result = await axios.post("http://localhost:3000/payments/success", data);
+          const result = await axios.post(BASE_URL+"/payments/success", data);
 
           alert(JSON.stringify(result.data));
       },
@@ -111,23 +113,40 @@ const GetInvolved=()=>{
 			<div className="row align-items-center">
 					<div className="col-sm-6 align-self-start">
 						<div className="image">
+							<img className="img-fluid" alt="..." src="https://cdn.mentorcruise.com/img/undraw_reviewed_docs_neeb.svg"/>
+						</div>
+					</div>
+					<div className={isMobile?("col-sm-6 align-self-center"):("col-sm-6 align-self-center order-first")}>
+						<h3 id="heading">Become an Instructor</h3>
+						<div className="decription">
+							<p>Find a mentoring opportunity today! Using the Spartificial, submit your project for review and gt approved by our experts to become a mentor.</p>
+						</div>
+						<Link to="/instructor">
+							<button className="partner-button button" >Become an Instructor</button>						
+						</Link>
+					</div>
+				</div>
+
+				<div className="row align-items-center">
+					<div className="col-sm-6 align-self-start">
+						<div className="image">
 							<img className="img-fluid" alt="..." src="https://ai4good.org/wp-content/plugins/phastpress/phast.php/c2VydmljZT1pbWFnZXMmc3JjPWh0dHBzJTNBJTJGJTJGYWk0Z29vZC5vcmclMkZ3cC1jb250ZW50JTJGdXBsb2FkcyUyRjIwMjAlMkYxMCUyRmdldGludm9sdmVkLWRvbmF0ZS0xMDI0eDU3Ni5qcGcmY2FjaGVNYXJrZXI9MTYxMDY0MTcwMS0xMDI1NTgmdG9rZW49ZGYyMjZmNzA5OGJiOTFkOQ.q.jpg"/>
 						</div>
 					</div>
 					<div className="col-sm-6 align-self-center">
-						<h3 id="heading">Donate to make an impact</h3>
+						<h3 id="heading">Support Us</h3>
 						<div className="decription">
-							<p>Your donation will help support new research and collaborative projects to meet the UN’s Sustainable Development Goals and helps solve issues that matter.</p>
+							<p>Help us in identifying different problems which can be solved using machine learning and data science</p>
 						</div>
-						<button onClick={()=>setShow(true)} className="support-button button"> 
-							Donate
+						<button disabled onClick={()=>setShow(true)} className="support-button button"> 
+							Share your ideas
 						</button>
 					</div>
 				</div>
 				<div className="row align-items-center">
 					<div className="col-sm-6 align-self-start">
 						<div className="image">
-							<img className="img-fluid" alt="..." src="https://www.biocep.com/wp-content/uploads/2020/10/Partner-image.png"/>
+							<img className="img-fluid" alt="..." src="https://cdn.zaggle.in/images/web/zaggle/landing/partner-with-us.jpg"/>
 						</div>
 					</div>
 					<div className={isMobile?("col-sm-6 align-self-center"):("col-sm-6 align-self-center order-first")}>

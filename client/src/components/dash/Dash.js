@@ -1,24 +1,35 @@
 import React, { useState } from 'react'
 import './Dash.css'
 import FileBase from 'react-file-base64';
-
-import {setLoading, userLogout, userProfileUpdate, changeUserPassword} from '../../redux/actions/user'
+import {NavLink} from 'react-router-dom'
+import moment from 'moment'
+import {setLoading, userLogout, userProfileUpdate, changeUserPassword, getUser} from '../../redux/actions/user'
 import {useDispatch, useSelector} from 'react-redux'
 import Loader from '../loader/Loading'
 import Toaster from '../loader/Toast';
+import { Modal } from 'react-bootstrap';
+import {BASE_URL,REF_BASE_URL} from '../../config'
+import axios from 'axios'
+import ProRef from './ProjRef';
+
 const Dash=()=>{
+  const dispatch=useDispatch();
+
+  const users=useSelector((state)=>state.users)
+  var current=null
+  if(users.current) current=users.current
+  console.log(current)
   const [showToast,setShowToast]=useState(false)
-  var userdetails=localStorage.getItem('userdetails');
-  userdetails=JSON.parse(userdetails);
+  //var userdetails=localStorage.getItem('userdetails');
+
   const isLoading=useSelector((state)=>state.users.isLoading)
   const errmess=useSelector((state)=>state.users.errmess)
   const message=useSelector((state)=>state.users.message)
   
-  const [formData,setFormData]=useState({firstname:userdetails.user.firstname,lastname:userdetails.user.lastname,phone:userdetails.user.phone,gender:userdetails.user.gender,dob:userdetails.user.dob,about:userdetails.user.about,education:userdetails.user.education, address:userdetails.user.address,img:userdetails.user.img})
+  const [formData,setFormData]=useState({firstname:'',lastname:'',phone:'',gender:'',dob:'',about:'',education:'', address:'',img:''})
 
   const [changeData,setChangeData]=useState({currentpassword:'',newpassword:'',confirmpassword:''})
 
-  const dispatch=useDispatch();
 
   const logout=()=>{
 		dispatch(setLoading())
@@ -36,9 +47,9 @@ const Dash=()=>{
     e.preventDefault()
     //console.log(formData)
     dispatch(setLoading())
-    dispatch(userProfileUpdate(formData))
+    dispatch(userProfileUpdate(formData,current._id))
 
-    setFormData({firstname:userdetails.user.firstname,lastname:userdetails.user.lastname,phone:userdetails.user.phone,gender:userdetails.user.gender,dob:userdetails.user.dob,about:userdetails.user.about,education:userdetails.user.education, address:userdetails.user.address,img:userdetails.user.img})
+    setFormData({firstname:'',lastname:'',phone:'',gender:'',dob:'',about:'',education:'', address:'',img:''})
   }
   const changePassword=(e)=>{
     setShowToast(true)
@@ -46,7 +57,7 @@ const Dash=()=>{
     e.preventDefault();
     if(changeData.newpassword===changeData.confirmpassword){
       setShowToast(false)
-      console.log(changeData)
+      //console.log(changeData)
       dispatch(setLoading())
       dispatch(changeUserPassword(changeData))
       setChangeData({currentpassword:'',newpassword:'',confirmpassword:''})
@@ -57,14 +68,57 @@ const Dash=()=>{
       },3000)
     }
   }
-  return(
+
+  const [referModal,setShowReferModal]=useState(false)
+  const [discount,setDiscount]=useState("")
+  const [referalLink,setReferalLink]=useState('')
+  const handleCloseRefer=()=>{
+    setShowReferModal(false)
+    setDiscount(false)
+    setReferalLink(``)
+
+  }
+  const handleChangeDiscount=(e)=>{
+    setDiscount(e.target.value)
+    setReferalLink(`${REF_BASE_URL}/projects/us=us=${btoa(current._id)}us=${btoa(e.target.value<26?e.target.value:0)}`)
+
+  }
+  const copyToClip=()=>{
+    var copyText = document.getElementById("discount");
+    //console.log(copyText.value)
+    copyText.select();
+    copyText.setSelectionRange(0,9999);
+    document.execCommand("copy")
+    alert("Copied to Clipboard!")
+  }
+  const [load,setLoad]=useState(false);
+  const createReferal=async(e)=>{
+    e.preventDefault()
+    //console.log(referalLink)
+    if(discount===""){
+      alert("Please enter a discount value!")
+    }else{
+      setLoad(true)
+      const data={referalStudent:referalLink}
+      const result=await axios.put(`${BASE_URL}/users/${current._id}`,data,{
+        headers:{
+          'Authorization':`Bearer ${localStorage.getItem('userdetails')}`,
+          'Content-Type':'application/json'
+        }
+      })
+      alert("Link Generated Successfully.\nCopy, Share and Earn!")
+      setLoad(false)
+      dispatch(getUser())
+    }
+  }
+  return(current?
     <div className="body" id="dash">
       <div className="container">
         <div className="row">
-          <div className="col-sm-7">
+          <div className="col">
             <div className="heading">
               <h1>My Dashboard</h1>
-              <p>Welcome {userdetails.user.firstname}, ready for your new project? </p>
+              <p>Welcome {current.personal.firstname}, ready for your new project? </p>
             </div>
             <div className="dash-tab">
               <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -72,7 +126,10 @@ const Dash=()=>{
                   <button className="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button>
                 </li>
                 <li className="nav-item" role="presentation">
-                  <button className="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab" aria-controls="projects" aria-selected="false">Projects</button>
+                  <button className="nav-link" id="instructors-tab" data-bs-toggle="tab" data-bs-target="#instructors" type="button" role="tab" aria-controls="instructors" aria-selected="false">Instructor</button>
+                </li>
+                <li className="nav-item" role="presentation">
+                  <button className="nav-link" id="student-tab" data-bs-toggle="tab" data-bs-target="#student" type="button" role="tab" aria-controls="student" aria-selected="false">Student</button>
                 </li>
                 <li className="nav-item" role="presentation">
                   <button className="nav-link" id="purchases-tab" data-bs-toggle="tab" data-bs-target="#purchases" type="button" role="tab" aria-controls="purchases" aria-selected="false">Purchases</button>
@@ -85,59 +142,101 @@ const Dash=()=>{
               <div className="tab-content">
                 <div className="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                   <div className="profile-img">
-                    <img alt="..." className="img-fluid" src={userdetails.user.img}/>
-                    <h2>{userdetails.user.firstname} {userdetails.user.lastname}</h2>
+                    <img alt="..." className="img-fluid" src={current.personal.img}/>
+                    <h2>{current.personal.firstname} {current.personal.lastname}</h2>
                   </div>
                   <div className="basic-info">
-                    <h5>About</h5>
-                    <p>{userdetails.user.about}</p>
-                    <h5>Email</h5>
-                    <p><a href={`mailto:${userdetails.user.email}`}>{userdetails.user.email}</a></p>
-                    <h5>Phone</h5>
-                    <p><a href={`tel:${userdetails.user.phone}`}>{userdetails.user.phone}</a></p>
-                    <h5>Education</h5>
-                    <p>{userdetails.user.education}</p>
-                    <h5>Address</h5>
-                    <p>{userdetails.user.address}</p>
+                    {current.personal.about?(<><h5>About</h5>
+                    <p>{current.personal.about}</p></>):""}
+
+                    {current.personal.email?<><h5>Email</h5>
+                    <p><a href={`mailto:${current.personal.email}`}>{current.personal.email}</a></p></>:""}
+                    {current.personal.phone?<><h5>Phone</h5>
+                    <p><a href={`tel:${current.personal.phone}`}>{current.personal.phone}</a></p></>:""}
+                    {current.personal.education?<><h5>Education</h5>
+                    <p>{current.personal.education}</p></>:""}
+                    {current.personal.address?<><h5>Address</h5>
+                    <p>{current.personal.address}</p></>:""}
+                    {current.referalStudent.length<1?<button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer a Friend</strong></button>:null}
+                    <Modal show={referModal} onHide={()=>handleCloseRefer()}>
+                      <Modal.Header>
+                        <h5>Refer a Friend</h5>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <form onSubmit={createReferal}>
+                          <div className="row justify-content-center p-2">
+                            <div className="col-8">
+                              <label>Discount:&nbsp;</label>
+                              <input style={{width:'60%'}} required type="number" min="0" max="25" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                            </div>
+                            <div className="col-4">
+                              {load?<Loader/>:<button type="submit" className="btn btn-sm btn-primary">Create</button>}
+                            </div>
+                          </div>
+                        </form>
+                        <div className="row">
+                          <div className="col-12 p-3 text-center">
+                            <h6>Get 25% of project registration fees for every student you bring who enroll in any project.</h6>
+                            <small><strong>You can give discount to students from your commission i.e. if you give a discount of 10% to the student then reffered student will get 10% discount and your commision will be 15%.</strong></small>
+                            <h6 className="text-danger"><strong>Note: </strong><small>You will not get any discount if you yourself enroll with your own referral link.</small></h6>
+                          </div>
+                        </div>
+                          <div className="row justify-content-center text-center pb-2">
+                            <div className="col-3 align-self-center" style={{textAlign:'right'}}>
+                              Send to:
+                            </div>
+                            <div className="col-1">
+                              <span className="btn btn-sm btn-outline-dark" onClick={()=>copyToClip()}><i className="fa fa-copy"></i></span>
+                            </div>
+                            <div className="col-1">
+                              <a href={`whatsapp://send?text=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
+                            </div>
+                            <div className="col-1">
+                              <a href={`sms:?body=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                            </div>
+                            <div className="col-3">
+                            </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={referalLink}/>
+                          </div>
+                        </div>
+                      </Modal.Body>
+                    </Modal>
                   </div>
                   <div className="logout">
                     <button type="button" onClick={()=>logout()}>Logout</button>
                   </div>
                 </div>
-                <div className="tab-pane" id="projects" role="tabpanel" aria-labelledby="projects-tab">
-                  <div className="card bg-dark text-white">
-                    <img className="card-img" src="https://www.the-diy-life.com/wp-content/uploads/2020/07/Robot-Car-Top.jpg" alt="..."/>
-                    <div className="card-img-overlay">
-                      <h5 className="card-title">Obstacle Avoiding Car</h5>
-                      <p className="card-text">This car intelligently selects a path where there in no obstacle. If it detects an obstacle in front then it stops.</p>
-                      <p className="card-text">Last updated 3 mins ago</p>
-                    </div>
-                  </div>
-                  <div className="card bg-dark text-white">
-                    <img className="card-img" src="https://i.ytimg.com/vi/5y6rhwr5Y8c/maxresdefault.jpg" alt="..."/>
-                    <div className="card-img-overlay">
-                      <h5 className="card-title">Lyra Home Assistant</h5>
-                      <p className="card-text">Lyra Home Assistant is wifi controlled home automation system. Using this I can switch on/off my home appliances.</p>
-                      <p className="card-text">Last updated 3 mins ago</p>
-                    </div>
-                  </div>
-                  <div className="card bg-dark text-white">
-                    <img className="card-img" src="https://fruitgrowersnews.com/wp-content/uploads/2019/08/Drone.jpg" alt="..."/>
-                    <div className="card-img-overlay">
-                      <h5 className="card-title">Gesture Controlled Drone</h5>
-                      <p className="card-text">Gesture controlled drone is under development. I'm using quadcopter model with 2200kv bldc motors.</p>
-                      <p className="card-text">Last updated 3 mins ago</p>
-                    </div>
-                  </div>
+                <div className="tab-pane" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
+                  <ProRef id={current._id} referrer="instructor" title="My Projects" projects={current.projects} referals={current.referalInstructor}/>
+                </div>
+                <div className="tab-pane" id="student" role="tabpanel" aria-labelledby="student-tab">
+                  <ProRef id={current._id} referrer="student" title="Enrolled Projects" projects={current.payments} referals={current.referalStudent}/>
                 </div>
                 <div className="tab-pane" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
-                  <div className="">
-                    <ul className="list-unstyled">
-                      <li>Arduino Uno</li>
-                      <li>Nodemcu</li>
-                      <li>Motor Driver Shield</li>
-                      <li>MPU6050 triaxis sensor</li>
-                    </ul>
+                  <div className="table-responsive p-2">
+                    <table className="table table-hover table-sm text-center table-bordered">
+                      <thead>
+                        <tr>
+                          <th>S.No.</th>
+                          <th>PaymentId</th>
+                          <th>Title</th>
+                          <th>Txn Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {current.payments.map((val,idx)=>{
+                          return <tr key={idx}>
+                            <td>{idx+1}.</td>
+                            <td>{val.payment_id}</td>
+                            <td>{val.title}</td>
+                            <td>{moment(val.createdAt).format('MMMM Do YYYY, h:mm a')}</td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
                 <div className="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
@@ -181,7 +280,7 @@ const Dash=()=>{
               </div>            
             </div>
           </div>
-          <div className="col-sm-5">
+          {/* <div className="col-sm-5">
             <div className="heading">
               <h1>Statements</h1>
             </div>
@@ -191,10 +290,10 @@ const Dash=()=>{
                 <div className="progress-bar" role="progressbar" style={{width: "57%"}} aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">57%</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
-    </div>
+    </div>:<div style={{height:'80vh'}}></div>
   )
 }
 

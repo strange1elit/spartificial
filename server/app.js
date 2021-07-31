@@ -5,11 +5,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
 var logger = require('morgan');
 var cors=require('cors')
+var multer=require('multer')
 var mongoose=require('mongoose')
 var passport=require('passport')
 var session=require('express-session')
 var FileStore=require('session-file-store')(session)
 var config=require('./config')
+
+const Files=require('./models/files')
+const fileRouter = express.Router();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,8 +22,41 @@ var blogRouter=require('./routes/blogs')
 var teamsRouter=require('./routes/teams')
 var involvedRouter=require('./routes/involved')
 var projectRouter=require('./routes/projects')
+var instructorRouter=require('./routes/instructor')
 
 var app = express();
+
+const storageEngine = multer.diskStorage ({
+  destination: './public/uploads/',
+  filename: function (req, file, callback) {
+    callback (
+      null,
+      'FILE'+ Date.now () + path.extname (file.originalname)
+    );
+  },
+});
+const fileFilter = (req, file, callback) => {
+  let pattern = /pdf/; // reqex
+
+  if (pattern.test (path.extname (file.originalname))) {
+    callback (null, true);
+  } else {
+    callback ('Error: not a valid file');
+  }
+};
+const upload = multer ({
+  storage: storageEngine,
+  fileFilter  
+});
+fileRouter.post ('/upload', upload.single ('uploadedFile'), (req, res) => {
+  //console.log(req.file)
+  Files.create({filename:req.file.filename}).then((file)=>{
+    res.json (req.file).status (200);
+  })
+});
+fileRouter.get('/:name',(req,res)=>{
+  res.sendFile(path.join(__dirname,'public','uploads',req.params.name))
+})
 
 mongoose.connect(config.mongoUrl, {
   useNewUrlParser: true,
@@ -38,14 +75,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('12345-67890-09876-54321'));
-//app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(session({
   name:'session-id',
   secret:'12345-67890-09876-54321',
   saveUninitialized:false,
   resave:false,
-  store:new FileStore()
+  store:new FileStore(),
+  maxAge:Date.now()+(30*86400*1000)
 }))
 
 app.use(passport.initialize())
@@ -58,8 +96,10 @@ app.use('/api/blogs',blogRouter)
 app.use('/api/teams',teamsRouter)
 app.use('/api/involved',involvedRouter)
 app.use('/api/projects',projectRouter)
+app.use('/api/files',fileRouter)
+app.use('/api/instructor',instructorRouter)
 
-//app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
+app.get('*',(req,res)=>{res.sendFile(path.join(__dirname,'build','index.html'))})
 
 app.use(function(req, res, next) {
   next(createError(404));

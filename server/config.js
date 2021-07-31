@@ -11,7 +11,7 @@ module.exports={
         senderId:'SPTFCL'
     },
     'razorpay':{
-        KEY_ID:'rzp_test_Fh3AgbAXuwfXuF',
-        KEY_SECRET:'zbgMVAJOxFXC5IMUvoxkJvfi'
+        KEY_ID:'rzp_test_038x6mXw4YTv6g',
+        KEY_SECRET:'GfL06XaaAL8mmVYmZkGgRXie'
     }
 }

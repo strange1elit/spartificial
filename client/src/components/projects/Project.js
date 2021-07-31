@@ -1,99 +1,151 @@
 import React, { useState } from 'react'
 import Payments from '../payments/Payment'
+import {useSelector,useDispatch } from 'react-redux'
+import { Modal } from 'react-bootstrap';
+import Projects from './Projects';
+import {BASE_URL,REF_BASE_URL} from '../../config'
+import Loader from '../loader/Loading';
+import axios from 'axios'
+import { getUser } from '../../redux/actions/user';
+import moment from 'moment';
 
 const Project =({match}) =>{
+  const dispatch=useDispatch()
+  const queries=match.params.query.split("us=");
+  //console.log(queries)
+  if(queries.length===4){
+    console.log("referal")
+  }
   const [show,setShow]=useState(false)
-  const projects = [
-		{
-			"_id":"1",
-			"image":"https://www.pngkit.com/png/full/96-967001_artificial-intelligence-grant-introduction-to-formal-languages-and.png",
-      "message":"Do this project with. Learn and Enjoy",
-      "title":"Gesture Controlled Drone",
-			"description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum erat nec lorem bibendum, non volutpat nisl pellentesque. Mauris at rutrum tellus. Donec non tincidunt lorem. Etiam tincidunt nisi finibus velit dapibus cursus. Praesent tempor ipsum ut urna vestibulum, ac condimentum diam tristique. Aenean ut eros sapien. Pellentesque lacinia arcu ac pulvinar iaculis. Donec sed scelerisque erat, non pellentesque mi. Morbi vehicula malesuada lacus, blandit lacinia est eleifend ut. Sed quis eleifend arcu. Praesent vel mi vitae ante porttitor imperdiet pulvinar et purus. Donec sit amet turpis tortor. Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel. Suspendisse sit amet risus fringilla, pretium velit sed, elementum ante. Nulla vulputate eget enim sit amet rhoncus.\nSed suscipit nisi est, molestie tincidunt quam hendrerit nec. Ut vel hendrerit turpis. Fusce luctus nulla sem, vel porttitor tortor pellentesque ac. Donec a facilisis nisi, et egestas risus. Cras mattis diam nisl, eu laoreet eros congue mollis. Donec maximus, augue vitae bibendum pretium, tellus libero placerat leo, eget molestie metus turpis ut ipsum. Donec elit est, ultrices ut faucibus sit amet, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-			"objectives":["Lorem ipsum dolor sit amet, consectetur adipiscing elit."," Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel.","Cras mattis diam nisl, eu laoreet eros congue mollis. Donec"],
-      "price":"900",
-			"instructors":[
-				{
-					"name":"Aalok Kumar",
-          "photo":"https://media-exp3.licdn.com/dms/image/C4E03AQHmwWdj522ikg/profile-displayphoto-shrink_200_200/0/1606141897977?e=1630540800&v=beta&t=El3BHETguyYnudMGA4QA67qsVJCLkksffUwi_eKZSTE"
-				},
-				{
-					"name":"Vaibhaw Kumar",
-          "photo":"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
-				}
-			]
-		},
-		{
-			"_id":"12",
-			"image":"https://www.pngkit.com/png/full/96-967001_artificial-intelligence-grant-introduction-to-formal-languages-and.png",
-      "message":"Do this project with. Learn and Enjoy",
-      "title":"Gesture Controlled Drone",
-			"description":"Lorem ipsum dolor \nsit amet, consectetur adipiscing elit. Etiam bibendum erat nec lorem bibendum, non volutpat nisl pellentesque. Mauris at rutrum tellus. Donec non tincidunt lorem. Etiam tincidunt nisi finibus velit dapibus cursus. Praesent tempor ipsum ut urna vestibulum, ac condimentum diam tristique. Aenean ut eros sapien. Pellentesque lacinia arcu ac pulvinar iaculis. Donec sed scelerisque erat, non pellentesque mi. Morbi vehicula malesuada lacus, blandit lacinia est eleifend ut. Sed quis eleifend arcu. Praesent vel mi vitae ante porttitor imperdiet pulvinar et purus. Donec sit amet turpis tortor. Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel. Suspendisse sit amet risus fringilla, pretium velit sed, elementum ante. Nulla vulputate eget enim sit amet rhoncus.\nSed suscipit nisi est, molestie tincidunt quam hendrerit nec. Ut vel hendrerit turpis. Fusce luctus nulla sem, vel porttitor tortor pellentesque ac. Donec a facilisis nisi, et egestas risus. Cras mattis diam nisl, eu laoreet eros congue mollis. Donec maximus, augue vitae bibendum pretium, tellus libero placerat leo, eget molestie metus turpis ut ipsum. Donec elit est, ultrices ut faucibus sit amet, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-			"objectives":["Lorem ipsum dolor sit amet, consectetur adipiscing elit."," Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel.","Cras mattis diam nisl, eu laoreet eros congue mollis. Donec"],
-      "price":"700",
-			"instructors":[
-				{
-					"name":"Aalok Kumar",
-          "photo":"https://media-exp3.licdn.com/dms/image/C4E03AQHmwWdj522ikg/profile-displayphoto-shrink_200_200/0/1606141897977?e=1630540800&v=beta&t=El3BHETguyYnudMGA4QA67qsVJCLkksffUwi_eKZSTE"
-				},
-				{
-					"name":"Vaibhaw Kumar",
-          "photo":"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
-				}
-			]
-		},
-		{
-			"_id":"123",
-			"image":"https://www.pngkit.com/png/full/96-967001_artificial-intelligence-grant-introduction-to-formal-languages-and.png",
-      "message":"Do this project with. Learn and Enjoy",
-      "title":"Gesture Controlled Drone",
-			"description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum erat nec lorem bibendum, non volutpat nisl pellentesque. Mauris at rutrum tellus. Donec non tincidunt lorem. Etiam tincidunt nisi finibus velit dapibus cursus. Praesent tempor ipsum ut urna vestibulum, ac condimentum diam tristique. Aenean ut eros sapien. Pellentesque lacinia arcu ac pulvinar iaculis. Donec sed scelerisque erat, non pellentesque mi. Morbi vehicula malesuada lacus, blandit lacinia est eleifend ut. Sed quis eleifend arcu. Praesent vel mi vitae ante porttitor imperdiet pulvinar et purus. Donec sit amet turpis tortor. Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel. Suspendisse sit amet risus fringilla, pretium velit sed, elementum ante. Nulla vulputate eget enim sit amet rhoncus.\nSed suscipit nisi est, molestie tincidunt quam hendrerit nec. Ut vel hendrerit turpis. Fusce luctus nulla sem, vel porttitor tortor pellentesque ac. Donec a facilisis nisi, et egestas risus. Cras mattis diam nisl, eu laoreet eros congue mollis. Donec maximus, augue vitae bibendum pretium, tellus libero placerat leo, eget molestie metus turpis ut ipsum. Donec elit est, ultrices ut faucibus sit amet, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-			"objectives":["Lorem ipsum dolor sit amet, consectetur adipiscing elit."," Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel.","Cras mattis diam nisl, eu laoreet eros congue mollis. Donec"],
-      "price":"600",
-			"instructors":[
-				{
-					"name":"Aalok Kumar",
-          "photo":"https://media-exp3.licdn.com/dms/image/C4E03AQHmwWdj522ikg/profile-displayphoto-shrink_200_200/0/1606141897977?e=1630540800&v=beta&t=El3BHETguyYnudMGA4QA67qsVJCLkksffUwi_eKZSTE"
-				},
-				{
-					"name":"Vaibhaw Kumar",
-          "photo":"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
-				}
-			]
-		},
-		{
-			"_id":"1234",
-			"image":"https://www.pngkit.com/png/full/96-967001_artificial-intelligence-grant-introduction-to-formal-languages-and.png",
-      "message":"Do this project with. Learn and Enjoy",
-      "title":"Gesture Controlled Drone",
-			"description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum erat nec lorem bibendum, non volutpat nisl pellentesque. Mauris at rutrum tellus. Donec non tincidunt lorem. Etiam tincidunt nisi finibus velit dapibus cursus. Praesent tempor ipsum ut urna vestibulum, ac condimentum diam tristique. Aenean ut eros sapien. Pellentesque lacinia arcu ac pulvinar iaculis. Donec sed scelerisque erat, non pellentesque mi. Morbi vehicula malesuada lacus, blandit lacinia est eleifend ut. Sed quis eleifend arcu. Praesent vel mi vitae ante porttitor imperdiet pulvinar et purus. Donec sit amet turpis tortor. Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel. Suspendisse sit amet risus fringilla, pretium velit sed, elementum ante. Nulla vulputate eget enim sit amet rhoncus.\nSed suscipit nisi est, molestie tincidunt quam hendrerit nec. Ut vel hendrerit turpis. Fusce luctus nulla sem, vel porttitor tortor pellentesque ac. Donec a facilisis nisi, et egestas risus. Cras mattis diam nisl, eu laoreet eros congue mollis. Donec maximus, augue vitae bibendum pretium, tellus libero placerat leo, eget molestie metus turpis ut ipsum. Donec elit est, ultrices ut faucibus sit amet, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-			"objectives":["Lorem ipsum dolor sit amet, consectetur adipiscing elit."," Nulla pellentesque augue pulvinar mattis finibus. Sed tincidunt laoreet urna, non blandit lorem sodales vel.","Cras mattis diam nisl, eu laoreet eros congue mollis. Donec"],
-      "price":"400",
-			"instructors":[
-				{
-					"name":"Aalok Kumar",
-          "photo":"https://media-exp3.licdn.com/dms/image/C4E03AQHmwWdj522ikg/profile-displayphoto-shrink_200_200/0/1606141897977?e=1630540800&v=beta&t=El3BHETguyYnudMGA4QA67qsVJCLkksffUwi_eKZSTE"
-				},
-				{
-					"name":"Vaibhaw Kumar",
-          "photo":"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"
-				}
-			]
-		}
-	]
+  const projects=useSelector(state=>state.projects.projects)
+  const users=useSelector((state)=>state.users)
+  var current=null
+  if(users.current) current=users.current
 
-  const project=projects.filter(project=>project._id===match.params.project_id)[0]
+  var purchased=null
+  if(users.current) purchased=users.current.payments.filter((project)=>project.project_id===atob(queries[1]))[0]
+  //console.log(purchased)
+  //console.log(users.current)
+  // console.log(match.params.project_id)
+  var isInstructor=null
+  if(users.current) isInstructor=users.current.projects.filter(project=>project.project_id===atob(queries[1]))[0]
+
+  const project=projects.filter(project=>project._id===atob(queries[1]))[0]
+
+  console.log(project)
+
+  const [referModal,setShowReferModal]=useState(false)
+  const [discount,setDiscount]=useState('')
+  const [referalLink,setReferalLink]=useState('')
+  const handleCloseRefer=()=>{
+    setShowReferModal(false)
+    setDiscount(false)
+    setReferalLink(``)
+
+  }
+  const handleChangeDiscount=(e)=>{
+    setDiscount(e.target.value)
+    setReferalLink(`${REF_BASE_URL}/projects/us=${project?btoa(project._id):''}us=${btoa(current._id)}us=${btoa(e.target.value<91?e.target.value:0)}`)
+
+  }
+  const copyToClip=()=>{
+    var copyText = document.getElementById("discount");
+    //console.log(copyText.value)
+    copyText.select();
+    copyText.setSelectionRange(0,9999);
+    document.execCommand("copy")
+    alert("Copied to Clipboard!")
+  }
+  const [load,setLoad]=useState(false);
+  const createReferal=async(e)=>{
+    //console.log(referalLink)
+    e.preventDefault()
+    if(discount===""){
+      alert("Please enter a discount value!")
+    }else{
+      setLoad(true)
+      const data={referalInstructor:referalLink}
+      const result=await axios.put(`${BASE_URL}/users/${current._id}`,data,{
+        headers:{
+          'Authorization':`Bearer ${localStorage.getItem('userdetails')}`,
+          'Content-Type':'application/json'
+        }
+      })
+      alert("Link Generated Successfully.\nCopy, Share and Earn!")
+      setLoad(false)
+      dispatch(getUser())
+    }
+  }
 
   return(project?
     <div className="project-desc">
-      <Payments show={show} amount={project.price} onHide={()=>setShow(false)} title={project.title}/>
+      <Payments show={show} fees={project.fees} onHide={()=>setShow(false)} title={project.title} queries={queries} description={project.description} image={project.image}/>
       <div className="container">
         <div className="row pb-5">
           <div className="col-sm-6 col-12 text-center align-self-center">
-            <h2 className="m-3" style={{fontWeight:'600'}}><i>{project.title}</i></h2>
-            <p className="m-2">{project.message}</p>
-            <button className="btn btn-primary btn-sm" onClick={()=>setShow(true)}><strong>Enroll Now</strong></button><br/>
-            <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small>
+            {queries.length===4&&!isInstructor?<h6 className="text-dark">Welcome to Spartificial projects Referral. Here you will get a discount of {atob(queries[3])}% on this project. This referral link can be disabled any time by the Instructor.<br/><strong className="text-danger">Hurry Up!!</strong></h6>:null}
+            <h4 className="m-3" style={{fontWeight:'600',color:'darkblue'}}><i>{project.title}</i></h4>
+            <p><strong style={{color:'darkblue'}}>Starting from: </strong>{project.start_date}</p>
+            <p style={{color: 'rgb(87, 5, 5)'}}><strong style={{color:'darkblue'}}>Duration: </strong> {project.duration}</p>
+            {
+              purchased?
+              null
+
+              :
+              <>            
+                {!isInstructor?<button className="btn btn-primary btn-sm" onClick={()=>setShow(true)}><strong>Enroll Now</strong></button>:null}<br/>
+                {/* <small><strong>@</strong> <br/>Rs.{project.price} and <br/>get discounts upto Rs. 300</small> */}
+              </>
+            }
+            {isInstructor?current.referalInstructor.length<1?<><button className="btn btn-outline-primary btn-sm m-1" onClick={()=>{setShowReferModal(true)}}><strong>Refer</strong></button>
+              
+            <Modal show={referModal} onHide={()=>handleCloseRefer()}>
+                      <Modal.Header>
+                        <h5>Refer</h5>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <form onSubmit={createReferal}>
+                          <div className="row justify-content-center p-2">
+                            <div className="col-8">
+                              <label>Discount:&nbsp;</label>
+                              <input style={{width:'60%'}} required type="number" min="0" max="90" name="discount" value={discount} onChange={handleChangeDiscount} placeholder="% discount"></input>
+                            </div>
+                            <div className="col-4">
+                              {load?<Loader/>:<button type="submit" className="btn btn-sm btn-primary">Create</button>}
+                            </div>
+                          </div>
+                        </form>
+                        <div className="row">
+                          <div className="col-12 p-3 text-center">
+                            <h6>Get 90% extra of project registration fees for every student who enroll through your referral link or coupon.</h6>
+                            <small><strong>You will decide the discount student get through referral link. i.e. if you give a discount of 15% to the student then reffered student will get 15% discount and your commision will be 90-15=85%.</strong></small>
+                            <h6 className="text-danger"><strong>Note: </strong><small> Spartificial’s share will be 10% of the original registration fees.</small></h6>
+                          </div>
+                        </div>
+                          <div className="row justify-content-center text-center pb-2">
+                            <div className="col-3 align-self-center" style={{textAlign:'right'}}>
+                              Send to:
+                            </div>
+                            <div className="col-1">
+                              <span className="btn btn-sm btn-outline-dark" onClick={()=>copyToClip()}><i className="fa fa-copy"></i></span>
+                            </div>
+                            <div className="col-1">
+                              <a href={`whatsapp://send?text=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-whatsapp"></span></a>
+                            </div>
+                            <div className="col-1">
+                              <a href={`sms:?body=${referalLink}`} className="btn btn-primary btn-sm"><span className="fa fa-paper-plane"></span></a>
+                            </div>
+                            <div className="col-3">
+                            </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <input style={{width:'100%',color:'gray'}} type="text" id="discount" value={referalLink}/>
+                          </div>
+                        </div>
+                      </Modal.Body>
+                    </Modal>
+            </>:null:null}
           </div>
           <div className="col-sm-6 align-self-center p-3 top">
             <div style={{textAlign:'right'}}>
@@ -103,13 +155,13 @@ const Project =({match}) =>{
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Description</h4>
+            {/* <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Project Description</h4> */}
             <p className="p-3 mb-3">{project.description}</p>
           </div>
         </div>
         <div className="row">
           <div className="col">
-            <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Project Objectives</h4>
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Objectives</h4>
             <ol style={{paddingLeft:'25px'}}>
               {project.objectives.map((val,idx)=>{
                 return <li key={idx}>{val}</li>
@@ -117,8 +169,28 @@ const Project =({match}) =>{
             </ol>
           </div>
         </div>
+        <div className="row">
+          <div className="col">
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Prerequisites</h4>
+            <ol style={{paddingLeft:'25px'}}>
+              {project.prerequisites.map((val,idx)=>{
+                return <li key={idx}>{val}</li>
+              })}
+            </ol>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Deliverables</h4>
+            <ol style={{paddingLeft:'25px'}}>
+              {project.deliverables.map((val,idx)=>{
+                return <li key={idx}>{val}</li>
+              })}
+            </ol>
+          </div>
+        </div>
         <div className="row justify-content-center">
-          <h4 style={{borderBottom:'1px solid #c4c4c4'}}>Our Instructors</h4>
+          <h4 style={{borderBottom:'1px solid #c4c4c4',color:'darkblue'}}>Our Instructors</h4>
           {project.instructors.map((val,idx)=>{
             return(
               <div className="col-6 col-sm-4 col-md-3 text-center" key={idx}>
@@ -133,7 +205,7 @@ const Project =({match}) =>{
           })}
         </div>
       </div>
-    </div>:""
+    </div>:<Projects projects={projects} que={queries}/>
   )
 }
 

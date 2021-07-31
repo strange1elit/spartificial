@@ -4,7 +4,9 @@ var Schema=mongoose.Schema
 var paymentSchema=new Schema({
   message:String,
   paymentId:String,
-  orderId:String
+  orderId:String,
+  amount:String,
+  projectId:String
 },{
   timestamps:true
 })
