@@ -85,7 +85,7 @@ const Project =({match}) =>{
           <div className="col-sm-6 col-12 text-center align-self-center">
             {queries.length===4&&!isInstructor?<h6 className="text-dark">Welcome to Spartificial projects Referral. Here you will get a discount of {atob(queries[3])}% on this project. This referral link can be disabled any time by the Instructor.<br/><strong className="text-danger">Hurry Up!!</strong></h6>:null}
             <h4 className="m-3" style={{fontWeight:'600',color:'darkblue'}}><i>{project.title}</i></h4>
-            <p><strong style={{color:'darkblue'}}>Starting from: </strong>{project.start_date}</p>
+            <p><strong style={{color:'darkblue'}}>Starting from: </strong>{moment(project.start_date).format('Do MMMM YYYY')}</p>
             <p style={{color: 'rgb(87, 5, 5)'}}><strong style={{color:'darkblue'}}>Duration: </strong> {project.duration}</p>
             {
               purchased?

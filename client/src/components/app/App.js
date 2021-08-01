@@ -25,6 +25,7 @@ import {getTeams} from '../../redux/actions/teams'
 import {getProjects} from '../../redux/actions/project'
 import ReferralRules from '../addons/ReferralRules';
 import ProjectTypes from '../addons/ProjectTypes';
+import Admin from '../admin/Admin';
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
     dispatch(getProjects())
   },[dispatch])
 
-  // const users=useSelector((state)=>state.users)
+  const current=useSelector((state)=>state.users.current)
   const blogs=useSelector((state)=>state.blogs)
   const projects=useSelector((state)=>state.projects)
 
@@ -72,6 +73,7 @@ function App() {
         
         <Route exact path="/user/login" component={Login}/>
         <Route exact path="/user/signup" component={Signup}/>
+        <Route exact path="/admin" component={Admin}/>
         <Redirect to="/"/>
       </Switch>
       <Footer/>

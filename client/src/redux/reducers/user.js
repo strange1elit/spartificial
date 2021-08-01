@@ -1,5 +1,6 @@
 export const users=(state={
   isLoading:true,
+  users:null,
   errmess:null,
   success:null,
   current:null,
@@ -12,7 +13,9 @@ export const users=(state={
       return {...state, isLoading: true, errmess: null};
     case 'GET_USER':
       return {...state, isLoading:false,errmess:null,current:action.payload}
-    case 'SIGNUP':
+    case 'GET_USER_LIST':
+      return {...state, isLoading:false,errmess:null,users:action.payload}
+      case 'SIGNUP':
       return {...state, isLoading:false,errmess:null,success:action.payload}
     case 'LOGIN':
       return {...state, isLoading:false,errmess:null,success:action.payload}

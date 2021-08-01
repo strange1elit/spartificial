@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../config";
-
+import {Redirect} from 'react-router-dom'
 const url =BASE_URL+'/users';
 
 export const setLoading=()=>async(dispatch)=>{
@@ -36,7 +36,12 @@ export const userRegister=(formData)=>async(dispatch)=>{
       console.log(response);
       localStorage.setItem('userdetails',response.token)
       dispatch({type:'SIGNUP',payload:response})
-      window.location.href="/dash"
+      //window.location.href="/dash"
+      if(response.admin){
+        window.location.href='/admin'
+      }else{
+        window.location.href="/dash"
+      }
 
       //alert(response.status)
     }
@@ -72,8 +77,12 @@ export const userLogin=(formData)=>async(dispatch)=>{
       console.log(response);
       localStorage.setItem('userdetails',response.token)
       dispatch({type:'LOGIN',payload:response})
+      if(response.admin){
+        window.location.href='/admin'
+      }else{
+        window.location.href="/dash"
+      }
       //alert(response.status)
-      window.location.href="/dash"
     }
   })
   .catch(error=>dispatch({type:'ANY_ERROR',payload:error}))
@@ -219,6 +228,50 @@ export const getUser=()=>async(dispatch)=>{
   .then((user)=>{
     //console.log(user)
     dispatch({type:'GET_USER',payload:user})
+  })
+  .catch((error)=>dispatch({type:'ANY_ERROR',payload:error}));
+  }else{
+    var error=new Error('Login/Signup to proceed!');
+    //error.response=response;
+    dispatch({type:'ANY_ERROR',payload:error})
+  }
+}
+
+export const getUserList=()=>async(dispatch)=>{
+  var userdetails=localStorage.getItem('userdetails');
+  //console.log(userdetails)
+  
+  if(userdetails){
+    const bearer=`Bearer ${userdetails}`
+  //console.log(bearer)
+  return fetch(url+'/all',{
+    method: "GET",
+    headers: {
+      'Authorization': bearer
+    },
+    credentials: "same-origin"
+  }).then((response)=>{
+    if(response.ok){
+      return response
+    }else{
+      var error=new Error('Error: '+response.status+': '+response.statusText);
+      error.response=response;
+      if(response.status===401){
+        dispatch(userLogout())
+      }
+      dispatch({type:'ANY_ERROR',payload:error})
+      throw error;
+    }
+  },error=>{
+    var errmess=new Error(error.message)
+    throw errmess;
+  })
+  .then((response)=>{
+    return response.json()
+  })
+  .then((users)=>{
+    //console.log(user)
+    dispatch({type:'GET_USER_LIST',payload:users})
   })
   .catch((error)=>dispatch({type:'ANY_ERROR',payload:error}));
   }else{

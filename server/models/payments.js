@@ -6,7 +6,8 @@ var paymentSchema=new Schema({
   paymentId:String,
   orderId:String,
   amount:String,
-  projectId:String
+  projectId:String,
+  link:String
 },{
   timestamps:true
 })

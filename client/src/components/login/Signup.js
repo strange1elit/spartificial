@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import './Login.css'
-
+import { Link, Redirect } from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import {userRegister,setLoading} from '../../redux/actions/user'
 import Loader from '../loader/Loading'
@@ -23,8 +23,9 @@ const Signup=()=>{
     setsignUpdata({...signUpData,[e.target.name]:e.target.value})
   }
   var errmess=useSelector((state)=>state.users.errmess)
+  const current=useSelector((state)=>state.users.current)
 
-  return(
+  return(!current?
     <div  className="body" id="login">
       {errmess?<Toaster message={errmess.message}/>:<></>}
       <div className="login">
@@ -58,7 +59,7 @@ const Signup=()=>{
               </div>
               <div className="row">
                 <div className="col-12">
-                  <h6>Already registered? <b onClick={()=>{window.location.href="/user/login"}}>Log In </b> here</h6>
+                  <h6>Already registered? <b><Link to="/user/login" >Login</Link></b> here</h6>
                 </div>
               </div>
             </form>
@@ -66,7 +67,7 @@ const Signup=()=>{
         </div>        
         </div>
       </div>
-    </div>
+    </div>:<Redirect to="/dash"/>
   )
 }
 

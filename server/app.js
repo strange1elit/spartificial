@@ -15,6 +15,7 @@ var config=require('./config')
 const Files=require('./models/files')
 const fileRouter = express.Router();
 
+var authenticate=require('./authenticate')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var paymentRouter= require('./routes/payments')
@@ -56,6 +57,17 @@ fileRouter.post ('/upload', upload.single ('uploadedFile'), (req, res) => {
 });
 fileRouter.get('/:name',(req,res)=>{
   res.sendFile(path.join(__dirname,'public','uploads',req.params.name))
+})
+fileRouter.get('/',authenticate.verifyUser,(req,res)=>{
+  if(req.user.admin){
+    Files.find({}).then(files=>{
+      res.setHeader('Content-Type','application/json')
+      res.statusCode=200
+      res.json(files)
+    })
+  }else{
+    res.json({message:"Unauthorized"}).status(401)
+  }
 })
 
 mongoose.connect(config.mongoUrl, {

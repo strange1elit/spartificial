@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 import logo from '../../assets/images/logoname.png'
 import { useLocation } from 'react-router'
+import { useSelector } from 'react-redux'
 const NavbarComp=()=>{
 	const [open,setOpen]=useState(false)
 	const {pathname}=useLocation()
@@ -15,8 +16,7 @@ const NavbarComp=()=>{
 		}
 	}
 	}
-	var current=localStorage.getItem('userdetails')
-
+	var current=useSelector(state=>state.users.current)
 	var preScrollPos=window.pageYOffset;
 	window.onscroll=()=>{
 		var currentScrollPos=window.pageYOffset;
@@ -59,6 +59,8 @@ const NavbarComp=()=>{
 			<div className="topnav" id="navbar">
 					<span onClick={()=>window.location.href="/home"} id="title"><img src={logo} alt="logo"/></span>
 					{current?(<NavLink to="/dash" onClick={closeNav}>Dashboard</NavLink>):(<></>)}
+
+					{current?current.admin?<NavLink to="/admin" onClick={closeNav}>Admin</NavLink>:null:null}
 					{/* <NavLink to="/home" onClick={closeNav}>Home</NavLink>
 					<NavLink to="/blogs" onClick={closeNav}>Blogs</NavLink>
 					<NavLink to="/projects" onClick={closeNav}>Projects</NavLink>

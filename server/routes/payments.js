@@ -10,6 +10,17 @@ const authenticate = require('../authenticate');
 const Users = require('../models/users');
 const { create } = require('domain');
 
+router.get("/all",authenticate.verifyUser,(req,res,next)=>{
+    if(req.user.admin){
+        Payments.find({}).then(payments=>{
+            res.setHeader('Content-Type','application/json')
+            res.statusCode=200;
+            res.json(payments)
+        }).catch((err)=>next(err));
+    }else{
+        res.json({message:"Unauthorized"}).status(401)
+    }
+})
 router.post("/orders",authenticate.verifyUser, async (req, res) => {
     //console.log('called')
     //console.log(req.body)
@@ -82,7 +93,7 @@ router.post("/success",authenticate.verifyUser, async (req, res, next) => {
 
       if (digest !== razorpaySignature)
           return res.status(400).json({ msg: "Transaction not legit!" });
-      const payment=new Payments({message:"Succcessful payment",orderId:razorpayOrderId,paymentId:razorpayPaymentId,amount:amount,projectId:projectId})
+      const payment=new Payments({message:"Succcessful payment",orderId:razorpayOrderId,paymentId:razorpayPaymentId,amount:amount,projectId:projectId,link:link})
       payment.save().then((payment)=>{
         if(payment){
           Users.findById(req.user._id).then(user=>{

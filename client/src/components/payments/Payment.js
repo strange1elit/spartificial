@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-bootstrap'
 import { BASE_URL, RZP_KEY } from '../../config'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Payments=({show,fees,onHide,title,queries,description,image})=>{
 	const {pathname}=useLocation();
@@ -171,7 +171,7 @@ const Payments=({show,fees,onHide,title,queries,description,image})=>{
 							</div>:"":""}
 						</div>
 						<div className="refund text-center p-3">
-							<small className="text-muted">By paying you agree to our <a href="#refund">Refund Policy</a>. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac</small>
+							<small className="text-muted">By paying you agree to our <Link to="/terms-conditions">Refund Policy and Terms of Use</Link>.</small>
 						</div>
 					</Modal.Body>
 					<Modal.Footer>

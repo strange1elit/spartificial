@@ -3,6 +3,7 @@ const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 
 const Instructors=require('../models/instructor')
+const authenticate = require('../authenticate')
 
 const instructorRouter=express.Router()
 
@@ -12,13 +13,17 @@ instructorRouter.route('/join-request').all((req,res,next)=>{
   next()
 })
 
-.get((req,res,next)=>{
-  Instructors.findById('610311b2527dacaa9a8fa84e').then(instructors=>{
-    res.statusCode=200;
-    res.setHeader('Content-Type','application/json')
-    res.json(instructors.joinUs)
-  },err=>next(err))
-  .catch(err=>next(err))
+.get(authenticate.verifyUser,(req,res,next)=>{
+  if(req.user.admin){
+    Instructors.findById('610311b2527dacaa9a8fa84e').then(instructors=>{
+      res.statusCode=200;
+      res.setHeader('Content-Type','application/json')
+      res.json(instructors.joinUs)
+    },err=>next(err))
+    .catch(err=>next(err))
+  }else{
+    res.json({message:"Unauthorized"}).status(401)
+  }
 })
 .post((req,res,next)=>{
   //console.log(req.body)
@@ -41,13 +46,17 @@ instructorRouter.route('/submit-project').all((req,res,next)=>{
   next()
 })
 
-.get((req,res,next)=>{
-  Instructors.findById('610311b2527dacaa9a8fa84e').then(instructors=>{
-    res.statusCode=200;
-    res.setHeader('Content-Type','application/json')
-    res.json(instructors.submission)
-  },err=>next(err))
-  .catch(err=>next(err))
+.get(authenticate.verifyUser,(req,res,next)=>{
+  if(req.user.admin){
+    Instructors.findById('610311b2527dacaa9a8fa84e').then(instructors=>{
+      res.statusCode=200;
+      res.setHeader('Content-Type','application/json')
+      res.json(instructors.submission)
+    },err=>next(err))
+    .catch(err=>next(err))
+  }else{
+    res.json({message:"Unauthorized"}).status(401)
+  }
 })
 .post((req,res,next)=>{
   //console.log(req.body)

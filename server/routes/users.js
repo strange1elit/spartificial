@@ -13,6 +13,18 @@ const authenticate=require('../authenticate')
 router.use(bodyParser.json())
 
 //***********username password signup**************
+router.get('/all',authenticate.verifyUser,(req,res,next)=>{
+  //console.log(req.user)
+  if(req.user.admin){
+    Users.find({}).then((users)=>{
+      res.setHeader('Content-Type','application/json')
+      res.statusCode=200;
+      res.json(users)
+    }).catch((err)=>next(err))
+  }else{
+    res.json("Permission Denied").status(401)
+  }
+})
 
 router.get('/',authenticate.verifyUser,(req,res,next)=>{
   //console.log(req.user)
@@ -38,7 +50,7 @@ router.post('/signup',(req,res,next)=>{
           user.save().then(user=>{
             res.statusCode=200;
             res.setHeader('Content-Type','application/json')
-            res.json({success:true,token:token,status:'Registration Successful'})
+            res.json({success:true,admin:req.user.admin,token:token,status:'Registration Successful'})
           }).catch(err=>next(err))
         }).catch(err=>next(err))
       })
@@ -57,7 +69,7 @@ router.post('/login',passport.authenticate('local',{failureMessage:'Invalid Pass
   var token= authenticate.getToken({_id:req.user._id})
   res.statusCode=200;
   res.setHeader('Content-Type','application/json')
-  res.json({success:true,token:token,status:'Logged in Successfully'})
+  res.json({success:true,admin:req.user.admin,token:token,status:'Logged in Successfully'})
 },(err,req,res,next)=>{
   if(err.name==="AuthenticationError"){
     res.statusCode=401

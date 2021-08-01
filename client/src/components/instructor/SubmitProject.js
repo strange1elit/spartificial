@@ -71,7 +71,7 @@ const SubmitProject=({show,handleModal})=>{
                 <Form.Control as="textarea" rows="4" value={formData.projectObjectives} name="projectObjectives" placeholder="Enter text here." onChange={handleChange}></Form.Control>
               </Form.Group>
               <Form.Group>
-                <Form.Label>Project Objectives(separated by semicolons)</Form.Label>
+                <Form.Label>Keywords(separated by semicolons)</Form.Label>
                 <Form.Control required value={formData.keywords} type="text" name="keywords" placeholder="Enter keywords" onChange={handleChange}></Form.Control>
               </Form.Group>
               <Form.Group>
